@@ -1,50 +1,50 @@
 #include <stdio.h>
-#include <stdlib.h>
 
 /**
- * main - entry point
+ * main - Entry point
  *
- * Description: print two, two digit combinations using putchar
+ * Description: prints two two combinations
  *
- * Return: always 0 (success)
- *
+ * Return: Always 0 (Success)
  */
+
 int main(void)
 {
-	int i, j, k, l, x;
+	int i, j, k, l, a, b, c, d;
 
-	i = j = k = l = 48;
-	x = 48 + 9;
-
-	while (i <= x)
+	for (i = 0; i <= 9; i++)
 	{
-		/*int j = i + 1;*/
-
-		while (j <= x)
+		a = i + '0';
+		for (j = 0; j <=8; j++)
 		{
-			/*int k = j + 1;*/
-
-			while (k <= x)
+			b = j + '0';
+			for (k = i; k <= 9; k++)
 			{
-				while (l <= x)
+				c = k + '0';
+				for (l = k + 1; l <= 9; l++)
 				{
-					if (i == j == k == l == 48)
-						++l;
-					putchar(i);
-					putchar(j);
-					putchar(44);
-					putchar(k);
-					putchar(l);
-					putchar(44);
-					putchar(32);
-					l++;
+					d = l + '0';
+					putchar(a);
+					putchar(b);
+					putchar(' ');
+					putchar(c);
+					putchar(d);
+
+					if (i == 9 && j == 8 && k == 9 && l == 9)
+					{
+						break;
+					}
+					else
+					{
+						putchar(',');
+						putchar(' ');
+					}
 				}
-				k++;
 			}
-			j++;
 		}
-		i++;
 	}
-	putchar(10);
+
+	putchar('\n');
+
 	return (0);
 }
