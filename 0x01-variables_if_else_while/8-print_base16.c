@@ -15,7 +15,7 @@ int main(void)
 	char x = 'a';
 	int i = 48;
 	int j = 48 + 9;
-	
+
 	while (i <= j)
 	{
 		putchar(i);
