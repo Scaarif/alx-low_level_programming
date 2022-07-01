@@ -9,7 +9,7 @@
  * Return: always 0 (success)
  *
  */
-int main(void) 
+int main(void)
 {
 	int i = 48;
 	int x = 48 + 10;
