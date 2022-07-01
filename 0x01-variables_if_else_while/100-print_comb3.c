@@ -22,8 +22,11 @@ int main(void)
 		{
 			putchar(i);
 			putchar(j);
-			putchar(44);
-			putchar(32);
+			if (j < x)
+			{
+				putchar(44);
+				putchar(32);
+			}
 			j++;
 		}
 		i++;
