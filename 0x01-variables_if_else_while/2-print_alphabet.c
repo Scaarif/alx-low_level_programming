@@ -1,19 +1,18 @@
 #include <stdio.h>
 #include <stdlib.h>
-
 /**
- * main - Entry point
+ * main - entry point
  *
  * Description: print the alphabet using putchar()
  *
- * Return: Always 0 (Success)
+ * Return: always 0 (success)
  *
  */
 
 int main(void)
 {
 	char x = 'a';
-	
+
 	while (x <= 'z')
 	{
 		putchar(x);
@@ -21,4 +20,5 @@ int main(void)
 	}
 	putchar(10);
 	return (0);
+
 }
