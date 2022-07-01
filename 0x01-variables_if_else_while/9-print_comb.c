@@ -18,8 +18,10 @@ int main(void)
 	{
 		putchar(i);
 		if (i < x)
+		{
 			putchar(44);
 			putchar(32);
+		}
 		i++;
 	}
 	putchar(10);
