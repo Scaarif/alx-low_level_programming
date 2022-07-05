@@ -1,5 +1,4 @@
 #include "main.h"
-#include <unistd.h>
 #include <stdio.h>
 /**
  * main - entry point
@@ -38,10 +37,5 @@ int _abs(int n)
 		abs = n;
 		return (abs);
 	}
-}
-
-int _putchar(char c)
-{
-	return (write(1, &c, 1));
 }
 
