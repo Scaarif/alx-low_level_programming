@@ -1,34 +1,21 @@
 #include "main.h"
-#include <unistd.h>
-/**
- * main - entry point
- *
- * Description: implements jack_bauer and _putchar function tests
- *
- * Return: always 0
- *
- */
-int main(void)
-{
-	times_table();
-	return (0);
-}
 
 /**
  * times_table - print the times table
- * Description: takes no arguments and has no return value
+ *@k: single argument
+ * Description: takes one argument and has no return value
  * Return: void
  */
 
-void times_table(void)
+void print_times_table(int k)
 {
 	int i = 0;
 
-	while (i < 10)
+	while (i <= k)
 	{
 		int m = 0;
 
-		while (m < 10)
+		while (m <= k)
 		{
 			int result = i * m;
 
@@ -42,7 +29,12 @@ void times_table(void)
 			}
 			else
 			{
-				if (result > 9)
+				if (result > 9 && result < 100)
+				{
+					_putchar((result / 10) + '0');
+					_putchar((result % 10) + '0');
+				}
+				else if (result > 99)
 				{
 					_putchar((result / 10) + '0');
 					_putchar((result % 10) + '0');
@@ -63,8 +55,4 @@ void times_table(void)
 	}
 }
 
-int _putchar(char c)
-{
-	return (write(1, &c, 1));
-}
 
