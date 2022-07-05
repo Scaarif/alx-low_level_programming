@@ -1,7 +1,7 @@
 #include "main.h"
 
 /**
- * _abs - computes the asbolute of a number
+ * _abs - computes the absolute of a number
  * @n: only argument
  * Description: takes one int argument and returns its absolute value
  * Return: always the absolute value
