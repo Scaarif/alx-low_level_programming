@@ -38,11 +38,14 @@ void times_table(void)
 					_putchar(result + '0');
 				}
 			}
-			_putchar(',');
-			if (result <= 9)
+			if (m != 9)
+			{
+				_putchar(',');
+				if (result <= 9)
+					_putchar(' ');
 				_putchar(' ');
-			_putchar(' ');
-			m++;
+				m++;
+			}
 		}
 		_putchar('\n');
 		i++;
