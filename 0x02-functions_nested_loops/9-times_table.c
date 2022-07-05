@@ -1,18 +1,4 @@
 #include "main.h"
-#include <unistd.h>
-/**
- * main - entry point
- *
- * Description: implements jack_bauer and _putchar function tests
- *
- * Return: always 0
- *
- */
-int main(void)
-{
-	times_table();
-	return (0);
-}
 
 /**
  * times_table - print the times table
@@ -61,10 +47,5 @@ void times_table(void)
 		_putchar('\n');
 		i++;
 	}
-}
-
-int _putchar(char c)
-{
-	return (write(1, &c, 1));
 }
 

@@ -1,18 +1,4 @@
 #include "main.h"
-#include <unistd.h>
-/**
- * main - entry point
- *
- * Description: implements jack_bauer and _putchar function tests
- *
- * Return: always 0
- *
- */
-int main(void)
-{
-	jack_bauer();
-	return (0);
-}
 
 /**
  * jack_bauer - print each minute in 24 hours
@@ -47,9 +33,3 @@ void jack_bauer(void)
 		h++;
 	}
 }
-
-int _putchar(char c)
-{
-	return (write(1, &c, 1));
-}
-
