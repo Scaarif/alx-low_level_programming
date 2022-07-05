@@ -1,7 +1,7 @@
 #include "main.h"
 
 /**
- * times_table - print the times table
+ * print_times_table - print the times table
  *@n: single argument
  * Description: takes one argument and has no return value
  * Return: void
