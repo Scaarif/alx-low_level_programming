@@ -1,4 +1,5 @@
 #include "main.h"
+#include <unistd.h>
 
 /**
  * main - entry point
@@ -30,5 +31,10 @@ void print_alphabet(void)
 		start++;
 	}
 	_putchar('\n');
+}
+
+int _putchar(char c)
+{
+	return (write(1, &c, 1));
 }
 
