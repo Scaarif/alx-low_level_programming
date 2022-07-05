@@ -2,12 +2,12 @@
 
 /**
  * times_table - print the times table
- *@k: single argument
+ *@n: single argument
  * Description: takes one argument and has no return value
  * Return: void
  */
 
-void print_times_table(int k)
+void print_times_table(int n)
 {
 	int x = 0, y, z;
 
