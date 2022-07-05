@@ -1,23 +1,6 @@
 #include "main.h"
 
 /**
- * main - entry point
- *
- * Description: calls the _isalpha and _putchar functions
- *
- * Return: always 0
- *
- */
-int main(void)
-{
-	_isalpha('c');
-	_isalpha('H');
-	_isalpha(108);
-	_putchar('\n');
-	return (0);
-}
-
-/**
  * _isalpha - check if a char is alphabet
  * @c: only argument
  * Description: takes one int argument and has no return an int

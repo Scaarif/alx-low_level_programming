@@ -1,22 +1,6 @@
 #include "main.h"
 
 /**
- * main - entry point
- *
- * Description: calls the print_sign and _putchar functions
- *
- * Return: always 0
- *
- */
-int main(void)
-{
-	print_sign(100);
-	print_sign(10);
-	print_sign(0);
-	return (0);
-}
-
-/**
  * print_sign - print the sign of a number
  * @n: only argument
  * Description: takes one int argument and returns an int
