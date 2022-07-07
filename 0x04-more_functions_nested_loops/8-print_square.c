@@ -10,16 +10,23 @@ void print_square(int n)
 {
 	int i = 0;
 
-	while (i < n)
+	if (n > 0)
 	{
-		int a = 0;
-
-		while (a < n)
+		while (i < n)
 		{
-			_putchar('#');
-			a++;
+			int a = 0;
+
+			while (a < n)
+			{
+				_putchar('#');
+				a++;
+			}
+			_putchar('\n');
+			i++;
 		}
+	}
+	else
+	{
 		_putchar('\n');
-		i++;
 	}
 }
