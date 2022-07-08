@@ -1,21 +1,35 @@
 #include "main.h"
-#include <stdio.h>
 
-int main(void)
-{
-	print_number(8);
-	print_number(0);
-	print_number(-1);
-	_putchar('\n');
-	return (0);
-}
 /**
- * print_number - print number
- * @n: integer to print
- * Return: void
+ * print_number - print an integer, without using long, arrays, or pointers
+ * @n: number to be printed
  */
 
 void print_number(int n)
 {
-	_putchar(n + '0');
+	unsigned int tens, dig, pos = n;
+	double temp_tens = 1;
+
+	if (n == 0)
+		_putchar('0');
+	else
+	{
+		if (n < 0)
+		{
+			pos = n * -1;
+			_putchar('-');
+		}
+
+		while (temp_tens <= pos)
+			temp_tens *= 10;
+		tens = temp_tens / 10;
+
+		while (tens >= 1)
+		{
+			dig = pos / tens;
+			_putchar(dig + '0');
+			pos = (pos - (tens * dig));
+			tens /= 10;
+		}
+	}
 }
