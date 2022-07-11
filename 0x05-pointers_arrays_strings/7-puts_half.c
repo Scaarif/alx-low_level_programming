@@ -15,11 +15,7 @@ void puts_half(char *s)
 		len++;
 		i = s[len];
 	}
-
-	if (len % 2 == 0)
-		half = len / 2;
-	else
-		half = (len - 1) / 2;
+	half = len / 2;
 	while (half < len)
 	{
 		_putchar(s[half]);
