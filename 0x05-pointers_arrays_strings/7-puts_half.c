@@ -7,8 +7,14 @@
  */
 void puts_half(char *s)
 {
-	int len = _strlen(s);
-	int half;
+	int len = 0, half;
+	char i = s[len];
+
+	while (i != '\0')
+	{
+		len++;
+		i = s[len];
+	}
 
 	if (len % 2 == 0)
 		half = len / 2;

@@ -7,8 +7,16 @@
  */
 void rev_string(char *s)
 {
-	int len = _strlen(s);
+	int len = 0;
+	char i = s[len];
 
+	while (i != '\0')
+	{
+		len++;
+		i = s[len];
+	}
+
+	len--;
 	while (len >= 0)
 	{
 		_putchar(s[len]);
