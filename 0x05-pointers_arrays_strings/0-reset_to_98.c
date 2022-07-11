@@ -1,0 +1,24 @@
+#include "main.h"
+#include <stdio.h>
+
+int main(void)
+{
+	int n;
+
+	n = 402;
+
+	printf("n=%d\n", n);
+	reset_to_98(&n); /*memory address of n is the input parameter */
+	printf("n=%d\n", n);
+	return (0);
+}
+
+/**
+ * reset_to_98 - reset value of n to 98
+ * @n: pointer to n
+ * Return: void
+ */
+void reset_to_98(int *n)
+{
+	*n = 98; /*change value in pointer location/ address*/
+}
