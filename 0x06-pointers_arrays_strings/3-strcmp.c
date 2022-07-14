@@ -5,7 +5,7 @@
  * @s1: string one
  * @s2: string two
  * Description: returns an int less than 0, 0 or greater
- * if, respectively, 
+ * if, respectively,
  * s1 is less than, matches, or greater than s2
  * Return: an integer
  */
@@ -24,8 +24,6 @@ int _strcmp(char *s1, char *s2)
 		{
 			res = 0; /* where s1 == s2*/
 		}
-
-		
 	}
 	return (res);
 }
