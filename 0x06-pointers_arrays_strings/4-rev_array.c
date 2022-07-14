@@ -1,4 +1,4 @@
-#include "main.h"
+#include "holberton.h"
 
 /**
  * reverse_array - reverse array contents
@@ -6,18 +6,16 @@
  * @n: no of integers in the array
  * Return: nothing
  */
+
 void reverse_array(int *a, int n)
 {
-	/* take the contents and reverse their order - last is first*/
-	/* make a copy to hold the contents*/
-	int b[n], i, j;
+	int i;
+	int j;
 
-	for (i = 0; i < n; i++)
-		b[i] = a[i];
-	/* now reverse the integers in a*/
-	j = n - 1;
-	for (i = 0; i < n && j >= 0; i++, j--)
-		a[i] = b[j];
-
+	for (i = 0; i < (n / 2); i++)
+	{
+		j = a[i];
+		a[i] = a[n - i - 1];
+		a[n - i - 1] = j;
+	}
 }
-
