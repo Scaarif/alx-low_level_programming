@@ -2,31 +2,25 @@
 
 /**
  * leet - encodes a string with 1337
- * @s: the string
+ * @str: the string
  * Return: string
  */
-char *leet(char *s)
+char *leet(char *str)
 {
-	int i = 0;
+	int index1 = 0, index2;
+	char leet[8] = {'O', 'L', '?', 'E', 'A', '?', '?', 'T'};
 
-	/**
-	 * check the characters e, E, a, A, o, O, t, T, l or L
-	 * and substitute them with letters as necessary
-	 */
-	while (s[i] != '\0')
+	while (str[index1])
 	{
-		if (s[i] == 'a' || s[i] == 'A')
-			s[i] = '4';
-		else if (s[i] == 'e' || s[i] == 'E')
-			s[i] = '3';
-		else if (s[i] == 'o' || s[i] == 'O')
-			s[i] = '0';
-		else if (s[i] == 't' || s[i] == 'T')
-			s[i] = '7';
-		else if (s[i] == 'l' || s[i] == 'L')
-			s[i] = '1';
-		i++;
-	}
-	return (s);
-}
+		for (index2 = 0; index2 <= 7; index2++)
+		{
+			if (str[index1] == leet[index2] ||
+			    str[index1] - 32 == leet[index2])
+				str[index1] = index2 + '0';
+		}
 
+		index1++;
+	}
+
+	return (str);
+}
