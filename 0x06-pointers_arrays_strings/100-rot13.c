@@ -1,52 +1,44 @@
-#include "main.h"
-#include <stdio.h>
-/**
- * main - check code
- * Return: always 0
- */
-
-int main(void)
-{
-	/*char str[] = "ROT13 (\"rotate by 13 places\", sometimes hyphenated ROT-13) is a simple letter substitution cipher.\n"; */
-	char str[] = "ROT13 system!\n";
-	char *ptr;
-
-	ptr = rot13(str);
-	printf("%s\n", ptr);
-	printf("%s\n", str);
-	return (0);
-}
 /**
  * rot13 - encodes a string with rot13
  * Description: rotate each letter to the 13th letter from it
- * @s: the string
+ * @str: the string
  * Return: string
  */
-char *rot13(char *s)
+char *rot13(char *str)
 {
-	int i = 0;
+	int indx1 = 0, indx2;
+	char alphabet[52] = {'A', 'B', 'C', 'D', 'E', 'F',
+			     'G', 'H', 'I', 'J', 'K', 'L',
+			     'M', 'N', 'O', 'P', 'Q', 'R',
+			     'S', 'T', 'U', 'V', 'W', 'X',
+			     'Y', 'Z', 'a', 'b', 'c', 'd',
+			     'e', 'f', 'g', 'h', 'i', 'j',
+			     'k', 'l', 'm', 'n', 'o', 'p',
+			     'q', 'r', 's', 't', 'u', 'v',
+			     'w', 'x', 'y', 'z'};
+	char rot13key[52] = {'N', 'O', 'P', 'Q', 'R', 'S',
+			     'T', 'U', 'V', 'W', 'X', 'Y',
+			     'Z', 'A', 'B', 'C', 'D', 'E',
+			     'F', 'G', 'H', 'I', 'J', 'K',
+			     'L', 'M', 'n', 'o', 'p', 'q',
+			     'r', 's', 't', 'u', 'v', 'w',
+			     'x', 'y', 'z', 'a', 'b', 'c',
+			     'd', 'e', 'f', 'g', 'h', 'i',
+			     'j', 'k', 'l', 'm'};
 
-	while (s[i] != '\0')
+	while (str[indx1])
 	{
-		/*rotate small letters*/
-		if (s[i] >= 'a' && s[i] <= 'z')
+		for (indx2 = 0; indx2 < 52; indx2++)
 		{
-			s[i] = s[i] + 13;
-			if (s[i] > 'z')
+			if (str[indx1] == alphabet[indx2])
 			{
-				s[i] = (s[i] - 'z') + ('a' - 1);
+				str[indx1] = rot13key[indx2];
+				break;
 			}
 		}
-		else if (s[i] >= 'A' && s[i] <= 'Z')
-		{
-			s[i] = s[i] + 13;
-			if (s[i] > 'Z')
-			{
-				s[i] = (s[i] - 'Z') + ('A' - 1);
-			}
-		}
-		i++;
-	}
-	return (s);
-}
 
+		indx1++;
+
+	}
+	return (str);
+}
