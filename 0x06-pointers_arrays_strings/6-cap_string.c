@@ -1,3 +1,8 @@
+/**
+ * cap_string - capitalize each word of a string
+ * @str: the string
+ * Return: string
+ */
 char *cap_string(char *str)
 {
 	int index = 0;
