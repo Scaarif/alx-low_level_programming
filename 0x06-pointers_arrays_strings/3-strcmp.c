@@ -9,7 +9,6 @@
  * s1 is less than, matches, or greater than s2
  * Return: an integer
  */
- 
 int _strcmp(char *s1, char *s2)
 {
 	while ((*s1 && *s2) && (*s1 == *s2))
