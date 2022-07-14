@@ -16,20 +16,16 @@ int _strcmp(char *s1, char *s2)
 	for (i = 0; s1[i] != '\0' && s2[i] != '\0'; i++)
 	{
 		/*for the first disimilar characters*/
-		if (s1[i] == s2[i])
+		if (s1[i] != s2[i])
 		{
-			res = 0;
-		}
-		else if (s1[i] < s2[i])
-		{
-			res = -1;
-			break;
+			res = s1[i] - s2[i];
 		}
 		else
 		{
-			res = 1;
-			break;
+			res = 0; /* where s1 == s2*/
 		}
+
+		
 	}
 	return (res);
 }
