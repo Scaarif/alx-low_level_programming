@@ -1,33 +1,30 @@
-#include "main.h"
-
-/**
- * cap_string - capitalize each word of a string
- * @s: the string
- * Return: string
- */
-char *cap_string(char *s)
+char *cap_string(char *str)
 {
-	int i = 0;
+	int index = 0;
 
-	/* check that the character after space is a letter first*/
-	while (s[i] != '\0')
+	while (str[index])
 	{
-		/*check first letter*/
-		if (s[0] >= 'a' && s[0] <= 'z')
-		{
-			s[0] = s[0] - 32;
-		}
-		/*check letters folowing the space character*/
-		else if ((s[i] == ' ' || s[i] == '\t' || s[i] == '\n' ||
-		s[i] == ',' || s[i] == ';' || s[i] == '!' || s[i] == '?'
-		|| s[i] == '"' || s[i] == '(' || s[i] == '{' || s[i] == ')'
-		|| s[i] == '}')
-		&& (s[i + 1] >= 'a' && s[i + 1] <= 'z'))
-		{
-			s[i + 1] = s[i + 1] - 32;
-		}
-		i++;
-	}
-	return (s);
-}
+		while (!(str[index] >= 'a' && str[index] <= 'z'))
+			index++;
 
+		if (str[index - 1] == ' ' ||
+		    str[index - 1] == '\t' ||
+		    str[index - 1] == '\n' ||
+		    str[index - 1] == ',' ||
+		    str[index - 1] == ';' ||
+		    str[index - 1] == '.' ||
+		    str[index - 1] == '!' ||
+		    str[index - 1] == '?' ||
+		    str[index - 1] == '"' ||
+		    str[index - 1] == '(' ||
+		    str[index - 1] == ')' ||
+		    str[index - 1] == '{' ||
+		    str[index - 1] == '}' ||
+		    index == 0)
+			str[index] -= 32;
+
+		index++;
+	}
+
+	return (str);
+}
