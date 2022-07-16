@@ -25,23 +25,3 @@ void rev_string(char *s)
 		j++;
 	}
 }
-
-
-int len = 0, j;
-	char i = s[len], hold;
-
-	while (i != '\0')
-	{
-		len++;
-		i = s[len];
-	}
-
-    j = 0;
-	while (j < len / 2)
-	{
-		hold = s[j];
-		s[j] = s[len];
-		s[len] = hold;
-        j++;
-        len--;
-	}

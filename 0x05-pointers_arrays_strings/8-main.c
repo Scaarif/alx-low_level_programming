@@ -10,6 +10,7 @@ int main(void)
 	a[2] = -198;	
 	a[3] = 298;	
 	a[4] = -1024;
-	print_array(a, 5);	
+	print_array(a, 5);
+	print_array(a, 4);
 	return (0);
 }

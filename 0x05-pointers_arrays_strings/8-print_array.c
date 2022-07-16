@@ -19,7 +19,7 @@ void print_array(int *a, int n)
 			i++;
 		}
 		if (i == (n - 1))
-			printf("%d\n", a[i]);
+			printf("%d\n", a[i]); /*exclude space and comma after last element*/
 	}
 	else
 	{
