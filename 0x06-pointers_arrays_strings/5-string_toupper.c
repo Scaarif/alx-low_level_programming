@@ -8,7 +8,7 @@
 char *string_toupper(char *s)
 {
 	int i = 0;
-	/* check that the caharacter is a letter first*/
+	/* check that the character is a letter first*/
 	while (s[i] != '\0')
 	{
 		if (s[i] >= 'a' && s[i] <= 'z')
