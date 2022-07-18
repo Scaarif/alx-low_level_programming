@@ -11,7 +11,6 @@ char *_strchr(char *s, char c)
 {
 	int i = 0;
 	char *p;
-	
 	/*locate first occurrence of c*/
 	for (; s[i] != '\0'; i++)
 	{
@@ -25,7 +24,7 @@ char *_strchr(char *s, char c)
 			p = NULL;
 		}
 	}
-	return(p);
+	return (p);
 }
 
 
