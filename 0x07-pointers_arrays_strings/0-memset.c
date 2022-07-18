@@ -9,12 +9,12 @@
  */
 char *_memset(char *s, char b, unsigned int n)
 {
-	unsigned int i = 0;
-	/*set values in n addresses of s to b */
-	for (; i < n; i++)
-		s[i] = b;
+	int j = n, i;
+
+	if (j > 0)
+	{
+		for (i = 0; i < j; i++)
+			s[i] = b;
+	}
 	return (s);
 }
-
-
-
