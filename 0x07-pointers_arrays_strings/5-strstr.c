@@ -11,7 +11,6 @@ char *_strstr(char *haystack, char *needle)
 {
 	int i, n = 0, t, _true;
 	char *p;
-	
 	/*locate first occurrence of needle*/
 	for (i = 0; haystack[i] != '\0'; i++)
 	{
@@ -37,9 +36,8 @@ char *_strstr(char *haystack, char *needle)
 				break;
 			}
 		}
-	
 	}
-	return(p ? p : NULL); /* return p if assigned, else return NULL*/
+	return (p ? p : NULL); /* return p if assigned, else return NULL*/
 }
 
 
