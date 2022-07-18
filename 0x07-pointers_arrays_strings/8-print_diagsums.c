@@ -2,9 +2,9 @@
 #include <stdio.h>
 
 /**
- * prints the sum of two diagonals of a square matrix
+ * print_diagsums - prints the sum of two diagonals of a square matrix
  * @a: the matrix
- * size: size of matrix
+ * @size: size of matrix
  * Returns: Nothing
  */
 void print_diagsums(int *a, int size)
