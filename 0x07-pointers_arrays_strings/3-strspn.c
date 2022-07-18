@@ -4,12 +4,11 @@
  * _strspn - gets the length of a prefix substring
  * @s: the string
  * @accept: the substring to locate
- * Return: length 
+ * Return: length
  */
 unsigned int _strspn(char *s, char *accept)
 {
 	int i, len = 0, new, j;
-	
 	/*locate first occurrence of chars in accept*/
 	for (j = 0; accept[j] != '\0'; j++)
 	{
@@ -23,7 +22,7 @@ unsigned int _strspn(char *s, char *accept)
 		}
 		new > len ? len = new : len;
 	}
-	return(len + 1);
+	return (len + 1);
 }
 
 
