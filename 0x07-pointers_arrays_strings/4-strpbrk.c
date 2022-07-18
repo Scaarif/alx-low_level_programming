@@ -1,42 +1,23 @@
 #include "main.h"
-#include <stddef.h>
-#include <stdio.h>
 
 /**
- * _strpbrk - returns pointer to first occurrence of any
- * of the bytes in accept
- * @s: the string
- * @accept: the string whose chars to locate
- * Return: pointer to first occurrence
+ * _strpbrk - searches a string for any of a set of bytes.
+ * @s: first string.
+ * @accept: second string.
+ * Return: a pointer to the byte in s that matches one of the
+ * bytes in accept, or NULL if no such byte is found.
  */
 char *_strpbrk(char *s, char *accept)
 {
-	int i, j;
-	char *new, *orig;
-	
-	orig = NULL;
-	/*locate first occurrence of any of chars in accept*/
-	for (j = 0; accept[j] != '\0'; j++)
+	unsigned int i, j;
+
+	for (i = 0; *(s + i) != '\0'; i++)
 	{
-		for (i = 0; s[i] != '\0'; i++)
+		for (j = 0; *(accept + j) != '\0'; j++)
 		{
-			if (s[i] == accept[j])
-			{
-				new = s + i;
-				if (orig == NULL)
-				{
-					orig = new;
-				}
-				/* printf("new: %p\n", new); */
-				/* printf("%c\n", *new); */
-				break;
-			}
+			if (*(s + i) == *(accept + j))
+				return (s + i);
 		}
-		new < orig ? orig = new : orig;
-		/* printf("orig: %p\n", orig); */
 	}
-	return (orig);
+	return ('\0');
 }
-
-
-
