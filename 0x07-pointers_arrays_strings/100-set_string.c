@@ -4,7 +4,6 @@
  * set_string - sets the value of a pointer to a char
  * @s: double pointer
  * @to: string to set pointer to
- * @accept: the substring to locate
  * Return: nothing
  */
 void set_string(char **s, char *to)
