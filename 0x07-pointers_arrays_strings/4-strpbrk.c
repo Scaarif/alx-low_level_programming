@@ -35,7 +35,7 @@ char *_strpbrk(char *s, char *accept)
 		new < orig ? orig = new : orig;
 		/* printf("orig: %p\n", orig); */
 	}
-	return(orig);
+	return (orig);
 }
 
 
