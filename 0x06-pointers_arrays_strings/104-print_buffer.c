@@ -22,7 +22,7 @@ void print_buffer(char *b, int size)
 			if ((index + byte) >= size)
 				printf("  ");
 			else
-				printf("%02x", *(b + index + byte));
+				printf("%02x", *(b + index + byte)); /*b is the first address in buffer*/
 			if ((index % 2) != 0 && index != 0)
 				printf(" ");
 		}
@@ -31,7 +31,7 @@ void print_buffer(char *b, int size)
 			if ((index + byte) >= size)
 				break;
 			else if (*(b + index + byte) >= 31 &&
-				 *(b + index + byte) <= 126)
+				 *(b + index + byte) <= 126) /* i.e. a printable character*/
 				printf("%c", *(b + index + byte));
 			else
 				printf(".");
