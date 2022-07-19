@@ -1,31 +1,44 @@
 #include "main.h"
+#include <stddef.h>
 
 /**
- * _strstr - finds the first occurrence of the substring.
- * needle in the string haystack.
- * @haystack: entire string.
- * @needle: substring.
- * Return: pointer to the beginning of located substring or
- * NULL if the substring is not found.
-*/
+ * _strstr - locates first occurrence substring
+ * @haystack: the string
+ * @needle: the substring to locate
+ * Return: pointer to first occurrence
+ */
 char *_strstr(char *haystack, char *needle)
 {
-	char *bhaystack;
-	char *pneedle;
-
-	while (*haystack != '\0')
+	int i, n = 0, t, _true;
+	char *p;
+	/*locate first occurrence of needle*/
+	for (i = 0; haystack[i] != '\0'; i++)
 	{
-		bhaystack = haystack;
-		pneedle = needle;
-
-		while (*haystack != '\0' && *pneedle != '\0' && *haystack == *pneedle)
+		if (haystack[i] == needle[n])
 		{
-			haystack++;
-			pneedle++;
+			if (haystack[i + 1] == needle[n + 1])
+			{
+				t = i;
+				_true = 1;
+				while (needle[n] != '\0' && haystack[t] != '\0')
+				{
+					if (needle[n] != haystack[t])
+					{
+						_true *= 0;
+					}
+					t++;
+					n++;
+				}
+			}
+			if (_true > 0)
+			{
+				p = haystack + i;
+				break;
+			}
 		}
-		if (!*pneedle)
-			return (bhaystack);
-		haystack = bhaystack + 1;
 	}
-	return (0);
+	return (p ? p : NULL); /* return p if assigned, else return NULL*/
 }
+
+
+
