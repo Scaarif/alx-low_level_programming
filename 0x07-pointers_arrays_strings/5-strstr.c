@@ -9,35 +9,24 @@
  */
 char *_strstr(char *haystack, char *needle)
 {
-	int i, n = 0, t, _true;
+	char *b;
 	char *p;
-	/*locate first occurrence of needle*/
-	for (i = 0; haystack[i] != '\0'; i++)
+
+	while (*haystack != '\0')
 	{
-		if (haystack[i] == needle[n])
+		b = haystack;
+		p = needle;
+
+		while (*haystack != '\0' && *p != '\0' && *haystack == *p)
 		{
-			if (haystack[i + 1] == needle[n + 1])
-			{
-				t = i;
-				_true = 1;
-				while (needle[n] != '\0' && haystack[t] != '\0')
-				{
-					if (needle[n] != haystack[t])
-					{
-						_true *= 0;
-					}
-					t++;
-					n++;
-				}
-			}
-			if (_true > 0)
-			{
-				p = haystack + i;
-				break;
-			}
+			haystack++;
+			p++;
 		}
+		if (!*p)
+			return (b);
+		haystack = b + 1;
 	}
-	return (p ? p : NULL); /* return p if assigned, else return NULL*/
+	return (0);
 }
 
 

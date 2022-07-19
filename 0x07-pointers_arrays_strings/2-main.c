@@ -9,7 +9,7 @@ int main(void)
 {
  char *s = "world";
  char *f;
- f = _strchr(s, 'r');
+ f = _strchr(s, '\0');
  if (f != NULL)
  {
  printf("%s\n", f);

@@ -8,21 +8,23 @@
  */
 unsigned int _strspn(char *s, char *accept)
 {
-	int i, len = 0, new, j;
-	/*locate first occurrence of chars in accept*/
-	for (j = 0; accept[j] != '\0'; j++)
+	unsigned int i, j, _true;
+
+	for (i = 0; *(s + i) != '\0'; i++)
 	{
-		for (i = 0; s[i] != '\0'; i++)
+		_true = 1;
+		for (j = 0; *(accept + j) != '\0'; j++)
 		{
-			if (s[i] == accept[j])
+			if (*(s + i) == *(accept + j))
 			{
-				new = i;
+				_true = 0;
 				break;
 			}
 		}
-		new > len ? len = new : len;
+		if (_true == 1)
+			break;
 	}
-	return (len + 1);
+	return (i);
 }
 
 

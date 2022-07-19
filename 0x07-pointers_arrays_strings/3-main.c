@@ -1,5 +1,6 @@
 #include "main.h"
 #include <stdio.h>
+#include <string.h>
 /**
  * main - check the code
  *
@@ -8,9 +9,11 @@
 int main(void)
 {
  char *s = "hello, world";
- char *f = "oleh";
+ char *f = "world";
  unsigned int n;
  n = _strspn(s, f);
+ printf("%u\n", n);
+ n = strspn(s, f);
  printf("%u\n", n);
  return (0);
 }
