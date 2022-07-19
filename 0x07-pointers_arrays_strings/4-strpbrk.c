@@ -13,7 +13,7 @@ char *_strpbrk(char *s, char *accept)
 {
 	int i, j;
 	char *new, *orig;
-	
+
 	orig = NULL;
 	/*locate first occurrence of any of chars in accept*/
 	for (j = 0; accept[j] != '\0'; j++)
