@@ -24,6 +24,8 @@ char *_strchr(char *s, char c)
 			p = NULL;
 		}
 	}
+	if (s[i] == c) /*check terminating character too*/
+		p = (s + i);
 	return (p);
 }
 
