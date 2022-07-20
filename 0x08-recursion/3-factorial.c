@@ -3,7 +3,7 @@
 /**
  * factorial - returns the factorial of a number n
  * @n: integer
- * Returns: int factorial
+ * Return: int factorial
  */
 
 int factorial(int n)
@@ -19,7 +19,7 @@ int factorial(int n)
 		fact = 1;
 	}
 	else
-	{ 
+	{
 		fact = n * factorial(n - 1);
 	}
 	return (fact);
