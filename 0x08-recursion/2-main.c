@@ -8,7 +8,7 @@
 int main(void)
 {
  int n;
- n = _strlen_recursion("hi");
+ n = _strlen_recursion("");
  printf("%d\n", n);
  return (0);
 }

@@ -6,6 +6,6 @@
  */
 int main(void)
 {
- _print_rev_recursion("\nhello");
+ _print_rev_recursion("\nhi");
  return (0);
 }
