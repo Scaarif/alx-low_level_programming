@@ -11,7 +11,7 @@
  */
 int main(int argc, char **argv)
 {
-	int cents, num = 0, new = 0;
+	int cents, num = 0;
 
 	if (argc != 2)
 	{
@@ -21,25 +21,8 @@ int main(int argc, char **argv)
 	cents = atoi(argv[1]);
 	if (cents > 0)
 	{
-		num += cents / 25;
-		cents -= num * 25;
-		if (cents > 0)
-			new += cents / 10;
-		num += new;
-		cents -= new * 10;
-		new = 0;
-		if (cents > 0)
-			new += cents / 5;
-		num += new;
-		cents -= new * 5;
-		new = 0;
-		if (cents > 0)
-			new = cents / 2;
-		num += new;
-		cents -= new * 2;
-		new = 0;
-		if (cents > 0)
-			num += cents / 1;
+		num += cents / 25 + (cents % 25) / 10 + ((cents % 25) % 10) / 5
+		+ (((cents % 25) % 10) % 5) / 2 + ((((cents % 25) % 10) % 5) % 2) / 1;
 		printf("%d\n", num);
 		return (0);
 	}
