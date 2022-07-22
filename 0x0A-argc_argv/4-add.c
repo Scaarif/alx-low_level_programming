@@ -15,7 +15,7 @@ int main(int argc, char **argv)
 
 	if (argc == 1) /*only prog name provided */
 	{
-		printf("0\n");
+		printf("%d\n", sum);
 		return (0);
 	}
 	else
