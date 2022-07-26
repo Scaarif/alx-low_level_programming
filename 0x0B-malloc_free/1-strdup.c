@@ -15,9 +15,9 @@ char *_strdup(char *str)
 	if (str == NULL)
 		return (NULL);
 	for (i = 0; str[i] != '\0'; i++)
-	if (i == 0)/*account for empty string*/
-		return (NULL);
 	len = i + 2;
+	if (len <= 2)/*account for empty string*/
+		return (NULL);
 	/*printf("len: %d\n", len);*/
 	a = malloc(sizeof(char) * len);
 	if (a == NULL)
