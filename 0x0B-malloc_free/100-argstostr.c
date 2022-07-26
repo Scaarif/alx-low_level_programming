@@ -49,6 +49,8 @@ char *argstostr(int ac, char **av)
 	}
 	/*printf("a_size: %d\n", a_size);*/
 	s = malloc(sizeof(char) * a_size);
+	if (s == NULL)
+		return (NULL);
 	ptr_pos = 0;
 	for (i = 0; i < ac; i++)
 	{

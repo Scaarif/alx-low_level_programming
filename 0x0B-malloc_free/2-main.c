@@ -9,8 +9,8 @@
 int main(void)
 {
  char *s;
- char j[] = "Betty ";
- s = str_concat(j, "Holberton");
+
+ s = str_concat("Besty", NULL);
  if (s == NULL)
  {
  printf("failed\n");

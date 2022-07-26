@@ -18,6 +18,8 @@ char *_strdup(char *str)
 	len = i + 2;
 	/*printf("len: %d\n", len);*/
 	a = malloc(sizeof(char) * len);
+	if (a == NULL)
+		return (NULL);
 	for (i = 0; i < len; i++)
 		*(a + i) = str[i];
 	*(a + i) = '\0'; /*terminate the duplicate*/

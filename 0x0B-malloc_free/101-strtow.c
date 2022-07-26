@@ -37,6 +37,8 @@ char **strtow(char *str)
     /*account for null terminating chars at end of each word*/
     len_words += num_words;
     p = malloc(sizeof(char) * len_words);
+	if (p == NULL)
+		return (NULL);
     /*add the words to the array*/
     for (i = 0; ; i++)
 	{
@@ -48,3 +50,4 @@ char **strtow(char *str)
 	}
 	return (p);
 }
+yy
