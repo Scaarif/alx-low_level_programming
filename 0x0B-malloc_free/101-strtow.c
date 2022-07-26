@@ -32,6 +32,8 @@ char **strtow(char *str)
 			len_words++;
 		}
 	}
+    if (str[i - 1] != ' ' && str[i - 1] != '\t')
+        num_words++;
     /*account for null terminating chars at end of each word*/
     len_words += num_words;
     p = malloc(sizeof(char) * len_words);
