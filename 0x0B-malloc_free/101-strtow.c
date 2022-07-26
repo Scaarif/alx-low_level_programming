@@ -11,10 +11,11 @@
 
 char **strtow(char *str)
 {
-	char *p, *word;
-	int i = 0, num_words = 0, len_words = 0, j = 0;
+	char **matrix, *tmp;
+	int k = 0, len = 0, words, c = 0, start, end;
+	int i = 0, num_words = 0;
 
-	if (str == NULL || str == "")
+	if (str == NULL)
 		return (NULL);
 	for (; str[i] != '\0'; i++)
 	{
@@ -24,30 +25,43 @@ char **strtow(char *str)
 				num_words++;
 		}
 	}
-	/*get len of these words for memory alloc to the array*/
-    for (i = 0; str[i] != '\0'; i++)
-	{
-		if (str[i] != ' ' && str[i] != '\t')
-		{
-			len_words++;
-		}
-	}
     if (str[i - 1] != ' ' && str[i - 1] != '\t')
-        num_words++;
-    /*account for null terminating chars at end of each word*/
-    len_words += num_words;
-    p = malloc(sizeof(char) * len_words);
-	if (p == NULL)
-		return (NULL);
-    /*add the words to the array*/
-    for (i = 0; ; i++)
 	{
-		while(str[i] != ' ' && str[i] != '\t' && j < len_words)
-		{
-			*(word + j) = str[i];
-		}
-        
+        num_words++;
 	}
-	return (p);
+	while (*(str + len))
+		len++;
+	words = num_words;
+	if (words == 0)
+		return (NULL);
+
+	matrix = (char **) malloc(sizeof(char *) * (words + 1));
+	if (matrix == NULL)
+		return (NULL);
+
+	for (i = 0; i <= len; i++)
+	{
+		if (str[i] == ' ' || str[i] == '\0')
+		{
+			if (c)
+			{
+				end = i;
+				tmp = (char *) malloc(sizeof(char) * (c + 1));
+				if (tmp == NULL)
+					return (NULL);
+				while (start < end)
+					*tmp++ = str[start++];
+				*tmp = '\0';
+				matrix[k] = tmp - c;
+				k++;
+				c = 0;
+			}
+		}
+		else if (c++ == 0)
+			start = i;
+	}
+
+	matrix[k] = NULL;
+
+	return (matrix);
 }
-yy
