@@ -1,5 +1,6 @@
 #include "main.h"
 #include <stdlib.h>
+#include <stdio.h>
 /**
  * _strdup - duplicates a string
  * @str: string
@@ -14,7 +15,8 @@ char *_strdup(char *str)
 	if (str == NULL)
 		return (NULL);
 	for (i = 0; str[i] != '\0'; i++)
-	len = i;
+	len = i + 2;
+	/*printf("len: %d\n", len);*/
 	a = malloc(sizeof(char) * len);
 	for (i = 0; i < len; i++)
 		*(a + i) = str[i];
