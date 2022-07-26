@@ -44,7 +44,7 @@ char **strtow(char *str)
 	while (*(str + len))
 		len++;
 	words = get_wordCount(str);
-	if (words == 0)
+	if (words == 0 || len == 0)
 		return (NULL);
 
 	matrix = (char **) malloc(sizeof(char *) * (words + 1));
