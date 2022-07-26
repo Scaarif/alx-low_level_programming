@@ -1,5 +1,29 @@
 #include "main.h"
 #include <stdlib.h>
+/**
+ * get_wordCount - counts the number of words in a string
+ * @str: string
+ * Return: int number of words
+ */
+
+int get_wordCount(char *str)
+{
+	int i = 0, num_words = 0;
+
+	for (; str[i] != '\0'; i++)
+	{
+		if (str[i] == ' ' || str[i] == '\t')
+		{
+			if ((str[i - 1] != ' ') && i > 0)
+				num_words++;
+		}
+	}
+	if (str[i - 1] != ' ' && str[i - 1] != '\t')
+	{
+		num_words++;
+	}
+	return (num_words);
+}
 
 /**
  * strtow - splits a string into words
@@ -13,25 +37,13 @@ char **strtow(char *str)
 {
 	char **matrix, *tmp;
 	int k = 0, len = 0, words, c = 0, start, end;
-	int i = 0, num_words = 0;
+	int i = 0;
 
 	if (str == NULL)
 		return (NULL);
-	for (; str[i] != '\0'; i++)
-	{
-		if (str[i] == ' ' || str[i] == '\t')
-		{
-			if ((str[i - 1] != ' ') && i > 0)
-				num_words++;
-		}
-	}
-    if (str[i - 1] != ' ' && str[i - 1] != '\t')
-	{
-        num_words++;
-	}
 	while (*(str + len))
 		len++;
-	words = num_words;
+	words = get_wordCount(str);
 	if (words == 0)
 		return (NULL);
 
@@ -62,6 +74,5 @@ char **strtow(char *str)
 	}
 
 	matrix[k] = NULL;
-
 	return (matrix);
 }
