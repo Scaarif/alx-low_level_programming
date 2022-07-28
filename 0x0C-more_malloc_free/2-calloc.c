@@ -24,9 +24,6 @@ void *_calloc(unsigned int nmemb, unsigned int size)
 		free(ptr);
 		return (NULL);
 	}
-	/* Initialize the elements to zero */
-	/*p = ptr;*/ /*p points to same addresses as ptr*/
-	/*this assignment essentially changes values in ptr*/
 	for (i = 0; i < nmemb; i++)
 		ptr[i] = 0;
 	return (ptr);
