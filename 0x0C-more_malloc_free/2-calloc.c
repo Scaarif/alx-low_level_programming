@@ -12,8 +12,8 @@
  */
 void *_calloc(unsigned int nmemb, unsigned int size)
 {
-	int *ptr;
-	/*char *p;*/
+	void *ptr;
+	char *p;
 	unsigned int i;
 
 	if (nmemb <= 0 || size <= 0)
@@ -21,14 +21,11 @@ void *_calloc(unsigned int nmemb, unsigned int size)
 	ptr = malloc(nmemb * size);
 	if (ptr == NULL)
 	{
-		free(ptr);
 		return (NULL);
 	}
-	/* Initialize the elements to zero */
-	/*p = ptr;*/ /*p points to same addresses as ptr*/
-	/*this assignment essentially changes values in ptr*/
+	p = ptr;
 	for (i = 0; i < nmemb; i++)
-		ptr[i] = 0;
+		p[i] = 0;
 	return (ptr);
 }
 
