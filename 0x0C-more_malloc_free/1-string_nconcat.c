@@ -17,7 +17,7 @@ int get_len(char *s)
 		for (i = 0; s[i] != '\0'; i++)
 			;
 	}
-	len = i + 1;
+	len = i;
 	return (len);
 }
 
