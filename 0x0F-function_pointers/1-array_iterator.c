@@ -15,7 +15,10 @@ void array_iterator(int *array, size_t size, void (*action)(int))
 	size_t i = 0;
 
 	/*calls back the fn passed to it with array[i] as arg*/
-	for (; i < size; i++)
-		action(array[i]);
+	if (size > 0)
+	{
+		for (; i < size; i++)
+			action(array[i]);
+	}
 }
 
