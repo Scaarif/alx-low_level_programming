@@ -12,14 +12,15 @@ int sum_them_all(const unsigned int n, ...)
 	int sum = 0;
 	unsigned int i = 0;
 
-	if (n == 0)
-		return (sum);
-	/*initialize the arguments list*/
-	va_start(ap, n);
-	/*get the next argument, sequentially*/
-	for (; i < n; i++)
-		sum += va_arg(ap, int); /*int: type of optional arg*/
-	/*clear ap before fn return*/
-	va_end(ap);
+	if (n)
+	{
+		/*initialize the arguments list*/
+		va_start(ap, n);
+		/*get the next argument, sequentially*/
+		for (; i < n; i++)
+			sum += va_arg(ap, int); /*int: type of optional arg*/
+		/*clear ap before fn return*/
+		va_end(ap);
+	}
 	return (sum);
 }
