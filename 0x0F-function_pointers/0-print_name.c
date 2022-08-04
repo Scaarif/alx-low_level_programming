@@ -11,7 +11,7 @@
 void print_name(char *name, void (*f)(char *))
 {
 	/*calls back the fn passed to it with name as arg*/
-	if (name)
+	if (name != NULL && f != NULL)
 		f(name);
 }
 
