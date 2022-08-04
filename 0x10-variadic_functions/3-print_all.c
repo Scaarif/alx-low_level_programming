@@ -1,91 +1,52 @@
 #include "variadic_functions.h"
+#include <stdarg.h>
 #include <stdio.h>
-#include <string.h>
-
 /**
- * print_string - prints a string
- * @arg: the string to print
- * Return: Nothing
- */
-void print_string(va_list arg)
-{
-	char *str;
-
-	str = va_arg(arg, char *);
-	if (str == NULL)
-		str = "(nil)";
-	printf("%s", str);
-}
-
-/**
- * print_char - prints a char
- * @arg: the char to print
- * Return: Nothing
- */
-void print_char(va_list arg)
-{
-	printf("%c", va_arg(arg, int));
-}
-
-/**
- * print_int - prints an int
- * @arg: the int to print
- * Return: Nothing
- */
-void print_int(va_list arg)
-{
-	printf("%d", va_arg(arg, int));
-}
-
-/**
- * print_float - prints a float
- * @arg: the float to print
- * Return: Nothing
- */
-void print_float(va_list arg)
-{
-	printf("%f", va_arg(arg, double));
-}
-
-/**
- * print_all - prints anything
- * @format: arguments format say cis for
- * char, int , string (char *)
- * Return: Nothing
+ * print_all - prints anything.
+ * @format: a list of types of arguments passed to the function.
+ *
+ * Return: no return.
  */
 void print_all(const char * const format, ...)
 {
 	va_list ap;
-	int i = 0, j, len;
-	the_func fs[] = {
-		{'c', print_char},
-		{'i', print_int},
-		{'f', print_float},
-		{'s', print_string},
-	};
+	unsigned int x = 0, y, c = 0;
+	char *str;
+	const char t_arg[] = "cifs";
 
-	/*initialize the arguments list*/
 	va_start(ap, format);
-	/*loop through format string to choose correct function*/
-	len = (int)strlen(format);
-	while (i < len)
+	while (format && format[x])
 	{
-		j = 0;
-		while (j < 4)
+		y = 0;
+		while (t_arg[y])
 		{
-			if (fs[j].format_str == format[i])
+			if (format[x] == t_arg[y] && c)
 			{
-				fs[j].f(ap);/*call app. fn*/
-				/*printf("%c's fn called\n", fs[j].format_str);*/
-			}
-			j++;
+				printf(", ");
+				break;
+			} y++;
 		}
-		if (i < len - 2)
-			printf(", ");
-		i++;
+		switch (format[x])
+		{
+		case 'c':
+			printf("%c", va_arg(ap, int)), c = 1;
+			break;
+		case 'i':
+			printf("%d", va_arg(ap, int)), c = 1;
+			break;
+		case 'f':
+			printf("%f", va_arg(ap, double)), c = 1;
+			break;
+		case 's':
+			str = va_arg(ap, char *), c = 1;
+			if (!str)
+			{
+				printf("(nil)");
+				break;
+			}
+			printf("%s", str);
+			break;
+		} x++;
 	}
-	printf("\n");
-	va_end(ap);
+	printf("\n"), va_end(ap);
 }
-
-
