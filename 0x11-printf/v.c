@@ -89,7 +89,7 @@ int print_string(const char *s, int start, int stop)/*whatever value is pointed 
 	}
 	else
 	{
-		len = (stop - start) + 1;
+		len = stop - start;
 	}
 	/*printf("len: %d\n", len);*/
 	n = write(1, s + start, len);
@@ -140,15 +140,15 @@ int _printf(const char *format, ...)
 	{
 		printf("evaluating inner conditional\n");
 		k = 1; /*ids[0] is the array_size*/
+		/*look at the specifier(at (idx + 1)th index, print the next optional arg*/
+		va_start(ap, format);
 		/*loop through indices(ids)*/
 		while (k <= ids[0])
 		{
 			/*idx = is_specifier(format, idx);*/
 			idx = ids[k];
-			printf("the idx: %d\n", idx);
+			/*printf("the idx: %d\n", idx);*/
 			stop = idx - 1;/*stop before the format string*/
-			/*look at the specifier(at (idx + 1)th index, print the next optional arg*/
-			va_start(ap, format);
 			/*print string before the format string*/
 			print_string(format, start, stop);
 			/*loop through the options looking for the right fn to call*/
@@ -167,9 +167,10 @@ int _printf(const char *format, ...)
 			/*printf("k: %d\n", k);*/
 			/*print rest of string after f.s happens next time in the loop*/
 		}
+		va_end(ap);
 		/*for the last part of string(after last format string)*/
-		last = strlen(format) - 1;
-		/*printf("last_start: %d\n", start);*/
+		last = strlen(format);
+		/*printf("last_start: %d at char %c and last: %c\n", start, format[start], format[last]);*/
 		chars += print_string(format, start, last);
 		return (chars);
 		
@@ -191,5 +192,6 @@ int main(void)
 	/*len2 = printf("Let's try to printf a simple sentence.\n");*/
 	/* printf("len: %d, len2: %d strlen: %ld\n", len, len2, strlen(str));*/
 	printf("len: %d\n", len);
+	len = _printf("%c. %s aka Ra%cab %s\n", 'N', "Scaarif", 'H', "Ngache");
 	return (0);
 }
