@@ -80,19 +80,23 @@ int *get_indices(const char *str)
 
 int print_string(const char *s, int start, int stop)/*whatever value is pointed to is constant*/
 {
-	int n, len;
+	int n = 0, len, i = 0, temp_stop;
 
-	if (start == 0)
-	{
-		len = stop - start;
-		/*printf("start: 0\n");*/
-	}
-	else
-	{
-		len = stop - start;
-	}
 	/*printf("len: %d\n", len);*/
-	n = write(1, s + start, len);
+	/*look for double percent characters*/
+	i = start;
+	for (; i <= stop; i++)
+	{
+		if (s[i] == '%' && s[i + 1] == '%')
+		{
+			temp_stop = i;/*write upto first %*/
+			len = (temp_stop - start) + 1;
+			n += write(1, s + start, len);
+			start = i + 2;/*next write starts at 1 past 2nd %*/
+		}
+	}
+	len = stop - start;
+	n += write(1, s + start, len);
 	return(n);
 }
 
@@ -195,7 +199,7 @@ int main(void)
 	/*void *addr;*/
 
 	printf("output from _printf:\n");
-	len = _printf("100%% Ra%cab\n", 'H');
+	len = _printf("%s: That is 100%% Ra%cab, and %s too - 100%%!\n", "S.N",'H', "Scaarif");
 	/*len = print_string("Let's try to printf a simple sentence.\n");*/
 	/*len2 = printf("Let's try to printf a simple sentence.\n");*/
 	/* printf("len: %d, len2: %d strlen: %ld\n", len, len2, strlen(str));*/
