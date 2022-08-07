@@ -10,7 +10,7 @@ int _write()
 	ssize_t bytes_written;
 	int fd = 1; /*write to std output instead of to a file*/
 
-	strcpy(buf, "This is a test\n");
+	strcpy(buf, "This is a test 1\n");
 	nbytes = strlen(buf);
 
 	bytes_written = write(fd, buf, nbytes);

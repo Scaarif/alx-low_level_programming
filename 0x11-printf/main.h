@@ -14,6 +14,7 @@ int *get_indices(const char *str);
 int print_string(const char *s, int start, int stop);
 int print_str(va_list arg);
 int print_char(va_list arg);
+int print_int(va_list arg);
 int _printf(const char *format, ...);
 
 #endif /* MAIN_H */
