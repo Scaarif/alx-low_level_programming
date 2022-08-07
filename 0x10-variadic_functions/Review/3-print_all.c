@@ -53,7 +53,7 @@ void print_all(const char * const format, ...)
 	va_list args;
 	char *sep;
 
-	checker storage[] = {
+	print_t storage[] = {
 		{ "c", _printchar },
 		{ "f", _printfloat },
 		{ "s", _printstr },
@@ -66,11 +66,11 @@ void print_all(const char * const format, ...)
 	while (format != NULL && format[i / 4] != '\0')
 	{
 		j = i % 4;
-		if (storage[j].type[0] == format[i / 4])
+		if (storage[j].t[0] == format[i / 4])
 		{
 			printf("%s", sep);
 			storage[j].f(args);
-            printf("%s's fn called\n", storage[j].type);
+           /*printf("\n%s's fn called\n", storage[j].t);*/
 			sep = ", ";
 		}
 		i++;
