@@ -25,7 +25,7 @@ int is_specifier(const char *str, int index)
 	{
 		if (str[i] == '%')
 		{
-			if (str[i + 1] != '%')
+			if (str[i + 1] != '%' && str[i - 1] != '%')
 				return (i + 1); /*true - return the specifier's index*/
 		}
 		i++;
@@ -43,7 +43,7 @@ int *get_indices(const char *str)
 	{
 		if (str[i] == '%')
 		{
-			if (str[i + 1] != '%')
+			if (str[i + 1] != '%' && str[i - 1] != '%')
 				ids++;
 		}
 		i++;
@@ -67,7 +67,7 @@ int *get_indices(const char *str)
 			/*i need to call is_specifier ids times*/
 			_is = is_specifier(str, start);
 			printf("start: %d and _is: %d\n", start, _is);
-			printf("indices[%d]: %d\n", i, _is);
+			printf("indices[%d] @ %d is: %c\n", i, _is, str[_is]);
 			/*indices[i] = str[_is];*/
 			indices[i] = _is;/*store the index not the char at the index*/
 			/*printf("indices[%i]: %d", i, indices[i]);*/
@@ -117,6 +117,14 @@ int print_char(va_list arg)
 	return(n);
 }
 
+int print_percent(char c)
+{
+	int n;
+
+	n = write(1, &c, 1);
+	return(n);
+}
+
 /**
  * int actual_print(char *format, int start, int stop)
  * {
@@ -150,7 +158,7 @@ int _printf(const char *format, ...)
 			/*printf("the idx: %d\n", idx);*/
 			stop = idx - 1;/*stop before the format string*/
 			/*print string before the format string*/
-			print_string(format, start, stop);
+			chars += print_string(format, start, stop);
 			/*loop through the options looking for the right fn to call*/
 			j = 0; /* no of fns available */
 			while (j < 2)
@@ -187,11 +195,11 @@ int main(void)
 	/*void *addr;*/
 
 	printf("output from _printf:\n");
-	len = _printf("Ra%cab\n", 'H');
+	len = _printf("100%% Ra%cab\n", 'H');
 	/*len = print_string("Let's try to printf a simple sentence.\n");*/
 	/*len2 = printf("Let's try to printf a simple sentence.\n");*/
 	/* printf("len: %d, len2: %d strlen: %ld\n", len, len2, strlen(str));*/
 	printf("len: %d\n", len);
-	len = _printf("%c. %s aka Ra%cab %s\n", 'N', "Scaarif", 'H', "Ngache");
+	/*len = _printf("100%% %s aka Ra%cab %s\n", "Scaarif", 'H', "Ngache");*/
 	return (0);
 }
