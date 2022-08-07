@@ -141,7 +141,7 @@ int _printf(const char *format, ...)
 	}
 	idx = is_specifier(format, idx);
 	printf("idx: %d\n", idx);
-	stop = idx;
+	stop = idx - 1;
 	if (idx)
 	{
 		/*look at the specifier(at (idx + 1)th index, print the next optional arg*/
