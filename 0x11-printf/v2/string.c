@@ -14,7 +14,7 @@
  * (Uppercase - always 2 characters) 
  * Return: int number of bytes written
  */
-int print_Str(va_list arg)
+int print_Str(va_list arg, ...)
 {
 	int n = 0, i = 0;
 	char *s, *_char = "\\x";
@@ -67,14 +67,14 @@ int print_Str(va_list arg)
  * Return: int number of characters written (8)?
  */
 
-int print_pointer(va_list arg)
+int print_pointer(va_list arg, ...)
 {
 	int n;
     void *value;
 
     /*i'm interested in the address of arg*/
     value = (va_arg(arg, void *));
-    printf("\nptr: %x\n", value);
+    /*printf("\nptr: %x\n", value);*/
     n = write(1, value, 16);
 	return (n);
 }

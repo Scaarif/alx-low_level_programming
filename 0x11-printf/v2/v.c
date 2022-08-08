@@ -117,7 +117,7 @@ int print_string(const char *s, int start, int stop)/*whatever value is pointed 
  * to printf; requires no demarcation
  * Return: int number of bytes written
  */
-int print_str(va_list arg)
+int print_str(va_list arg, ...)
 {
 	int n;
 	char *s;
@@ -132,7 +132,7 @@ int print_str(va_list arg)
  * @arg: the char as next argument to write
  * Return: int number of bytes written
  */
-int print_char(va_list arg)
+int print_char(va_list arg, ...)
 {
 	int n;
 	char s;

@@ -44,7 +44,7 @@ void _print_num(long n)
  * @arg: int to write - an optional argument
  * Return: int number of bytes written
  */
-int print_int(va_list arg)
+int print_int(va_list arg, ...)
 {
 	int n = 0, num;
 	char neg;
@@ -71,7 +71,7 @@ int print_int(va_list arg)
  * Return: int number of characters written
  */
 
-int print_binary(va_list arg)
+int print_binary(va_list arg, ...)
 {
 	int num, n = 0, i, k;
 	char c;
@@ -101,7 +101,7 @@ int print_binary(va_list arg)
  * Return: int number of characters written
  */
 
-int make_unsigned(va_list arg)
+int make_unsigned(va_list arg, ...)
 {
 	int n = 0;
 	long num;

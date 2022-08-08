@@ -11,7 +11,7 @@
  * Return: int number of characters written
  */
 
-int print_octal(va_list arg)
+int print_octal(va_list arg, ...)
 {
 	int n = 0;
 	long num, i = 1, octal = 0;
@@ -77,7 +77,7 @@ int make_heX(long n, char c)/*to be worked on!*/
  * Return: int number of characters written
  */
 
-int print_hex(va_list arg)
+int print_hex(va_list arg, ...)
 {
 	long num, quot;
 	int i = 1, j, temp, n = 0;
@@ -112,7 +112,7 @@ int print_hex(va_list arg)
  * Return: int number of characters written
  */
 
-int print_heX(va_list arg)
+int print_heX(va_list arg, ...)
 {
 	long num, quot;
 	int i = 1, j, temp, n = 0;
