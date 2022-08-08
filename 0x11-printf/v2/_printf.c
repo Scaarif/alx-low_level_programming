@@ -135,7 +135,7 @@ int *get_actual_specifiers(const char *fmt, int *arr)
  */
 int _printf(const char *format, ...)
 {
-	int j, k, idx = 0, start = 0, stop = 0, last, chars = 0, *ids, *index;
+	int j, k, idx = 0, start = 0, stop = 0, last, chars = 0, *ids, *index, alt_stop;
 	va_list ap;
 	fn options[] = {
 		{"s", print_str},
@@ -168,7 +168,12 @@ int _printf(const char *format, ...)
 			/*idx = is_specifier(format, idx);*/
 			idx = ids[k];
 			/*printf("the idx: %d\n", idx);*/
-			stop = idx - 1;/*stop before the format string*/
+			stop = idx - 1;/*stop before the format string or flag is we have one*/
+			alt_stop = index[k] - 1;
+			if (stop > alt_stop)
+			{
+				stop = alt_stop;/*stop at first occurrence of some sort of a specifier*/
+			}
 			/*print string before the format string*/
 			chars += print_string(format, start, stop);
 			/*loop through the options looking for the right fn to call*/
