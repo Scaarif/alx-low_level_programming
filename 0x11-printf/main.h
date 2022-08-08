@@ -17,6 +17,9 @@ int print_char(va_list arg);
 int print_int(va_list arg);
 int print_binary(va_list arg);
 int make_unsigned(va_list arg);
+int print_octal(va_list arg);
 int _printf(const char *format, ...);
+int _num(long n);
+void _print_num(long n);
 
 #endif /* MAIN_H */

@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <stdarg.h>
+#include "main.h"
 
 /**
  * _print_num - returns number of characters in an int
