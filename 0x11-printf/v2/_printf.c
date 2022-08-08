@@ -57,7 +57,8 @@ int *get_flags(const char *fmt, int *arr)
 	{
 		if (is_flag(fmt, arr[i]) >= 0)
 		{
-			f_arr[j] = arr[i];/*the character*/
+			f_arr[j] = arr[i];/*the index*/
+			printf("flag[%d] - %c\n", j, fmt[arr[i]]);
 			j++;
 		}
 		i++;
@@ -135,7 +136,8 @@ int *get_actual_specifiers(const char *fmt, int *arr)
  */
 int _printf(const char *format, ...)
 {
-	int j, k, idx = 0, start = 0, stop = 0, last, chars = 0, *ids, *index, alt_stop;
+	int j, k, idx = 0, start = 0, stop = 0, last, chars = 0, *ids, *index;
+	int alt_stop, *flags;
 	va_list ap;
 	fn options[] = {
 		{"s", print_str},
@@ -155,6 +157,8 @@ int _printf(const char *format, ...)
 	/*first case scenario, no optional args else*/
 	index = get_indices(format);
 	ids = get_actual_specifiers(format, index);
+	flags = get_flags(format, index);
+	printf("flags: %d\n", flags[0]);/*the no of flags*/
 	j = 1;
 	if (ids[0])
 	{
@@ -176,6 +180,11 @@ int _printf(const char *format, ...)
 			}
 			/*print string before the format string*/
 			chars += print_string(format, start, stop);
+			if (flags[k] < idx)
+			{
+				/*determine what to do based on flag character*/
+				chars += handle_flag(format[flags[k]]);
+			}
 			/*loop through the options looking for the right fn to call*/
 			j = 0; /* no of fns available */
 			while (j < 11)

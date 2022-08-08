@@ -27,5 +27,6 @@ int _num(long n);
 void _print_num(long n);
 int print_Str(va_list arg, ...);
 int print_pointer(va_list arg, ...);
+int handle_flag(char c);
 
 #endif /* MAIN_H */
