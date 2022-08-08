@@ -4,7 +4,9 @@
 
 int main(void)
 {
- 	_printf("ra%cab\n", 'H');
- 	printf("ra%cab\n", 'H');
+ 	/*_printf("ra%cab - %s\n", 'H', "Scaarif");*/
+ 	/*printf("ra%cab - %s\n", 'H', "Scaarif");*/
+ 	_printf("%+d\n", 200);
+ 	printf("%+d\n", 200);
 	return (0);
 }

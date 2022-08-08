@@ -122,11 +122,16 @@ int print_string(const char *s, int start, int stop, char *str)/*whatever value 
  */
 int print_str(va_list arg, ...)
 {
-	int n;
-	char *s;
+	va_list ap;
+	int n, i = 0;
+	char *s, *str;
 
 	s = va_arg(arg, char *);
 	n = write(1, s, strlen(s));
+	va_start(ap, arg);
+	str = va_arg(ap, char *);
+	for (; s[i] != '\0'; i++)
+		manage_buffer_with_pointers(str, s[i]);
 	return(n);
 }
 
