@@ -27,9 +27,11 @@ int _num(long n)
  * Return: int number of bytes written
  */
 
-void _print_num(long n)
+void _print_num(long n, ...)
 {
-	int num;
+	va_list ap;
+	char *str;
+	int num, i = 1;
 
 	if ((n / 10) > 0)
 	{
@@ -37,6 +39,15 @@ void _print_num(long n)
 	}
 	num = '0' + (n % 10);
 	write(1, &num, 1);
+	va_start(ap, n);
+	str = va_arg(ap, char *);
+	printf("\nprint_num_str:");
+	for (; str[i] <= str[0]; i++)
+		printf("%c", str[i]);
+	printf("\n");
+	manage_buffer_with_pointers(str, num);
+	va_end(ap);
+
 }
 
 /**
@@ -46,16 +57,31 @@ void _print_num(long n)
  */
 int print_int(va_list arg, ...)
 {
-	int n = 0, num;
-	char neg;
+	va_list ap;
+	int n = 0, num, last_index;
+	char neg, *str;
 
 	/*think I need to int to convert to char (ascii)?*/
 	num = va_arg(arg, int);
+	va_start(ap, arg);
+	str = va_arg(ap, char *);
 	/*check if num is negative*/
 	if (num < 0)
 	{
 		neg = '-';
 		n += write(1, &neg, 1);
+		/*check last char in str, if + replace it;*/
+		last_index = str[0];
+		printf("last_index: %d\n", last_index);
+		if (str[last_index] == '+')
+		{
+			str[0] -= 1;
+			printf("Removed a +!\n");
+			printf("last_index: %d\n", str[0]);
+		}
+		manage_buffer_with_pointers(str, neg);
+		last_index = str[0];
+		printf("updated_last_index: %d with char: %c\n", str[0], str[last_index]);
 		num *= -1;
 	}
 	/*printf("num: %d\n", num);*/

@@ -24,10 +24,10 @@ int print_hex(va_list arg, ...);
 int print_heX(va_list arg, ...);
 int _printf(const char *format, ...);
 int _num(long n);
-void _print_num(long n);
+void _print_num(long n, ...);
 int print_Str(va_list arg, ...);
 int print_pointer(va_list arg, ...);
-int handle_flag(char c);
+int handle_flag(char c, char *str);
 char *manage_buffer(const char *fmt, char *str, int start, int stop);
 char *manage_buffer_with_pointers(char *str, char c);
 

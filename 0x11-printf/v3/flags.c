@@ -45,7 +45,7 @@ char *manage_buffer_with_pointers(char *str, char c)
     for (; count < stop; count++)
     {
         str[count] = c;
-        printf("i.e.: %c", *(str + count));
+        /*printf("i.e.: %c", *(str + count));*/
     }
     /*update str[0] at the end*/
     str[0] = count - 1;/* or is it - 2?*/
@@ -59,11 +59,12 @@ char *manage_buffer_with_pointers(char *str, char c)
 /**
  * handle_flag - literally
  * @c: flag character
+ * @str: buffer
  * Description: format is a string and contains
  * the optional format strings
  * Return: int number of bytes written
  */
-int handle_flag(char c)
+int handle_flag(char c, char *str)
 {
     int n = 0;
     /*char f[] = {'+', '-', '.', 'x'} x for int*/
@@ -73,6 +74,7 @@ int handle_flag(char c)
     {
         case '+':
             n += write(1, &c, 1);
+            manage_buffer_with_pointers(str, c);
             break;
 
     }

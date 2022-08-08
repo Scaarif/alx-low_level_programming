@@ -187,7 +187,7 @@ int _printf(const char *format, ...)
 			if (flags[k] < idx)
 			{
 				/*determine what to do based on flag character*/
-				chars += handle_flag(format[flags[k]]);
+				chars += handle_flag(format[flags[k]], str);
 			}
 			/*loop through the options looking for the right fn to call*/
 			j = 0; /* no of fns available */
@@ -209,7 +209,7 @@ int _printf(const char *format, ...)
 		va_end(ap);
 		/*for the last part of string(after last format string)*/
 		last = strlen(format);
-		printf("last_start: %d at char %c and last: %d at char %c, alas!\n", start, format[start], last, format[last]);
+		/*printf("last_start: %d at char %c and last: %d at char %c, alas!\n", start, format[start], last, format[last]);*/
 		chars += print_string(format, start, last, str);
 		return (chars);
 		
