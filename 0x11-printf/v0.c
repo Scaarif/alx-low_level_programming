@@ -62,3 +62,34 @@ int print_int(va_list arg)
 	n += _num(num);
 	return(n);
 }
+
+
+/**
+ * print_binary - converts unsigned int to binary
+ * @arg: the integer to turn into binary
+ * Return: int number of characters written
+ */
+
+int print_binary(va_list arg)
+{
+	int num, n = 0, i, k;
+	char c;
+
+	num = va_arg(arg, int);
+	/*assuming size of 32 bits*/
+	for (i = 7; i >= 0; i--)
+	{
+		k = num >> i; /*right shift*/
+		if (k & 1)
+		{
+			c = '1';
+			n += write(1, &c, 1);
+		}
+		else
+		{
+			c = '0';
+			n += write(1, &c, 1);
+		}
+	}
+	return (n);
+}
