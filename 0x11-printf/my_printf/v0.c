@@ -10,7 +10,7 @@
  * Return: int number of characters
  */
 
-int _num(int n)
+int _num(long n)
 {
 	int num = 1;
 
@@ -26,7 +26,7 @@ int _num(int n)
  * Return: int number of bytes written
  */
 
-void _print_num(int n)
+void _print_num(long n)
 {
 	int num;
 
@@ -58,8 +58,8 @@ int print_int(va_list arg)
 		num *= -1;
 	}
 	/*printf("num: %d\n", num);*/
-	_print_num(num);
-	n += _num(num);
+	_print_num((long)num);
+	n += _num((long)num);
 	return(n);
 }
 
@@ -91,5 +91,26 @@ int print_binary(va_list arg)
 			n += write(1, &c, 1);
 		}
 	}
+	return (n);
+}
+
+/**
+ * make_unsigned - converts unsigned int to unsigned
+ * @arg: the integer to turn into binary
+ * Return: int number of characters written
+ */
+
+int make_unsigned(va_list arg)
+{
+	int n = 0;
+	long num;
+
+	num = va_arg(arg, long);
+	if (num < 0)
+		num = 4294967296 + num;
+	/*print the number & get no of chars written*/
+	/*printf("num: %ld\n", num);*/
+	_print_num(num);
+	n += _num(num);/*count no of chars in the int*/
 	return (n);
 }

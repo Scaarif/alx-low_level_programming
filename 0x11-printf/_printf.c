@@ -20,6 +20,8 @@ int _printf(const char *format, ...)
 		{"b", print_binary},
 		{"d", print_int},
 		{"i", print_int},
+		{"u", make_unsigned},
+
 	};
 
 	/*first case scenario, no optional args else*/
@@ -42,7 +44,7 @@ int _printf(const char *format, ...)
 			chars += print_string(format, start, stop);
 			/*loop through the options looking for the right fn to call*/
 			j = 0; /* no of fns available */
-			while (j < 5)
+			while (j < 6)
 			{
 				if (*(options[j].s) == format[idx])
 				{
