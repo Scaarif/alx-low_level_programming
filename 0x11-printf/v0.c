@@ -45,14 +45,20 @@ void _print_num(int n)
  */
 int print_int(va_list arg)
 {
-	int n, num;
+	int n = 0, num;
+	char neg;
 
 	/*think I need to int to convert to char (ascii)?*/
 	num = va_arg(arg, int);
-	/*start with single char int*/
+	/*check if num is negative*/
+	if (num < 0)
+	{
+		neg = '-';
+		n += write(1, &neg, 1);
+		num *= -1;
+	}
+	/*printf("num: %d\n", num);*/
 	_print_num(num);
-	n = _num(num);
-	/*a_num = '0' + num;*/
-	/*n = write(1, &a_num, 1);*/
+	n += _num(num);
 	return(n);
 }
