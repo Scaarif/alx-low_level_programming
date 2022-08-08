@@ -137,10 +137,19 @@ int print_str(va_list arg, ...)
  */
 int print_char(va_list arg, ...)
 {
-	int n;
-	char s;
+	va_list ap;
+	int n, i = 1;
+	char s, *str;
 
 	s = va_arg(arg, int);
 	n = write(1, &s, 1);
+	va_start(ap, arg);
+	str = va_arg(ap, char *);
+	printf("\nVa_arg_str: ");
+    for (; i <= str[0]; i++)
+        printf("%c", *(str + i));
+    printf("\n");
+	manage_buffer_with_pointers(str, s);
+	va_end(ap);
 	return(n);
 }

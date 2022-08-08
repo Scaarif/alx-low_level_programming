@@ -195,7 +195,7 @@ int _printf(const char *format, ...)
 			{
 				if (*(options[j].s) == format[idx])
 				{
-					chars += options[j].f(ap);
+					chars += options[j].f(ap, str);
 					/*update start*/
 					start = idx + 1;
 					printf("\nStart[%d]: %d\n", k + 1, start);
