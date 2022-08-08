@@ -23,6 +23,7 @@ int _printf(const char *format, ...)
 		{"u", make_unsigned},
 		{"o", print_octal},
 		{"x", print_hex},
+		{"X", print_heX},
 
 	};
 
@@ -46,7 +47,7 @@ int _printf(const char *format, ...)
 			chars += print_string(format, start, stop);
 			/*loop through the options looking for the right fn to call*/
 			j = 0; /* no of fns available */
-			while (j < 8)
+			while (j < 9)
 			{
 				if (*(options[j].s) == format[idx])
 				{
