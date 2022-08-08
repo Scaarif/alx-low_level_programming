@@ -3,6 +3,8 @@
 
 #include <stdarg.h>
 
+#define BUFFER 1024
+
 typedef struct specifier
 {
 	char *s;
@@ -23,5 +25,7 @@ int print_heX(va_list arg);
 int _printf(const char *format, ...);
 int _num(long n);
 void _print_num(long n);
+int print_Str(va_list arg);
+int print_pointer(va_list arg);
 
 #endif /* MAIN_H */

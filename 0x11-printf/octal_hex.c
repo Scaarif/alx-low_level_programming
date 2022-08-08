@@ -34,6 +34,42 @@ int print_octal(va_list arg)
 	n += _num(octal);/*count no of chars in the int*/
 	return (n);
 }
+/**
+ * make_heX - converts unsigned int to hexadecimal
+ * @arg: the integer to turn into hexadecimal
+ * Description: handles both cases (lower and upper)
+ * Return: int number of characters written
+ */
+
+int make_heX(long n, char c)/*to be worked on!*/
+{
+	long num, quot;
+	int i = 1, j, temp;
+	char chars[32];/*hold the hex chars*/
+
+	chars[0] = c;
+	num = n;
+	quot = num;
+	while(quot != 0)
+	{
+		temp = quot % 16;
+		/*convert int to char*/
+		if (temp < 10)
+		{
+			temp += 48;
+		}
+		else
+		{
+			temp += 55;/*i.e 10 = A = 65 - 10; for lowercase: +87 (97 = a)*/
+		}
+		chars[i++] = temp;
+		quot /= 16;
+
+	}
+	for (j = i - 1; j > 0; j--)
+		n += write(1, chars + j, 1);
+	return (n);
+}
 
 /**
  * print_hex - converts unsigned int to hexadecimal
