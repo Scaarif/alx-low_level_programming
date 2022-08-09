@@ -31,5 +31,6 @@ int handle_flag(char c, char *str);
 char *manage_buffer(const char *fmt, char *str, int start, int stop);
 char *manage_buffer_with_pointers(char *str, char c);
 int get_width(char *fmt, int idx);
+int print_reverse_string(va_list arg, ...);
 
 #endif /* MAIN_H */

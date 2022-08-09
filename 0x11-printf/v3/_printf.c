@@ -163,7 +163,7 @@ int _printf(const char *format, ...)
 		{"X", print_heX},
 		{"S", print_Str},
 		{"p", print_pointer},
-
+		{"r", print_reverse_string},
 	};
 
 	/*first case scenario, no optional args else*/
@@ -205,7 +205,7 @@ int _printf(const char *format, ...)
 			for (; flg < idx; flg++)
 				chars += handle_flag(format[flg], str);
 			j = 0; /* no of fns available */
-			while (j < 11)
+			while (j < 12)
 			{
 				if (*(options[j].s) == format[idx])
 				{

@@ -78,3 +78,57 @@ int print_pointer(va_list arg, ...)
     n = write(1, value, 16);
 	return (n);
 }
+
+/**
+ * rev_str - reverses a string
+ * @s: string
+ * Return: reversed string
+ */
+
+char *rev_str(char *s)
+{
+	int i, c, l;
+	char h;
+
+	for (i = 0; s[i] != '\0'; i++)
+		;
+
+	l = i;
+	for (i--, c = 0; c < l / 2; i--, c++)
+	{
+		h = s[c];
+		s[c] = s[i];
+		s[i] = h;
+	}
+    return (s);
+}
+
+/**
+ * print_reverse_string - prints a string in reverse
+ * @arg: the variable whose address to print
+ * Return: int number of characters written (8)?
+ */
+
+int print_reverse_string(va_list arg, ...)
+{
+    va_list ap;
+	int n = 0, i = 0;
+    char *str, *buff_str;
+
+    str = va_arg(arg, char *);
+    for (; str[i] != '\0'; i++)
+        printf("unreversed_str: %c", str[i]);
+    printf("\n");
+    str = rev_str(str);/*reversed string*/
+    for (i = 0; str[i] != '\0'; i++)
+        printf("reversed str: %c", str[i]);
+    printf("\n");
+    n += write(1, str, strlen(str));
+    va_start(ap, arg);/*this'll give the buffer str*/
+    buff_str = va_arg(ap, char *);
+    va_end(ap);
+    /*what i want is to call print_str with the reversed-string*/
+    for (i = 0; str[i] != '\0'; i++)
+		manage_buffer_with_pointers(buff_str, str[i]);
+	return (n);
+}
