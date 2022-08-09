@@ -102,7 +102,7 @@ int print_binary(va_list arg, ...)
 	char c;
 
 	num = va_arg(arg, int);
-	/*assuming size of 32 bits*/
+	/*assuming size of 7 bits*/
 	for (i = 7; i >= 0; i--)
 	{
 		k = num >> i; /*right shift*/

@@ -51,8 +51,7 @@ int *get_indices(const char *str)
 		}
 		i++;
 	}
-	printf("no of format strings: %d\n", ids);
-	/*allocate memory to the array and initialize*/
+	/*printf("no of format strings: %d\n", ids);*/
 	indices = malloc(sizeof(int) * (ids + 1));
 	if (indices == NULL)
 	{
