@@ -127,7 +127,7 @@ int print_str(va_list arg, ...)
 	char *s, *str;
 
 	s = va_arg(arg, char *);
-	n = write(1, s, strlen(s));
+	n = write(1, s, _strlen(s));
 	va_start(ap, arg);
 	str = va_arg(ap, char *);
 	for (; s[i] != '\0'; i++)
