@@ -28,19 +28,23 @@ int is_flag(const char *arr, int i)
 /**
  * get_flags - return index of actual format string
  * @arr: identified 'format strings' array
+ * @ids: actual 'format strings' array
  * @fmt: _printf's required argument
  * Return: an array of flag indices
  */
 
-int *get_flags(const char *fmt, int *arr)
+int *get_flags(const char *fmt, int *arr, int *ids)
 {
-	int i = 1, j = 1, flags = 0, *f_arr;
+	int i = 1, j = 1, flags = 0, *f_arr, _next;
 
 	/*check the array for flags and append them to the flags array*/
 	while (arr[i])
 	{
 		if (is_flag(fmt, arr[i]) >= 0)
-			flags++;
+		{
+			flags += ids[i] - arr[i];
+			/*get other flags before actual specifier*/	
+		}
 		i++;
 	}
 	/*alloc mem & initialize an array of flags*/
@@ -60,6 +64,13 @@ int *get_flags(const char *fmt, int *arr)
 			f_arr[j] = arr[i];/*the index*/
 			printf("flag[%d] - %c\n", j, fmt[arr[i]]);
 			j++;
+			/*add the other flags before actual f_str*/
+			_next = arr[i] + 1;
+			for (; _next < ids[i]; _next++, j++)
+			{
+				f_arr[j] = _next;
+				printf("flag[%d] - %c\n", j, fmt[_next]);
+			}
 		}
 		i++;
 	}
@@ -158,7 +169,7 @@ int _printf(const char *format, ...)
 	/*first case scenario, no optional args else*/
 	index = get_indices(format);
 	ids = get_actual_specifiers(format, index);
-	flags = get_flags(format, index);
+	flags = get_flags(format, index, ids);
 	printf("flags: %d\n", flags[0]);/*the no of flags*/
 	str[0] = 0;/*keep track of last appended to index*/
 	j = 1;

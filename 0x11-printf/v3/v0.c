@@ -70,10 +70,10 @@ int print_int(va_list arg, ...)
 		/*check last char in str, if + replace it;*/
 		last_index = str[0];
 		printf("last_index: %d\n", last_index);
-		if (str[last_index] == '+')
+		if (str[last_index] == '+' || str[last_index] == ' ' || str[last_index] == '#' || str[last_index] == '0')
 		{
 			str[0] -= 1;
-			printf("Removed a +!\n");
+			printf("Removed a + or [space]!\n");
 			printf("last_index: %d\n", str[0]);
 		}
 		manage_buffer_with_pointers(str, neg);

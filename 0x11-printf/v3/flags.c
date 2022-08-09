@@ -76,7 +76,22 @@ int handle_flag(char c, char *str)
             n += write(1, &c, 1);
             manage_buffer_with_pointers(str, c);
             break;
-
+         case ' ':
+            n += write(1, &c, 1);
+            manage_buffer_with_pointers(str, c);
+            break;
+        case '#':
+            n += write(1, &c, 1);
+            manage_buffer_with_pointers(str, c);
+            break;
+        case '.':
+            n += write(1, &c, 1);
+            manage_buffer_with_pointers(str, c);
+            break;
+        case '0':
+            n += write(1, &c, 1);
+            manage_buffer_with_pointers(str, c);
+            break;
     }
     return (n);
 }
