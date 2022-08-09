@@ -31,7 +31,7 @@ void _print_num(long n, ...)
 {
 	va_list ap;
 	char *str;
-	int num, i = 1;
+	int num;
 
 	if ((n / 10) > 0)
 	{
@@ -41,10 +41,7 @@ void _print_num(long n, ...)
 	write(1, &num, 1);
 	va_start(ap, n);
 	str = va_arg(ap, char *);
-	printf("\nprint_num_str:");
-	for (; str[i] <= str[0]; i++)
-		printf("%c", str[i]);
-	printf("\n");
+	/*printf("_num:%i - %c\n", _num, _num);*/
 	manage_buffer_with_pointers(str, num);
 	va_end(ap);
 
@@ -85,7 +82,7 @@ int print_int(va_list arg, ...)
 		num *= -1;
 	}
 	/*printf("num: %d\n", num);*/
-	_print_num((long)num);
+	_print_num((long)num, str);
 	n += _num((long)num);
 	return(n);
 }
