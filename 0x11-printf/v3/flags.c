@@ -66,8 +66,8 @@ char *manage_buffer_with_pointers(char *str, char c)
  */
 int handle_flag(char c, char *str)
 {
-    int n = 0;
-    /*char f[] = {'+', '-', '.', 'x'} x for int*/
+    int n = 0, num, last_index;
+    char filler = '*';
 
     /* say i have a + */
     switch(c)
@@ -92,7 +92,34 @@ int handle_flag(char c, char *str)
             n += write(1, &c, 1);
             manage_buffer_with_pointers(str, c);
             break;
+        default:
+            /*an integer for width specification*/
+            num = c - '0';
+            last_index = str[0]; 
+            if (str[last_index] == '0')
+                str[0] = last_index - 1;/*overwrite the appended 0*/
+            for (; num > 0; num--)
+            {
+                n += write(1, &filler, 1);
+                manage_buffer_with_pointers(str, filler);
+            }
     }
     return (n);
 }
+/**
+ * get_width - returns the filed width specifier 
+ * @fmt: buffer
+ * @idx: index of last character in str(fmt)
+ * Return: the width
+ */
+int get_width(char *fmt, int idx)
+{
+    int width = 0;
 
+    if (fmt[idx] == '-')
+        idx--;
+    printf("last char: %c\n", fmt[idx]);
+    for (; fmt[idx] == '*'; idx--, width++)
+        ;
+    return (width);
+}

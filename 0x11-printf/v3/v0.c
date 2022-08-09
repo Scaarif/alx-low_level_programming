@@ -55,7 +55,7 @@ void _print_num(long n, ...)
 int print_int(va_list arg, ...)
 {
 	va_list ap;
-	int n = 0, num, last_index;
+	int n = 0, num, last_index, num_len, i = 1, width, stars;
 	char neg, *str;
 
 	/*think I need to int to convert to char (ascii)?*/
@@ -82,8 +82,21 @@ int print_int(va_list arg, ...)
 		num *= -1;
 	}
 	/*printf("num: %d\n", num);*/
+	num_len = _num((long)num);
+	width = get_width(str, last_index);
+	stars = width - num_len;
+	printf("Stars: %d, len: %d, width: %d\n", stars, num_len, width);
+	/*at this point, i've only added one char to str*/
+	printf("str as is before num_print: ");
+	for (; i <= str[0]; i++)
+		printf("%c", str[i]);
+	printf("\n");
+	if (stars)
+	{
+		/*overwrite the extra stars*/
+	}
 	_print_num((long)num, str);
-	n += _num((long)num);
+	n += num_len;
 	return(n);
 }
 

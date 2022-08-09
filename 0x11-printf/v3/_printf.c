@@ -147,7 +147,7 @@ int *get_actual_specifiers(const char *fmt, int *arr)
  */
 int _printf(const char *format, ...)
 {
-	int j, k, idx = 0, start = 0, stop = 0, last, chars = 0, *ids, *index;
+	int j, k, flg, idx = 0, start = 0, stop = 0, last, chars = 0, *ids, *index;
 	int alt_stop, *flags;
 	char str[BUFFER];/*hold what i want to print*/
 	va_list ap;
@@ -195,12 +195,15 @@ int _printf(const char *format, ...)
 			printf("Stop[%d]: %d\n", k, stop);
 			/*print string before the format string*/
 			chars += print_string(format, start, stop, str);
-			if (flags[k] < idx)
-			{
+			flg = alt_stop + 1;/*idx of first flag in current batch*/
+			/*if (flags[flg] < idx)*/
+			/*{*/
 				/*determine what to do based on flag character*/
-				chars += handle_flag(format[flags[k]], str);
-			}
+				/*chars += handle_flag(format[flags[k]], str);
+			}*/
 			/*loop through the options looking for the right fn to call*/
+			for (; flg < idx; flg++)
+				chars += handle_flag(format[flg], str);
 			j = 0; /* no of fns available */
 			while (j < 11)
 			{

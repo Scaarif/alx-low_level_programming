@@ -30,5 +30,6 @@ int print_pointer(va_list arg, ...);
 int handle_flag(char c, char *str);
 char *manage_buffer(const char *fmt, char *str, int start, int stop);
 char *manage_buffer_with_pointers(char *str, char c);
+int get_width(char *fmt, int idx);
 
 #endif /* MAIN_H */
