@@ -12,7 +12,7 @@
  */
 list_t *add_node(list_t **head, const char *str)
 {
-	size_t len = 0, i;
+	size_t len = 0;
 	list_t *new;
 
 	new = malloc(sizeof(list_t));
@@ -25,10 +25,6 @@ list_t *add_node(list_t **head, const char *str)
 	new->str = strdup(str);
 	for (; str[len] != '\0'; len++)
 		;
-	/*for a copy of the string*/
-	new->str = malloc(sizeof(char) * len);
-	for (i = 0; str[i] != '\0'; i++)
-		new->str[i] = str[i];
 	new->len = len;
 	new->next = *head;
 	*head = new;
