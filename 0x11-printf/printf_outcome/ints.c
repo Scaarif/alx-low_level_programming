@@ -105,26 +105,46 @@ int print_int(va_list arg, ...)
 
 int print_binary(va_list arg, ...)
 {
-	int num, n = 0, i, k;
-	char c;
+	int num, i, k, start = 32, len = 0;
+	char bytes[BUFFER], *zero = "00";
 
 	num = va_arg(arg, int);
-	/*assuming size of 7 bits*/
-	for (i = 6; i >= 0; i--)
+	/*assuming size of 32 max bits*/
+	for (i = 31; i >= 0; i--)
 	{
 		k = num >> i; /*right shift*/
 		if (k & 1)
 		{
-			c = '1';
-			n += write(1, &c, 1);
+			bytes[i] = '1';
 		}
 		else
 		{
-			c = '0';
-			n += write(1, &c, 1);
+			bytes[i] = '0';
 		}
 	}
-	return (n);
+	for (i = 31; i >= 0; i--)
+	{
+		if (bytes[i] == '1')
+		{
+			start = i;
+			break;
+		}
+	}
+	/*printf("start: %d with %c\n", start, bytes[start]);*/
+	if (start == 32)/*we have all zeros*/
+	{
+		len += 2;
+		write(1, zero, 2);
+	}
+	else
+	{
+		for (i = start; i >= 0; i--)
+		{
+			len++;
+			write(1, bytes + i, 1);
+		}
+	}
+	return (len);
 }
 
 /**
