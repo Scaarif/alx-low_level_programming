@@ -87,3 +87,29 @@ int _strlen(char *s)
 		;
 	return (i);
 }
+
+/**
+ * _power - returns the y power of x
+ * @x: integer one
+ * @y: integer two
+ * Return: integer power
+ */
+
+int _power(int x, int y)
+{
+	int pow;
+
+	if (y < 0)
+	{
+		pow = -1;
+	}
+	else if (y == 0)
+		pow = 1;
+	else if (y == 1)
+		pow = x;
+	else
+	{
+		pow = x * _power(x, y - 1);
+	}
+	return (pow);
+}
