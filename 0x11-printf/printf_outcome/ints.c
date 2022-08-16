@@ -56,13 +56,18 @@ void _print_num(long n, ...)
 int print_int(va_list arg, ...)
 {
 	va_list ap;
-	int n = 0, num, last_index, num_len;
-	char neg, *str;
+	int n = 0, num, last_index, num_len, f_index, idx, i = 0;
+	char neg, *str, *fmt, *p_flags;
 	long min;
 
 	num = va_arg(arg, int);
 	va_start(ap, arg);
 	str = va_arg(ap, char *);
+	fmt = va_arg(ap, char *);
+	f_index = va_arg(ap, int);
+	idx = va_arg(ap, int);
+	p_flags = va_arg(ap, char *);
+
 	/*check if num is negative*/
 	if (num < 0)
 	{
@@ -80,6 +85,17 @@ int print_int(va_list arg, ...)
 		last_index = str[0];
 		/*printf("updated_last_index: %d with: %c\n", str[0], str[last_index]);*/
 		num *= -1;
+	}
+	else
+	{
+		for (; f_index < idx; f_index++)
+		{
+			for (; i < 5; i++)
+			{
+				if (fmt[f_index] == p_flags[i])
+					n += write(1, fmt + f_index, 1);
+			}
+		}
 	}
 	if (num == INT_MIN)
 	{

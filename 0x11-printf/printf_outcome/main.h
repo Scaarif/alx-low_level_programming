@@ -45,6 +45,5 @@ int print_reverse_string(va_list arg, ...);
 int _strlen(char *s);
 int rot13(va_list arg, ...);
 int options_len(fn *p);
-int _power(int x, int y);
 
 #endif /* MAIN_H */

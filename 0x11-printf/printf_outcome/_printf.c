@@ -7,11 +7,11 @@
 /**
  * actually_print - writes to stdout, 1
  * @format: only required argument
- * @index: only required argument
- * @ids: only required argument
- * @options: only required argument
- * @str: only required argument
- * @ap: only required argument
+ * @index: array of possible format strings, indices
+ * @ids: array of actual format strings, indices
+ * @options: array of structures, f_str and functions
+ * @str: buffer
+ * @ap: va_list
  * Description: format is a string and contains
  * the optional format strings
  * Return: int number of bytes written
@@ -19,8 +19,8 @@
 int actually_print(const char *format, int *index, int *ids, fn *options,
 char *str, va_list ap)
 {
-	int j, k, flg, idx = 0, start = 0, stop = 0, chars = 0;
-	int alt_stop;
+	int j, k, flg, idx = 0, start = 0, stop = 0, chars = 0, alt_stop;
+	char *p_flags = "+-# 0"; /*before 0 is space; len = 5*/
 
 	/*printf("evaluating actually_print\n");*/
 	k = 1; /*ids[0] is the array_size*/
@@ -48,7 +48,7 @@ char *str, va_list ap)
 		{
 			if (*(options[j].s) == format[idx])
 			{
-				chars += options[j].f(ap, str);
+				chars += options[j].f(ap, str, format, index[k], idx, p_flags);
 				/*update start*/
 				start = idx + 1;
 				/*printf("\nStart[%d]: %d\n", k + 1, start);*/

@@ -19,8 +19,10 @@ int is_flag(const char *arr, int i)
 	/*check if index contains a non-alphabet char, in which case that's a flag*/
 	if ((arr[i] < 'a' || arr[i] > 'z')
 			&& (arr[i] < 'A' || arr[i] > 'Z'))
+	{
 		/*printf("indices[%d] is: %c a flag\n", i, arr[i]);*/
 		return (i); /*true - return the flag's index*/
+	}
 	/*printf("NOT a flag!\n");*/
 	return (-1);/*false otherwise*/
 }

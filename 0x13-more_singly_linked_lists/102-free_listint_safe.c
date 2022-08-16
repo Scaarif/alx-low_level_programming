@@ -4,7 +4,7 @@
 #include <stddef.h>
 
 /**
- * detectLoop - detects presence of a loop in a list
+ * detectLoop1 - detects presence of a loop in a list
  * @list: the list to check
  * Return: 1 if loop and 0 otherwise
  */
@@ -23,7 +23,7 @@ int detectLoop1(listint_t *list)
 }
 
 /**
- * loopNode - returns loopNode in a list
+ * loopNode1 - returns loopNode in a list
  * @list: the list to check
  * Return: 1 if loop and 0 otherwise
  */
@@ -69,9 +69,10 @@ size_t free_listint_safe(listint_t **head)
 		the_node = loopNode1(*head);
 		/*printf("loopNode: %d\n", the_node->n);*/
 	}
-	current = *head; /*the entry point/ head*/
-	for (; current != NULL && printed <= 2; current = current->next, len++)
+	for (; (*head) != NULL && printed <= 2; len++)
 	{
+		current = *head; /*the entry point/ head*/
+		(*head) = (*head)->next;/*update head b4 freeing it*/
 		if (current == the_node)
 		{
 			printed++;
@@ -79,8 +80,9 @@ size_t free_listint_safe(listint_t **head)
 		/*printf("[%p] %d\n", (void *)current, current->n);*/
 		if (printed == 2 && current == the_node)
 			break;
+		/*printf("freed: %d\n", current->n);*/
 		free(current);
 	}
-	*head = NULL; /*set head to NULL*/
+	*head = NULL;
 	return (len);
 }

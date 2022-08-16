@@ -3,7 +3,7 @@
 #include <stddef.h>
 
 /**
- * detectLoop - detects presence of a loop in a list
+ * detectLoop2 - detects presence of a loop in a list
  * @list: the list to check
  * Return: 1 if loop and 0 otherwise
  */
