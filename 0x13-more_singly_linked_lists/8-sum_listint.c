@@ -15,8 +15,8 @@ int sum_listint(listint_t *head)
 	if (head != NULL)/*for an empty list*/
 	{
 		node = head; /*the entry point / head*/
-		for (; node->next != NULL; node = node->next, sum += node->n)
-			;
+		for (; node != NULL; node = node->next)
+			sum += node->n;
 	}
 	return (sum);
 }

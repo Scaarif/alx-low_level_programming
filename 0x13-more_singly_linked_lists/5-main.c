@@ -12,6 +12,7 @@ int main(void)
 	listint_t *head;
 
 	head = NULL;
+	free_listint2(&head);
 	add_nodeint_end(&head, 0);
 	add_nodeint_end(&head, 1);
 	add_nodeint_end(&head, 2);
