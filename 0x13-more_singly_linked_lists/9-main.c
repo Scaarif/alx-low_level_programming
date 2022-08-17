@@ -23,7 +23,7 @@ int main(void)
 	add_nodeint_end(&head, 1024);
 	print_listint(head);
 	printf("--------------------\n");
-	inserted = insert_nodeint_at_index(&head, 5, 4096);
+	inserted = insert_nodeint_at_index(&head, 0, 4096);
 	print_listint(head);
 	printf("--------------------\n");
 	printf("inserted has int %d\n", inserted->n);
