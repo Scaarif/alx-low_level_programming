@@ -20,7 +20,7 @@ int get_bit(unsigned long int n, unsigned int index)
 
 	num = n;
 	/*assuming size of 32 max bits*/
-	for (i = 31; i >= 0; i--)
+	for (i = 31; i >= 0 && num; i--)
 	{
 		k = num >> i; /*right shift which is in essence dividing*/
 		if (k & 1)
@@ -42,7 +42,7 @@ int get_bit(unsigned long int n, unsigned int index)
 	j = _start + 1;
 	bytes[j] = j;/*keep track of no of bits - not necessary though*/
 	j = _start;
-	if (j >= (int)index)
+	if ((int)index >= 0 && j >= (int)index)
 	{
 		for (; j >= 0; j--)
 		{
