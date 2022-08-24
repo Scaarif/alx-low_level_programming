@@ -47,7 +47,8 @@ unsigned int binary_to_uint(const char *b)
 	for (i--; i >= 0; i--, j++)
 	{
 		/*printf("char_int: %d\n", b[i] - '0');*/
-		num += (b[i] - '0') * power(2, j);
+		/*num += (b[i] - '0') * power(2, j);*/
+		num += (b[i] - '0') << j; /*same thing as above*/
 		/*printf("num: %u\n", num);*/
 	}
 	return (num);
