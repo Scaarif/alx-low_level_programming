@@ -41,10 +41,10 @@ int main(int argc, char **argv)
 	f_from = open(argv[1], O_RDONLY);
 	f_to = open(argv[2], O_CREAT | O_WRONLY | O_TRUNC, 0664);
 	if (f_from < 0)
-		dprintf(2, "Error: Can't read from %s\n", argv[1]), exit(98);
+		dprintf(2, "Error: Can't read from file %s\n", argv[1]), exit(98);
 	_read = read(f_from, buffer, len);
 	if (_read < 0)
-		dprintf(2, "Error: Can't read from %s\n", argv[1]), exit(98);
+		dprintf(2, "Error: Can't read from file %s\n", argv[1]), exit(98);
 	if (f_to < 0)
 		dprintf(2, "Error: Can't write to %s\n", argv[2]), exit(99);
 	done = write(f_to, buffer, _read);
@@ -58,7 +58,7 @@ int main(int argc, char **argv)
 		{
 			more = read(f_from, buffer, len);
 			if (more < 0)
-				dprintf(2, "Error: Can't read from %s\n", argv[1]), exit(98);
+				dprintf(2, "Error: Can't read from file %s\n", argv[1]), exit(98);
 			done = write(f_to, buffer, more);/*append what's read*/
 			if (done < 0)
 				dprintf(2, "Error: Can't write to %s\n", argv[2]), exit(99);
