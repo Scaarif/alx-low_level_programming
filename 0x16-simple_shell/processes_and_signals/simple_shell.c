@@ -3,6 +3,41 @@
 #define MAXARGS 128
 /*#define MAXLINE 1024*/
 
+/**
+ * _cd - cd implementation using chdir and getcwd
+ * @av: command line arguments array
+ * Return: 0 on success and -1 otherwise
+ */
+int _cd(char **av)
+{
+	res a_res = {-1, -1}, *res = &a_res;
+	char *pathname;
+
+	if (av[1] == NULL)/*only one arg, cd - go back $home*/
+	{
+		pathname = _getenv(environ, "HOME", res);
+		if (pathname)
+			chdir(pathname);
+		else
+			unix_error("_getenv error");
+	}
+	else if (strcmp(av[1], "-") == 0)
+	{
+		pathname = _getenv(environ, "OLDPWD", res);
+		if (pathname)
+			chdir(pathname);
+		else
+			unix_error("_getenv error");
+	}
+	else
+	{
+		pathname = av[1];
+		chdir(pathname);
+	}
+	/*change environ's pwd to pathname*/
+	return (_setenv("PWD", pathname, 1));
+}
+
 
 /**
  * builtin_command - check if argv[0] is a built-in cmd
@@ -25,6 +60,10 @@ int builtin_command(char **argv)
 		for (; environ[i] != NULL; i++)
 			printf("%s\n", environ[i]);
 		return (1);/*i.e return true - builtin command*/
+	}
+	if (!strcmp(argv[0], "cd"))/*i.e if command is exit*/
+	{
+		return (!_cd(argv));
 	}
 	if (!strcmp(argv[0], "&")) /*ignore singleton &*/
 		return (1);
@@ -83,10 +122,10 @@ void evaluate_command(char *cmdline)
 		return; /*Ignore empty cmd lines*/
 	if (!builtin_command(argv))
 	{
+		/*search for the executable in the PATH, if found, execute, else, don't!*/
 		pid = Fork();
 		if (pid == 0)
 		{/* Child runs the user job (cmdline) */
-		/*search for the executable in the PATH, if found, execute, else, don't!*/
 			if (execve(argv[0], argv, environ) < 0)
 			{/*an error has occurred i.e (-1) returned */
 				printf("%s: Command not found.\n", argv[0]);
