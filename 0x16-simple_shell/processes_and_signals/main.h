@@ -7,16 +7,46 @@
 #include <errno.h>
 #include <sys/types.h>
 #include <sys/wait.h>
+#include <sys/stat.h>
+#include <dirent.h>
 #include <string.h>
 #include <signal.h>
 
 #define	MAXLINE	 8192  /* Max text line length */
 #define MAXJOBS    16
+#define PATH_S 1024
+
 
 extern char **environ;/*an external (global) variable - defined in Unix*/
 
 typedef void handler_t(int);
 
+/** STRUCTURES **/
+
+/**
+ * struct env_variable - response structure
+ * for the get_name function, gets name of a variable
+ * @var_index: index of the variable(in envp)
+ * @val_index: string pointer to variable value
+ */
+typedef struct env_variable
+{
+	int var_index;
+	int val_index;
+} res;
+
+/**
+ * struct path_node - PATH directories linked list node
+ * @dir: the directory(as path)
+ * @next: the next dir in list
+ */
+typedef struct path_node
+{
+	char *dir;
+	struct path_node *next;
+} d_t;
+
+/** WRAPPER FNS **/
 
 void unix_error(char *msg);
 pid_t Fork(void);
@@ -26,6 +56,16 @@ char *Fgets(char *str, int size, FILE *stream);
 int Kill(pid_t pid, int sig);
 unsigned int Sleep(unsigned int secs);
 void sigint_handler(int sig);
+
+/* helper functions - personal writes */
+int get_name(char **env, char *name_, res *_res);
+char *_getenv(char **env, char *name, res *_res);
+d_t *create_path_list(char *dir_str, d_t **head);
+int _setenv(const char *name, const char *value, int overwrite);
+int _unsetenv(char *name);
+void evaluate_command(char *cmdline);
+int parse_path(d_t **head, char *file);
+void print_pathlist(d_t **head);
 
 /* safe I/O functions for signal handlers */
 ssize_t sio_puts(char s[]);
