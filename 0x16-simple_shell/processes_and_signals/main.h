@@ -15,6 +15,7 @@
 #define	MAXLINE	 8192  /* Max text line length */
 #define MAXJOBS    16
 #define PATH_S 1024
+#define MAXARGS 128
 
 
 extern char **environ;/*an external (global) variable - defined in Unix*/

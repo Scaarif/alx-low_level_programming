@@ -1,7 +1,5 @@
 #include "main.h"
 
-#define MAXARGS 128
-/*#define MAXLINE 1024*/
 
 /**
  * _cd - cd implementation using chdir and getcwd
@@ -11,8 +9,9 @@
 int _cd(char **av)
 {
 	res a_res = {-1, -1}, *res = &a_res;
-	char *pathname;
+	char *pathname, _pwd[MAXLINE];
 
+	getcwd(_pwd, MAXLINE);/*get current working directory*/
 	if (av[1] == NULL)/*only one arg, cd - go back $home*/
 	{
 		pathname = _getenv(environ, "HOME", res);
@@ -25,7 +24,10 @@ int _cd(char **av)
 	{
 		pathname = _getenv(environ, "OLDPWD", res);
 		if (pathname)
+		{
+			printf("%s\n", pathname);
 			chdir(pathname);
+		}
 		else
 			unix_error("_getenv error");
 	}
@@ -34,6 +36,8 @@ int _cd(char **av)
 		pathname = av[1];
 		chdir(pathname);
 	}
+	/*reset oldpwd's value to current pwd*/
+	_setenv("OLDPWD", _pwd, 1);
 	/*change environ's pwd to pathname*/
 	return (_setenv("PWD", pathname, 1));
 }
@@ -120,9 +124,11 @@ void evaluate_command(char *cmdline)
 	bg = parseline(buf, argv);
 	if (argv[0] == NULL)
 		return; /*Ignore empty cmd lines*/
+	/*determine no of commands in line, and for each, run through this whole process*/
 	if (!builtin_command(argv))
 	{
 		/*search for the executable in the PATH, if found, execute, else, don't!*/
+
 		pid = Fork();
 		if (pid == 0)
 		{/* Child runs the user job (cmdline) */

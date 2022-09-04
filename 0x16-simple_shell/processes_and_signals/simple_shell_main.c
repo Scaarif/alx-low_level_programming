@@ -17,5 +17,8 @@ int main(void)
 			exit(0);
 		/* Evaluate the cmd */
 		evaluate_command(cmdline);
+		/*update environ here? update PWD and OLDPWD*/
+		/*setenv("PWD", pwd, 1);*/
+		/*setenv("OLDPWD", old_pwd, 1);*/
 	}
 }

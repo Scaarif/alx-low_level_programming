@@ -16,7 +16,7 @@ void sigchld_handler(int s)
 {
 	(void)s;
 	int olderrno = errno;
-	pid = waitpid(-1, NULL, 0);/*set the global variable*/
+	pid = waitpid(-1, NULL, 0);/*set the global variable pid (non-zero)*/
 	printf("%d reaped.\n", pid);
 	errno = olderrno;
 }
@@ -45,8 +45,8 @@ int main(void)
 			printf("%d reset to 0.\n", pid);
 		pid = 0; /*set flag to 0*/
 		Sigprocmask(SIG_SETMASK, &prev, NULL);/*unblock SIGCHLD*/
-		/*wait for SIGCHLD to be received (wasteful)*/
-		while (!pid)
+		/*wait for SIGCHLD to be received (non-wasteful)*/
+		while (!pid)/*i.e wait until pid is non-zero for this to evaluate to false*/
 			sigsuspend(&prev);
 		/*Do some work after receiving SIGCHLD*/
 		printf("Doing some followup work...\n");

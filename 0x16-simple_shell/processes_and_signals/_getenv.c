@@ -37,7 +37,7 @@ int get_name(char **env, char *name_, res *_res)
 		else
 			free(name);
 	}
-	printf("%s NOT FOUND\n", name_);
+	printf("%s: NOT FOUND\n", name_);
 	return (0);
 }
 
@@ -128,21 +128,25 @@ int _setenv(const char *name, const char *value, int overwrite)
 		{
 			/*replace old value with new*/
 			for (i = 0; value[i] != '\0'; i++)
-				old_value[i] = value[i];
-			old_value[i] = '\0';
+				environ[exists][a_res->val_index + i] = value[i];
+			environ[exists][a_res->val_index + i] = '\0';
+			/*point to this new value; a_res->val_index = *value*/
+			printf("case1: Done!\n");
 		}
 		else
 		{
-			free(old_value);
-			old_value = malloc(sizeof(char) * strlen(value) + 1);
-			if (old_value == NULL)
+			old_value = new_variable(name, value);/*more like new_value*/
+			environ[exists] = malloc(sizeof(char) * (strlen(old_value) + 1));
+			if (environ[exists] == NULL)
 			{
 				unix_error("malloc error");
 				return (-1);
 			}
-			for (i = 0; value[i] != '\0'; i++)
-				old_value[i] = value[i];
-			old_value[i] = '\0';
+			for (i = 0; old_value[i] != '\0'; i++)
+				environ[exists][i] = old_value[i];
+			environ[exists][i] = '\0';
+			/**(environ[exists] + a_res->val_index) = old_value[0];*/
+			printf("case2: Done!\n");
 		}
 	}
 	else
@@ -154,6 +158,7 @@ int _setenv(const char *name, const char *value, int overwrite)
 		/*printf("last var: %s\n", last_var);*/
 		environ[i++] =  new_variable(name, value);
 		environ[i] = NULL;/*NULL terminate environ*/
+		printf("case3: Done!\n");
 	}
 	return (0);
 }

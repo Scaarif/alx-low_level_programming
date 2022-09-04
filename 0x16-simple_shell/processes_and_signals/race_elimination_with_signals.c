@@ -68,7 +68,7 @@ int main(int argc, char **argv)
 	Sigfillset(&mask_all);/*add all signals to this set*/
 	Sigemptyset(&mask_one);/*initialize an empty set, mask_one*/
 	Sigaddset(&mask_one, SIGCHLD);/*add SIGCHLD to set, mask_one*/
-	Signal(SIGCHLD, handler);/*sigaction - specify handling semantics*/
+	Signal(SIGCHLD, handler);/*sigaction - specify handling semantics for SIGCHLD*/
 	initjobs();/*initialize the job list*/
 	while (1)/*infinite loop*/
 	{/*Block SIGCHLD*/
@@ -80,7 +80,7 @@ int main(int argc, char **argv)
 			Execve("/bin/date", argv, NULL);
 		}
 		/* parent process */
-		Sigprocmask(SIG_BLOCK, &mask_all, &prev_all);/*block*/
+		Sigprocmask(SIG_BLOCK, &mask_all, &prev_all);/*block all signals*/
 		addjob(pid); /*add the child to list uninterrupted*/
 		Sigprocmask(SIG_SETMASK, &prev_all, NULL);/*unblock all*/
 	}
