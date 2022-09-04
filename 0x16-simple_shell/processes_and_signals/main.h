@@ -8,6 +8,7 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 #include <sys/stat.h>
+#include <sys/fcntl.h>
 #include <dirent.h>
 #include <string.h>
 #include <signal.h>
@@ -49,7 +50,7 @@ typedef struct path_node
 
 /** WRAPPER FNS **/
 
-void unix_error(char *msg);
+int unix_error(const char *msg);
 pid_t Fork(void);
 void Execve(const char *filename, char *const argv[], char *const envp[]);
 unsigned int wakeup(unsigned int secs);
@@ -58,7 +59,7 @@ int Kill(pid_t pid, int sig);
 unsigned int Sleep(unsigned int secs);
 void sigint_handler(int sig);
 
-/* helper functions - personal writes */
+/* helper functions - p_writes */
 int get_name(char **env, char *name_, res *_res);
 char *_getenv(char **env, char *name, res *_res);
 d_t *create_path_list(char *dir_str, d_t **head);
@@ -67,6 +68,8 @@ int _unsetenv(char *name);
 void evaluate_command(char *cmdline, d_t *head);
 char *parse_path(d_t **head, char *file);
 void print_pathlist(d_t **head);
+int _write(char *buf, char *str, char *msg);
+
 
 /* safe I/O functions for signal handlers */
 ssize_t sio_puts(char s[]);

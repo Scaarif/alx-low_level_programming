@@ -11,14 +11,15 @@ int main(int argc, char *argv[])
 
     if (argc != 2)
     {
-        fprintf(stderr, "Usage: %s <file>\n", argv[0]);
-        exit(EXIT_FAILURE);
+        /*fprintf(stderr, "Usage: %s <file>\n", argv[0]);*/
+        /*exit(EXIT_FAILURE);*/
+        stream = stdin;
     }
-
-    stream = fopen(argv[1], "r");
+    else
+        stream = fopen(argv[1], "r");
     if (stream == NULL)
     {
-        perror("fopen");
+        perror("fopen error");
         exit(EXIT_FAILURE);
     }
     /*ssize_t getline(chra **lineptr, size_t *n, FILE *stream);*/

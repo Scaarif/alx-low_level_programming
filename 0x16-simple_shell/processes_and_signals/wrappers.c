@@ -4,12 +4,12 @@
 /**
  * unix_error - handle system error
  * @msg: starting string
- * Return: Nothing
+ * Return: 0 always
  */
-void unix_error(char *msg)
+int unix_error(const char *msg)
 {
-	fprintf(stderr, "%s: %s\n", msg, strerror(errno));
-	exit(0);
+	perror(msg);
+	return (0);
 }
 
 /**
@@ -19,8 +19,11 @@ void unix_error(char *msg)
  */
 void sigint_handler(int sig)
 {
+	char buf[PATH_S];
 	(void) sig;
-	printf("Caught SIGINT!\n");
+
+	/*printf("Caught SIGINT!\n");*/
+	_write(buf, "Caught SIGINT!", "\n");
 	exit(0); /*normally terminate*/
 }
 
@@ -49,7 +52,7 @@ unsigned int wakeup(unsigned int secs)
 	unsigned int rem;
 
 	rem = sleep(secs);
-	printf("Slept for %u of %u secs.\n", secs - rem, secs);
+	/*printf("Slept for %u of %u secs.\n", secs - rem, secs);*/
 	return (rem);
 }
 

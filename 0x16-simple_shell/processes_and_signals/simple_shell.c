@@ -78,6 +78,7 @@ int _cd(char **av)
 int builtin_command(char **argv)
 {
 	int i = 0;
+	char buf[MAXLINE];
 
 	if (!strcmp(argv[0], "exit"))/*i.e if command is exit*/
 	{
@@ -89,7 +90,8 @@ int builtin_command(char **argv)
 	{
 		/*print environ*/
 		for (; environ[i] != NULL; i++)
-			printf("%s\n", environ[i]);
+			_write(buf, environ[i], "\n");
+		/*printf("%s\n", environ[i]);*/
 		return (1);/*i.e return true - builtin command*/
 	}
 	if (!strcmp(argv[0], "cd"))/*i.e if command is exit*/
@@ -166,7 +168,7 @@ void evaluate_command(char *cmdline, d_t *head)
 			if (pid == 0)
 			{/* Child runs the user job (cmdline) */
 				if (execve(executable, argv, environ) < 0)/*error occurred(-1) returned */
-					printf("%s: Command not found.\n", argv[0]), exit(1);
+					unix_error("execve error"), exit(1);
 			}
 			/*parent waits for foreground job to terminate*/
 			if (!bg) /* i.e. if a foreground process (bg = 0)*/
@@ -175,12 +177,13 @@ void evaluate_command(char *cmdline, d_t *head)
 					unix_error("wait_fg: waitpid error");
 			}
 			else/* its a bg job (bg = 1), continue - no waiting or reaping!*/
-			printf("%d %s", pid, cmdline);
+			_write(buf, "background job", ": parent free to continue...\n");
 			/*we could use SIGCHLD to reap the child, use a handler to catch it*/
 		}
 		else
 		{
-			printf("%s: executable not found.\n", argv[0]), exit(1);
+			/*printf("%s: executable not found.\n", argv[0]);*/
+			_write(buf, argv[0], ": executable not found.\n");
 		}
 	}
 }

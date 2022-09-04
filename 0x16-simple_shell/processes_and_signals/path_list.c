@@ -8,9 +8,10 @@
 void print_pathlist(d_t **head)
 {
 	d_t *curr;
+	char buf[PATH_S];
 
 	for (curr = *head; curr != NULL; curr = curr->next)
-		printf("%s\n", curr->dir);
+		_write(buf, curr->dir, "\n");/*print dirs*/
 }
 
 
@@ -127,8 +128,7 @@ char *parse_path(d_t **head, char *file)
 				unix_error("readdir error");
 			closedir(d_stream);
 		}
-		else
-			unix_error("opendir error");
+		/*else unix_error("opendir error");*/
 	}
 	return (NULL);/*file not in path*/
 }

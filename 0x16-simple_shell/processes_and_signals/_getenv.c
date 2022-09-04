@@ -10,7 +10,7 @@
 
 int get_name(char **env, char *name_, res *_res)
 {
-	char *var, *name;
+	char *var, *name, buf[PATH_S];
 	int i = 0, j, len;
 
 	for (; env[i] != NULL; i++)
@@ -37,7 +37,7 @@ int get_name(char **env, char *name_, res *_res)
 		else
 			free(name);
 	}
-	printf("%s: NOT FOUND\n", name_);
+	_write(buf, name_, ": NOT FOUND\n");
 	return (0);
 }
 
@@ -130,8 +130,7 @@ int _setenv(const char *name, const char *value, int overwrite)
 			for (i = 0; value[i] != '\0'; i++)
 				environ[exists][a_res->val_index + i] = value[i];
 			environ[exists][a_res->val_index + i] = '\0';
-			/*point to this new value; a_res->val_index = *value*/
-			printf("case1: Done!\n");
+			/*printf("case1: Done!\n");*/
 		}
 		else
 		{
@@ -145,8 +144,7 @@ int _setenv(const char *name, const char *value, int overwrite)
 			for (i = 0; old_value[i] != '\0'; i++)
 				environ[exists][i] = old_value[i];
 			environ[exists][i] = '\0';
-			/**(environ[exists] + a_res->val_index) = old_value[0];*/
-			printf("case2: Done!\n");
+			/*printf("case2: Done!\n");*/
 		}
 	}
 	else
@@ -154,11 +152,9 @@ int _setenv(const char *name, const char *value, int overwrite)
 		/*get to the end of array, extend it and add the new variable*/
 		for (i = 0; environ[i] != NULL; i++)
 			;
-		/*last_var = environ[--i];*/
-		/*printf("last var: %s\n", last_var);*/
 		environ[i++] =  new_variable(name, value);
 		environ[i] = NULL;/*NULL terminate environ*/
-		printf("case3: Done!\n");
+		/*printf("case3: Done!\n");*/
 	}
 	return (0);
 }
