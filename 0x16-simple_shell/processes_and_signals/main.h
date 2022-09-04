@@ -64,8 +64,8 @@ char *_getenv(char **env, char *name, res *_res);
 d_t *create_path_list(char *dir_str, d_t **head);
 int _setenv(const char *name, const char *value, int overwrite);
 int _unsetenv(char *name);
-void evaluate_command(char *cmdline);
-int parse_path(d_t **head, char *file);
+void evaluate_command(char *cmdline, d_t *head);
+char *parse_path(d_t **head, char *file);
 void print_pathlist(d_t **head);
 
 /* safe I/O functions for signal handlers */

@@ -93,13 +93,14 @@ d_t *create_path_list(char *dir_str, d_t **head)
  * parse_path - searches for the executable in PATH
  * @head: the head_node to the path dirs_list to parse one after the other
  * @file: the file to look for in path
- * Return: 1 if found and 0 otherwise
+ * Return: complete pathname and NULL otherwise
  */
-int parse_path(d_t **head, char *file)
+char *parse_path(d_t **head, char *file)
 {
 	d_t *curr = *head;/*current node*/
 	DIR *d_stream;
 	struct dirent *d_entry;
+	int i = 0, j = 0;
 
 	/*for directories in list, get current directory*/
 	for (; curr != NULL; curr = curr->next)
@@ -112,7 +113,15 @@ int parse_path(d_t **head, char *file)
 			while ((d_entry = readdir(d_stream)) != NULL)
 			{/*get next entry/file in current_directory & compare with file*/
 				if (strcmp(d_entry->d_name, file) == 0)
-					return (1);/*return file in path*/
+				{
+					for (; (file[i] = (curr->dir)[i]) != '\0'; i++)
+						;
+					file[i++] = '/';
+					for (; (file[i] = (d_entry->d_name)[j]) != '\0'; i++, j++)
+						;
+					file[i] = '\0';
+					return (file);/*return file in path*/
+				}
 			}
 			if (errno != 0)
 				unix_error("readdir error");
@@ -121,5 +130,5 @@ int parse_path(d_t **head, char *file)
 		else
 			unix_error("opendir error");
 	}
-	return (0);/*file not in path*/
+	return (NULL);/*file not in path*/
 }

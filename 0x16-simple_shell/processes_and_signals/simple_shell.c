@@ -1,5 +1,32 @@
 #include "main.h"
 
+/**
+ * get_file - get file name to look for in PATH
+ * from the pathname, if given
+ * @pathname: the string to get file name from
+ * Return: file name
+ */
+char *get_file(char *pathname)
+{
+	int i = 0, j = -1;
+	char *file;
+
+	for (; pathname[i] != '\0'; i++)
+	{
+		if (pathname[i] == '/')
+			j = i;/*get pos of last / in pathname*/
+	}
+	if (j > -1)
+	{
+		file = pathname;
+		for (j++, i = 0; (pathname[i] = file[j]) != '\0'; j++, i++)
+			;
+		pathname[j] = '\0';/*terminate name*/
+	}
+	/*else, there's no / - so filename provided*/
+	return (pathname);
+}
+
 
 /**
  * _cd - cd implementation using chdir and getcwd
@@ -112,41 +139,49 @@ int parseline(char *buf, char **argv)
  * evaluate_command - evaluate the cmdline
  * i.e. the string/cmd typed/read from stdin
  * @cmdline: the command to evaluate
+ * @head: head to path_dirs linked list
  * Return: Nothing
  */
-void evaluate_command(char *cmdline)
+void evaluate_command(char *cmdline, d_t *head)
 {
-	char *argv[MAXARGS], buf[MAXLINE];/*argv[] list for execve*/
-	int status, bg; /*background programs flag*/
+	char *argv[MAXARGS], buf[MAXLINE], *file, pathname[PATH_S], *executable;
+	int status, bg, i = 0; /*background programs flag*/
 	pid_t pid;
 
 	strcpy(buf, cmdline); /*cpy cmdline into buf*/
 	bg = parseline(buf, argv);
 	if (argv[0] == NULL)
 		return; /*Ignore empty cmd lines*/
-	/*determine no of commands in line, and for each, run through this whole process*/
+	/*determine no of commands in line, and for each, run through this process*/
 	if (!builtin_command(argv))
 	{
-		/*search for the executable in the PATH, if found, execute, else, don't!*/
-
-		pid = Fork();
-		if (pid == 0)
-		{/* Child runs the user job (cmdline) */
-			if (execve(argv[0], argv, environ) < 0)
-			{/*an error has occurred i.e (-1) returned */
-				printf("%s: Command not found.\n", argv[0]);
-				exit(0);
-			}
-		}
-		/*parent waits for foreground job to terminate*/
-		if (!bg) /* i.e. if a foreground process (bg = 0)*/
+		for (; (pathname[i] = argv[0][i]) != '\0'; i++)
+			;/*search for the executable in the PATH*/
+		pathname[i] = '\0';
+		file = get_file(pathname);
+		executable = parse_path(&head, file);
+		if (executable)/*argv[0] = file to search*/
 		{
-			if (waitpid(pid, &status, 0) < 0)/*wait for termination(fg_job) & reap*/
-				unix_error("wait_fg: waitpid error");
+			pid = Fork();
+			if (pid == 0)
+			{/* Child runs the user job (cmdline) */
+				if (execve(executable, argv, environ) < 0)/*error occurred(-1) returned */
+					printf("%s: Command not found.\n", argv[0]), exit(1);
+			}
+			/*parent waits for foreground job to terminate*/
+			if (!bg) /* i.e. if a foreground process (bg = 0)*/
+			{
+				if (waitpid(pid, &status, 0) < 0)/*wait for termination(fg_job) & reap*/
+					unix_error("wait_fg: waitpid error");
+			}
+			else/* its a bg job (bg = 1), continue - no waiting or reaping!*/
+			printf("%d %s", pid, cmdline);
+			/*we could use SIGCHLD to reap the child, use a handler to catch it*/
 		}
-		else/* its a bg job (bg = 1), continue - no waiting or reaping!*/
-		printf("%d %s", pid, cmdline);
-		/*we could use SIGCHLD to reap the child, use a handler to catch it*/
+		else
+		{
+			printf("%s: executable not found.\n", argv[0]), exit(1);
+		}
 	}
 }
 
