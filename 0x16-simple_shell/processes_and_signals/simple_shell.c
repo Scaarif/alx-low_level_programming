@@ -29,48 +29,6 @@ char *get_file(char *pathname)
 
 
 /**
- * _cd - cd implementation using chdir and getcwd
- * @av: command line arguments array
- * Return: 0 on success and -1 otherwise
- */
-int _cd(char **av)
-{
-	res a_res = {-1, -1}, *res = &a_res;
-	char *pathname, _pwd[MAXLINE];
-
-	getcwd(_pwd, MAXLINE);/*get current working directory*/
-	if (av[1] == NULL)/*only one arg, cd - go back $home*/
-	{
-		pathname = _getenv(environ, "HOME", res);
-		if (pathname)
-			chdir(pathname);
-		else
-			unix_error("_getenv error");
-	}
-	else if (strcmp(av[1], "-") == 0)
-	{
-		pathname = _getenv(environ, "OLDPWD", res);
-		if (pathname)
-		{
-			printf("%s\n", pathname);
-			chdir(pathname);
-		}
-		else
-			unix_error("_getenv error");
-	}
-	else
-	{
-		pathname = av[1];
-		chdir(pathname);
-	}
-	/*reset oldpwd's value to current pwd*/
-	_setenv("OLDPWD", _pwd, 1);
-	/*change environ's pwd to pathname*/
-	return (_setenv("PWD", pathname, 1));
-}
-
-
-/**
  * builtin_command - check if argv[0] is a built-in cmd
  * @argv: the command(line) as **argv, array of strings
  * Return: 1 if true and 0 otherwise
@@ -107,24 +65,25 @@ int builtin_command(char **argv)
  * parseline - parse the cmdline and build the argv array
  * @buf: a copy of the cmd(line) from which to build argv
  * @argv: the array of strings, for execve fn
+ * @del: the delimiting character in during parsing
  * Return: int bg (1 or 0); a flag for background programs
  */
-int parseline(char *buf, char **argv)
+int parseline(char *buf, char **argv, char del)
 {
 	char *delim;
 	int argc, bg;
 
-	buf[strlen(buf) - 1] = ' ';/* replace trailing /n with space */
+	buf[strlen(buf) - 1] = del;/* replace trailing /n with space */
 	while (*buf && (*buf == ' '))
 		buf++; /* ignore leading spaces; advance buf to 1st char */
 	/* Build the argv array */
 	argc = 0;
-	while ((delim = strchr(buf, ' ')))
+	while ((delim = strchr(buf, del)))
 	{/*strchr returns pointer to 1st occurrence of ' ' in buf or NULL*/
 		argv[argc++] = buf;
 		*delim = '\0'; /*terminate 1st string*/
 		buf = delim + 1; /*advance buf - to start of next string*/
-		while (*buf && (*buf == ' '))
+		while (*buf && ((*buf == del) || (*buf == ' ')))
 			buf++; /*ignore leading spaces*/
 	}
 	argv[argc] = NULL; /*last string*/
@@ -146,12 +105,12 @@ int parseline(char *buf, char **argv)
  */
 void evaluate_command(char *cmdline, d_t *head)
 {
-	char *argv[MAXARGS], buf[MAXLINE], *file, pathname[PATH_S], *executable;
+	char *argv[MAXARGS], buf[MAXLINE], *file, pathname[PATH_S], *executable, del = ' ';
 	int status, bg, i = 0; /*background programs flag*/
 	pid_t pid;
 
 	strcpy(buf, cmdline); /*cpy cmdline into buf*/
-	bg = parseline(buf, argv);
+	bg = parseline(buf, argv, del);
 	if (argv[0] == NULL)
 		return; /*Ignore empty cmd lines*/
 	/*determine no of commands in line, and for each, run through this process*/

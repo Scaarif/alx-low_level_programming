@@ -21,24 +21,6 @@ int _getline1(char *s, int lim, int fd)
 }
 
 /**
- * _write - print simple lines to stdout
- * @buf: buffer to hold string to write
- * @str: accompanying string, say name
- * @msg: customized message string
- * Return: no of characters written
- */
-int _write(char *buf, char *str, char *msg)
-{	int len = 0, i = 0;
-
-	for (; (buf[len] = str[i]) != '\0'; i++, len++)
-	      ;
-	for (i = 0; (buf[len] = msg[i]) != '\0'; len++, i++)
-		;
-	i = write(1, buf, len);	
-	return (i);
-}
-
-/**
  * main - simple_shell's main routine
  * Return: 0 always
  */
