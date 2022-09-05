@@ -156,6 +156,7 @@ void evaluate_command_line(char *cmdline, d_t *head)
 
 	strcpy(buf, cmdline); /*cpy cmdline into buf*/
 	/*determine no of commands in line, and for each, run through this process*/
+	handle_comments(buf);/*remove everything starting at # - usually ignored*/
 	check_for_delims(buf, "&|;", delims);
 	/*printf("check delims done\n");*/
 	if (_strlen(delims))/*delimiters present, more than one command*/
@@ -170,7 +171,8 @@ void evaluate_command_line(char *cmdline, d_t *head)
 			for (j = 0; commands[j] != NULL; j++)
 			{
 				format_command(commands[j], command);
-				if (j < 1 || (j > 0 && ((delims[i] == '&' && !success) || (delims[i] == '|' && success))))
+				if (j < 1 || (j > 0 && ((delims[i] == '&' && !success) ||
+					(delims[i] == '|' && success))) || delims[i] == ';')
 				{
 					strcpy(buf, command);
 					bg = parseline(buf, argv, del);

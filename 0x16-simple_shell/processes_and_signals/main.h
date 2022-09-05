@@ -76,6 +76,7 @@ char *check_for_delims(char *cmdline, char *delims, char *res);
 int _strlen(char s[]);
 void set_success(int i);
 char *format_command(char *cmd, char *command);
+char *handle_comments(char *buf);
 
 
 /* safe I/O functions for signal handlers */

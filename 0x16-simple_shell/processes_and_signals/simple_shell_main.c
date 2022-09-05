@@ -30,9 +30,10 @@ int main(void)
 	d_t *head = NULL;
 	res _res = {-1, -1}, *res = &_res;
 
+	Signal(SIGINT, sigint_handler);/*catch (CTRL + C)*/
 	dirs = _getenv(environ, "PATH", res);/*get path directories*/
 	create_path_list(dirs, &head);/*create a linked list of these directories*/
-	while (1) /*infinite loop - only terminates if feof/builtin_command evaluates to true*/
+	while (1) /*only terminates if feof/builtin_command evaluates to true*/
 	{
 		/* Read cmd from stdin */
 		write(1, "#cisfun$ ", 9);

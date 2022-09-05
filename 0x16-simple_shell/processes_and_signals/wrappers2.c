@@ -25,7 +25,7 @@ char *Fgets(char *str, int size, FILE *stream)
 	char *s = fgets(str, size, stream);
 
 	if (s == NULL)
-		unix_error("Fgets error");
+		unix_error("Logout");/*empty EOF exit shell*/
 	return (s);
 }
 

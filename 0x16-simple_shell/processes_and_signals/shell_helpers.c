@@ -1,6 +1,26 @@
 #include "main.h"
 
 /**
+ * handle_comments - remove part of command-line
+ * after #, the start of a comment
+ * @buf: pointer to command-line
+ * Return: pointer to buf
+ */
+char *handle_comments(char *buf)
+{
+	int i = 0;
+
+	for (; buf[i] != '\0' && buf[i] != '#'; i++)
+		;
+	if (buf[i] == '#')
+	{
+		buf[i++] = '\n';
+		buf[i] = '\0';/*terminate there*/
+	}
+	return (buf);
+}
+
+/**
  * format_command - include a new line and terminate
  * @cmd: the command string to parse
  * @command: buffer contaiing formatted string
@@ -11,7 +31,7 @@ char *format_command(char *cmd, char *command)
 	int k;
 
 	for (k = 0; (command[k] = cmd[k]) != '\0'; k++)
-					;
+		;
 	command[k++] = '\n';
 	command[k] = '\0'; /*terminate command*/
 	return (command);
