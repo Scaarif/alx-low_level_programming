@@ -41,6 +41,6 @@ int main(void)
 		if (feof(stdin))/*checks EOF status and returns 1 if set*/
 			exit(0);
 		/* Evaluate the cmd */
-		evaluate_command(cmdline, head);
+		evaluate_command_line(cmdline, head);
 	}
 }

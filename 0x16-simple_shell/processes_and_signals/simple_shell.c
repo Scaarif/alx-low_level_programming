@@ -97,23 +97,18 @@ int parseline(char *buf, char **argv, char del)
 }
 
 /**
- * evaluate_command - evaluate the cmdline
- * i.e. the string/cmd typed/read from stdin
- * @cmdline: the command to evaluate
+ * evaluate_command - evaluate the command after parsing command_line
+ * @argv: the array for an individual command to evaluate
  * @head: head to path_dirs linked list
- * Return: Nothing
+ * @bg: flag, background or foreground process
+ * Return: 1 if successful and 0 otherwise(Nothing)
  */
-void evaluate_command(char *cmdline, d_t *head)
+void evaluate_command(char **argv, d_t *head, int bg)
 {
-	char *argv[MAXARGS], buf[MAXLINE], *file, pathname[PATH_S], *executable, del = ' ';
-	int status, bg, i = 0; /*background programs flag*/
+	char  *file, pathname[PATH_S], buf[MAXLINE], *executable;
+	int status, i = 0; /*background programs flag*/
 	pid_t pid;
 
-	strcpy(buf, cmdline); /*cpy cmdline into buf*/
-	bg = parseline(buf, argv, del);
-	if (argv[0] == NULL)
-		return; /*Ignore empty cmd lines*/
-	/*determine no of commands in line, and for each, run through this process*/
 	if (!builtin_command(argv))
 	{
 		for (; (pathname[i] = argv[0][i]) != '\0'; i++)
@@ -141,10 +136,29 @@ void evaluate_command(char *cmdline, d_t *head)
 		}
 		else
 		{
-			/*printf("%s: executable not found.\n", argv[0]);*/
 			_write(buf, argv[0], ": executable not found.\n");
 		}
 	}
+}
+
+/**
+ * evaluate_command_line - evaluate the cmdline
+ * i.e. the string/cmd typed/read from stdin
+ * @cmdline: the command to evaluate
+ * @head: head to path_dirs linked list
+ * Return: Nothing
+ */
+void evaluate_command_line(char *cmdline, d_t *head)
+{
+	char *argv[MAXARGS], buf[MAXLINE], del = ' ';
+	int bg; /*background programs flag*/
+
+	strcpy(buf, cmdline); /*cpy cmdline into buf*/
+	bg = parseline(buf, argv, del);
+	if (argv[0] == NULL)
+		return; /*Ignore empty cmd lines*/
+	/*determine no of commands in line, and for each, run through this process*/
+	evaluate_command(argv, head, bg);
 }
 
 
