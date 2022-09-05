@@ -1,6 +1,35 @@
 #include "main.h"
 
 /**
+ * check_for_delims - check for delimeters in commandline
+ * @cmdline: the command_line
+ * @delims: the delims to check for
+ * @res: an array of the delims in cmdline
+ * Return: the delimeter found
+ */
+char *check_for_delims(char *cmdline, char *delims, char *res)
+{
+	int i = 0, j = 0, k = 0;
+
+	for (; delims[i] != '\0'; i++)
+	{
+		for (j = 0; cmdline[j] != '\0'; j++)
+		{
+			if (delims[i] == cmdline[j])
+			{
+				res[k++] = cmdline[j];
+				break;
+			}
+			/*printf("char: %c\n",cmdline[j]);*/
+		}
+		/*printf("delim checked: %c\n", delims[i]);*/
+	}
+	res[k] = '\0';/*terminate it*/
+	return (res);
+}
+
+
+/**
  * get_file - get file name to look for in PATH
  * from the pathname, if given
  * @pathname: the string to get file name from
@@ -25,40 +54,6 @@ char *get_file(char *pathname)
 	}
 	/*else, there's no / - so filename provided*/
 	return (pathname);
-}
-
-
-/**
- * builtin_command - check if argv[0] is a built-in cmd
- * @argv: the command(line) as **argv, array of strings
- * Return: 1 if true and 0 otherwise
- */
-int builtin_command(char **argv)
-{
-	int i = 0;
-	char buf[MAXLINE];
-
-	if (!strcmp(argv[0], "exit"))/*i.e if command is exit*/
-	{
-		if (argv[1])
-			exit(atoi(argv[1]));/*handle exit argument/status*/
-		exit(0);/*terminate process*/
-	}
-	if (!strcmp(argv[0], "env"))/*i.e if command is env*/
-	{
-		/*print environ*/
-		for (; environ[i] != NULL; i++)
-			_write(buf, environ[i], "\n");
-		/*printf("%s\n", environ[i]);*/
-		return (1);/*i.e return true - builtin command*/
-	}
-	if (!strcmp(argv[0], "cd"))/*i.e if command is exit*/
-	{
-		return (!_cd(argv));
-	}
-	if (!strcmp(argv[0], "&")) /*ignore singleton &*/
-		return (1);
-	return (0); /*i.e. not a built in command*/
 }
 
 /**
@@ -114,6 +109,7 @@ void evaluate_command(char **argv, d_t *head, int bg)
 		for (; (pathname[i] = argv[0][i]) != '\0'; i++)
 			;/*search for the executable in the PATH*/
 		pathname[i] = '\0';
+		/*printf("pathname: %s\n", pathname);*/
 		file = get_file(pathname);
 		executable = parse_path(&head, file);
 		if (executable)/*argv[0] = file to search*/
@@ -150,15 +146,46 @@ void evaluate_command(char **argv, d_t *head, int bg)
  */
 void evaluate_command_line(char *cmdline, d_t *head)
 {
-	char *argv[MAXARGS], buf[MAXLINE], del = ' ';
-	int bg; /*background programs flag*/
+	char *argv[MAXARGS], buf[MAXLINE], del = ' ', delims[PATH_S], command[PATH_S];
+	char *commands[MAXARGS];
+	int bg, i, j, k; /*background programs flag*/
 
 	strcpy(buf, cmdline); /*cpy cmdline into buf*/
-	bg = parseline(buf, argv, del);
-	if (argv[0] == NULL)
-		return; /*Ignore empty cmd lines*/
 	/*determine no of commands in line, and for each, run through this process*/
-	evaluate_command(argv, head, bg);
+	check_for_delims(buf, "&|;", delims);
+	/*printf("check delims done\n");*/
+	if (_strlen(delims))/*delimiters present, more than one command*/
+	{
+		/*printf("in commands case: \n");*/
+		for (i = 0; delims[i] != '\0'; i++)
+		{
+			bg = parseline(buf, commands, delims[i]);/*returns argv(array) of commands*/
+			if (commands[0] == NULL)
+				return; /*Ignore empty cmd lines*/
+			/* get individual command argv(s) and evaluate */
+			for (j = 0; commands[j] != NULL; j++)
+			{
+				/*printf("command[%d]: %s\n", j, commands[j]);*/
+				for (k = 0; (command[k] = commands[j][k]) != '\0'; k++)
+					;
+				command[k++] = '\n';
+				command[k] = '\0'; /*terminate command*/
+				/*printf("command: %d, %s\n", j, command);*/
+				strcpy(buf, command);
+				bg = parseline(buf, argv, del);
+				if (argv[0] == NULL)
+				return; /*Ignore empty cmd - is that a possibility though?*/
+				evaluate_command(argv, head, bg);
+			}
+		}
+	}
+	else
+	{/*else, a single command*/
+		bg = parseline(buf, argv, del);/*returns argv for command*/
+		if (argv[0] == NULL)
+			return; /*Ignore empty cmd lines*/
+		evaluate_command(argv, head, bg);
+	}
 }
 
 

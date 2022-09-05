@@ -58,3 +58,50 @@ int _cd(char **av)
 	/*change environ's pwd to pathname*/
 	return (_setenv("PWD", pathname, 1));
 }
+
+/**
+ * builtin_command - check if argv[0] is a built-in cmd
+ * @argv: the command(line) as **argv, array of strings
+ * Return: 1 if true and 0 otherwise
+ */
+int builtin_command(char **argv)
+{
+	int i = 0;
+	char buf[MAXLINE];
+
+	if (!strcmp(argv[0], "exit"))/*i.e if command is exit*/
+	{
+		if (argv[1])
+			exit(atoi(argv[1]));/*handle exit argument/status*/
+		exit(0);/*terminate process*/
+	}
+	if (!strcmp(argv[0], "env"))/*i.e if command is env*/
+	{
+		/*print environ*/
+		for (; environ[i] != NULL; i++)
+			_write(buf, environ[i], "\n");
+		/*printf("%s\n", environ[i]);*/
+		return (1);/*i.e return true - builtin command*/
+	}
+	if (!strcmp(argv[0], "cd"))/*i.e if command is exit*/
+	{
+		return (!_cd(argv));
+	}
+	if (!strcmp(argv[0], "&")) /*ignore singleton &*/
+		return (1);
+	return (0); /*i.e. not a built in command*/
+}
+
+/**
+ * _strlen - strlen()
+ * @s: string whose length to return
+ * Return: length of string
+ */
+int _strlen(char s[])
+{
+	int i = 0;
+
+	while (s[i] != '\0')
+		i++;
+	return (i);
+}

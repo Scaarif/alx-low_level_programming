@@ -69,7 +69,10 @@ void evaluate_command_line(char *cmdline, d_t *head);
 char *parse_path(d_t **head, char *file);
 void print_pathlist(d_t **head);
 int _write(char *buf, char *str, char *msg);
+int builtin_command(char **argv);
 int _cd(char **av);
+char *check_for_delims(char *cmdline, char *delims, char *res);
+int _strlen(char s[]);
 
 
 /* safe I/O functions for signal handlers */
