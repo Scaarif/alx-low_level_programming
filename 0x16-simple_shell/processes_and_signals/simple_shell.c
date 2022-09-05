@@ -68,7 +68,7 @@ int parseline(char *buf, char **argv, char del)
 	char *delim;
 	int argc, bg;
 
-	buf[strlen(buf) - 1] = del;/* replace trailing /n with space */
+	buf[_strlen(buf) - 1] = del;/* replace trailing /n with space */
 	while (*buf && (*buf == ' '))
 		buf++; /* ignore leading spaces; advance buf to 1st char */
 	/* Build the argv array */

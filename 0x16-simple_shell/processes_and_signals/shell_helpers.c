@@ -110,6 +110,14 @@ int builtin_command(char **argv)
 	{
 		return (!_cd(argv));
 	}
+	if (!strcmp(argv[0], "setenv") || !strcmp(argv[0], "unsetenv"))
+	{
+		if (!strcmp(argv[0], "setenv"))
+			i = _setenv(argv[1], argv[2], 1);/*setenv VARIABLE VALUE overwrite*/
+		else
+			i = _unsetenv(argv[1]);/*unsetenv VARIABLE*/
+		return (!i);
+	}
 	if (!strcmp(argv[0], "&")) /*ignore singleton &*/
 		return (1);
 	return (0); /*i.e. not a built in command*/

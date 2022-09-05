@@ -10,7 +10,7 @@
 
 int get_name(char **env, char *name_, res *_res)
 {
-	char *var, *name, buf[PATH_S];
+	char *var, *name;/*buf[PATH_S];*/
 	int i = 0, j, len;
 
 	for (; env[i] != NULL; i++)
@@ -37,7 +37,7 @@ int get_name(char **env, char *name_, res *_res)
 		else
 			free(name);
 	}
-	_write(buf, name_, ": NOT FOUND\n");
+	/*_write(buf, name_, ": NOT FOUND\n");*/
 	return (0);
 }
 
@@ -86,10 +86,10 @@ char *_getenv(char **env, char *name, res *_res)
 
 char *new_variable(const char *name, const char *value)
 {
-	char *var;
+	char *var, *name_ = (char *)name, *value_ = (char *)value;
 	int i, j;
 
-	var = malloc(sizeof(char) * (strlen(name) + strlen(value) + 2));
+	var = malloc(sizeof(char) * (_strlen(name_) + _strlen(value_) + 2));
 	if (var == NULL)
 	{
 		unix_error("malloc error");
@@ -124,27 +124,25 @@ int _setenv(const char *name, const char *value, int overwrite)
 	if (exists != -1 && exists && overwrite)
 	{
 		old_value = _getenv(environ, (char *)name, a_res);
-		if (strlen(old_value) >= strlen(value))
+		if (_strlen(old_value) >= _strlen((char *)value))
 		{
 			/*replace old value with new*/
 			for (i = 0; value[i] != '\0'; i++)
 				environ[exists][a_res->val_index + i] = value[i];
 			environ[exists][a_res->val_index + i] = '\0';
-			/*printf("case1: Done!\n");*/
 		}
 		else
 		{
 			old_value = new_variable(name, value);/*more like new_value*/
-			environ[exists] = malloc(sizeof(char) * (strlen(old_value) + 1));
+			environ[exists] = malloc(sizeof(char) * (_strlen(old_value) + 1));
 			if (environ[exists] == NULL)
 			{
-				unix_error("malloc error");
+				unix_error("_setenv");
 				return (-1);
 			}
 			for (i = 0; old_value[i] != '\0'; i++)
 				environ[exists][i] = old_value[i];
 			environ[exists][i] = '\0';
-			/*printf("case2: Done!\n");*/
 		}
 	}
 	else
@@ -154,7 +152,6 @@ int _setenv(const char *name, const char *value, int overwrite)
 			;
 		environ[i++] =  new_variable(name, value);
 		environ[i] = NULL;/*NULL terminate environ*/
-		/*printf("case3: Done!\n");*/
 	}
 	return (0);
 }
@@ -162,7 +159,7 @@ int _setenv(const char *name, const char *value, int overwrite)
 /**
  * _unsetenv - deletes an environment variable
  * @name: the environment variable's name
- * Return: 0 on success and -1 on error
+ * Return: 0 on success and -1 on error, seems to always pass?
  */
 int _unsetenv(char *name)
 {
