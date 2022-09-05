@@ -14,19 +14,33 @@
 
 int main(__attribute__((unused))int argc, char **argv)
 {
-	int i = 0;
+	int i = 0, wstatus, w;
+	pid_t pid;
 
 	for (; i < N; i++)
 	{
 		/* create a child */
-		if (Fork() == 0)/* if child_p */
+		pid = Fork();
+		if (pid == 0)/* if child_p */
 		{
 			printf("Child %d executing:\n", i);
 			Execve("/bin/ls", argv, NULL);
 		}
 		/* wait for child to terminate & reap zombie */
-		if (waitpid(-1, NULL, 0) < 0)
-			unix_error("waitpid error");
+		w = waitpid(pid, &wstatus, WUNTRACED | WCONTINUED);
+		if (w == -1)/*error*/
+		{
+			perror("waitpid");
+			exit(EXIT_FAILURE);
+		}
+		if (WIFEXITED(wstatus))
+			printf("exited, status=%d\n", WEXITSTATUS(wstatus));
+		else if (WIFSIGNALED(wstatus))
+			printf("killed by signal %d\n", WTERMSIG(wstatus));
+		else if (WIFSTOPPED(wstatus))
+			printf("stopped by signal %d\n", WSTOPSIG(wstatus));
+		else if (WIFCONTINUED(wstatus))
+			printf("continued\n");
 		printf("Child %d reaped!\n", i);
 		/*create another child - via loop */
 	}

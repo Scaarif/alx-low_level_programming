@@ -1,21 +1,20 @@
 #include "main.h"
 
 /**
- * _write - print simple lines to stdout
- * @buf: buffer to hold string to write
- * @str: accompanying string, say name
- * @msg: customized message string
- * Return: no of characters written
+ * format_command - include a new line and terminate
+ * @cmd: the command string to parse
+ * @command: buffer contaiing formatted string
+ * Return: pointer to buffer
  */
-int _write(char *buf, char *str, char *msg)
-{	int len = 0, i = 0;
+char *format_command(char *cmd, char *command)
+{
+	int k;
 
-	for (; (buf[len] = str[i]) != '\0'; i++, len++)
-	      ;
-	for (i = 0; (buf[len] = msg[i]) != '\0'; len++, i++)
-		;
-	i = write(1, buf, len);	
-	return (i);
+	for (k = 0; (command[k] = cmd[k]) != '\0'; k++)
+					;
+	command[k++] = '\n';
+	command[k] = '\0'; /*terminate command*/
+	return (command);
 }
 
 /**
@@ -26,7 +25,7 @@ int _write(char *buf, char *str, char *msg)
 int _cd(char **av)
 {
 	res a_res = {-1, -1}, *res = &a_res;
-	char *pathname, _pwd[MAXLINE];
+	char *pathname, _pwd[MAXLINE]; /*buf[PATH_S];*/
 
 	getcwd(_pwd, MAXLINE);/*get current working directory*/
 	if (av[1] == NULL)/*only one arg, cd - go back $home*/
@@ -51,7 +50,11 @@ int _cd(char **av)
 	else
 	{
 		pathname = av[1];
-		chdir(pathname);
+		if (chdir(pathname))
+		{
+			set_success(1);
+			unix_error("cd");
+		}
 	}
 	/*reset oldpwd's value to current pwd*/
 	_setenv("OLDPWD", _pwd, 1);
@@ -92,16 +95,4 @@ int builtin_command(char **argv)
 	return (0); /*i.e. not a built in command*/
 }
 
-/**
- * _strlen - strlen()
- * @s: string whose length to return
- * Return: length of string
- */
-int _strlen(char s[])
-{
-	int i = 0;
 
-	while (s[i] != '\0')
-		i++;
-	return (i);
-}
