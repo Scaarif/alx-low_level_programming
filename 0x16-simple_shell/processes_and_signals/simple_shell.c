@@ -93,18 +93,20 @@ int parseline(char *buf, char **argv, char del)
 
 /**
  * evaluate_command - evaluate the command after parsing command_line
+ * & update success_status (the exit status of a command)
  * @argv: the array for an individual command to evaluate
  * @head: head to path_dirs linked list
  * @bg: flag, background or foreground process
- * Return: 1 if successful and 0 otherwise(Nothing)
+ * @status: pointer to exit status flag
+ * Return: Nothing
  */
-void evaluate_command(char **argv, d_t *head, int bg)
+void evaluate_command(char **argv, d_t *head, int bg, int *status)
 {
 	char  *file, pathname[PATH_S], buf[MAXLINE], *executable;
-	int status, i = 0, ret; /*background programs flag*/
+	int wstatus, i = 0, ret; /*background programs flag*/
 	pid_t pid;
 
-	if (!builtin_command(argv))
+	if (!builtin_command(argv, status))
 	{
 		for (; (pathname[i] = argv[0][i]) != '\0'; i++)
 			;/*search for the executable in the PATH*/
@@ -123,11 +125,14 @@ void evaluate_command(char **argv, d_t *head, int bg)
 			/*parent waits for foreground job to terminate*/
 			if (!bg) /* i.e. if a foreground process (bg = 0)*/
 			{
-				ret = waitpid(pid, &status, 0);
+				ret = waitpid(pid, &wstatus, 0);
 				if (ret < 0)/*wait for termination(fg_job) & reap*/
 					unix_error("wait_fg: waitpid error");
-				if (WIFEXITED(status))
-					set_success(WEXITSTATUS(status));
+				if (WIFEXITED(wstatus))
+				{
+					set_success(WEXITSTATUS(wstatus));
+					*status = WEXITSTATUS(wstatus);
+				}
 			}
 			else/* its a bg job (bg = 1), continue - no waiting or reaping!*/
 			_write(buf, "background job", ": parent free to continue...\n");
@@ -138,7 +143,7 @@ void evaluate_command(char **argv, d_t *head, int bg)
 			_write(buf, argv[0], ": executable not found.\n");
 		}
 	}
-	/*printf("success value: %d\n", success);*/
+	printf("success value: %d\n", success);
 }
 
 /**
@@ -152,7 +157,7 @@ void evaluate_command_line(char *cmdline, d_t *head)
 {
 	char *argv[MAXARGS], buf[MAXLINE], del = ' ', delims[PATH_S], command[PATH_S];
 	char *commands[MAXARGS];
-	int bg, i, j; /*background programs flag*/
+	int bg, i, j, _success = 0, *status = &_success; /*background progs & success flag*/
 
 	strcpy(buf, cmdline); /*cpy cmdline into buf*/
 	/*determine no of commands in line, and for each, run through this process*/
@@ -178,7 +183,8 @@ void evaluate_command_line(char *cmdline, d_t *head)
 					bg = parseline(buf, argv, del);
 					if (argv[0] == NULL)
 					return; /*Ignore empty cmd - is that a possibility though?*/
-					evaluate_command(argv, head, bg);
+					evaluate_command(argv, head, bg, status);
+					printf("_success value: %d\n", _success);
 				}
 			}
 		}
@@ -188,7 +194,8 @@ void evaluate_command_line(char *cmdline, d_t *head)
 		bg = parseline(buf, argv, del);/*returns argv for command*/
 		if (argv[0] == NULL)
 			return; /*Ignore empty cmd lines*/
-		evaluate_command(argv, head, bg);
+		evaluate_command(argv, head, bg, status);
+		printf("_success value: %d\n", _success);
 	}
 }
 

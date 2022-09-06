@@ -18,6 +18,8 @@
 #define PATH_S 1024
 #define MAXARGS 128
 
+#define SET_SUCCESS(x) (x)
+
 
 extern char **environ;/*an external (global) variable - defined in Unix*/
 int success;
@@ -49,6 +51,18 @@ typedef struct path_node
 	struct path_node *next;
 } d_t;
 
+/**
+ * struct alias - alias structure
+ * for the _alias function
+ * @name: name of alias
+ * @value: string pointer to alias value
+ */
+typedef struct alias
+{
+	char *name;
+	char *value;
+} alias_t;
+
 /** WRAPPER FNS **/
 
 int unix_error(const char *msg);
@@ -70,8 +84,8 @@ void evaluate_command_line(char *cmdline, d_t *head);
 char *parse_path(d_t **head, char *file);
 void print_pathlist(d_t **head);
 int _write(char *buf, char *str, char *msg);
-int builtin_command(char **argv);
-int _cd(char **av);
+int builtin_command(char **argv, int *status);
+int _cd(char **av, int *status);
 char *check_for_delims(char *cmdline, char *delims, char *res);
 int _strlen(char s[]);
 void set_success(int i);
