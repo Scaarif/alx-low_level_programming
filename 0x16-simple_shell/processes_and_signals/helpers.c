@@ -42,3 +42,43 @@ void set_success(int i)
 	success = i;
 }
 
+/**
+ * str_reverse - reverse a string
+ * @s: the string to reverse
+ * Return: Nothing
+ */
+void str_reverse(char s[])
+{
+	int c, i, j;
+
+	for (i = 0, j = _strlen(s) - 1; i < j; i++, j--)
+	{
+		c = s[i];
+		s[i] = s[j];
+		s[j] = c;
+	}
+}
+
+/**
+ * _ltoa - convert long to base b string
+ * @val: the long int
+ * @s: string to hold the long
+ * @base: base to which to convert the long
+ * Return: Nothing
+ */
+void _ltoa(long val, char s[], int base)
+{
+	int c, i = 0;
+	int neg = val < 0;
+
+	if (neg)
+		val *= -1;
+	do {
+		s[i++] = ((c = (val % base)) < 10) ? c + '0' : c + 'a';
+	} while ((val /= base) > 0);
+
+	if (neg)
+		s[i++] = '-';
+	s[i] = '\0'; /*terminate string*/
+	str_reverse(s);
+}

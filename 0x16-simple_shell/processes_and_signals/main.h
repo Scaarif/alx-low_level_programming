@@ -91,6 +91,8 @@ int _strlen(char s[]);
 void set_success(int i);
 char *format_command(char *cmd, char *command);
 char *handle_comments(char *buf);
+void _ltoa(long val, char s[], int base);
+void variable_substitute(char **argv, int *status);
 
 
 /* safe I/O functions for signal handlers */

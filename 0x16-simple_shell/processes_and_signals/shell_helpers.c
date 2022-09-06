@@ -89,11 +89,12 @@ int _cd(char **av, int *status)
 /**
  * _alias - an implementation of alias()
  * @argv: pointer to array of args
+ * @status: pointer to exit_status flag
  * Return: ALIAS array? (in env)
  */
-void _alias(char **argv)
+void _alias(char **argv, int *status)
 {
-	(void)argv;
+	(void)argv, (void)status;
 	printf("HANDLE ALIAS!\n");
 }
 
@@ -109,11 +110,6 @@ int builtin_command(char **argv, int *status)
 	int i = 0;
 	char buf[MAXLINE];
 
-	if (argv[0][i] == '$')/*i.e if variable_substitution*/
-	{
-		variable_substitute(argv, status);
-		return (1);
-	}
 	if (!strcmp(argv[0], "exit"))/*i.e if command is exit*/
 	{
 		if (argv[1])
@@ -122,7 +118,7 @@ int builtin_command(char **argv, int *status)
 	}
 	if (!strcmp(argv[0], "alias"))/*i.e if command is exit*/
 	{
-		/*return(!_alias(argv));handle alias*/
+		_alias(argv, status);/*handle alias*/
 		return (1);
 	}
 	if (!strcmp(argv[0], "env"))/*i.e if command is env*/

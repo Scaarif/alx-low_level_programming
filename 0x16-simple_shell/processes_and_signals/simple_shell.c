@@ -106,7 +106,7 @@ void evaluate_command(char **argv, d_t *head, int bg, int *status)
 	int wstatus, i = 0, ret; /*background programs flag*/
 	pid_t pid;
 
-	if (!builtin_command(argv, status))
+	if (!builtin_command(argv, status))/*execute built-in OR block*/
 	{
 		for (; (pathname[i] = argv[0][i]) != '\0'; i++)
 			;/*search for the executable in the PATH*/
@@ -116,6 +116,11 @@ void evaluate_command(char **argv, d_t *head, int bg, int *status)
 		executable = parse_path(&head, file);
 		if (executable)/*argv[0] = file to search*/
 		{
+			if (argv[1] && argv[1][0] == '$')/*i.e if variable_substitution*/
+			{
+				/*printf("Evaluating $: \n");*/
+				variable_substitute(argv, status);
+			}
 			pid = Fork();
 			if (pid == 0)
 			{/* Child runs the user job (cmdline) */
