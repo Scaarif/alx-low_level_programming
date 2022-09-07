@@ -37,6 +37,57 @@ char *format_command(char *cmd, char *command)
 	return (command);
 }
 
+
+/**
+ * variable_substitute - implement variable replacement
+ * & update exit status
+ * @argv: pointer to command args
+ * @status: exit status flag
+ * Return: Nothing
+ */
+void variable_substitute(char **argv, int *status)
+{
+	int i = 0;
+	char buf[20], *var, name[100];
+	res _res = {-1, -1}, *res = &_res;
+
+	/* handle env values, ppid and exit status*/
+	if (argv[1][1] == '$')
+	{
+		_ltoa((long)getpid(), buf, 10);
+		for (; (argv[1][i] = buf[i]) != '\0'; i++)
+			;
+		argv[1][i] = '\0';/*update argv[1] to pid_str*/
+	}
+	else if (argv[1][1] == '?')
+	{
+		_ltoa((long)*status, buf, 10);
+		for (; (argv[1][i] = buf[i]) != '\0'; i++)
+			;
+		argv[1][i] = '\0';/*update argv[1] to exit_status*/
+	}
+	else if (argv[1][1] >= 'A' && argv[1][1] <= 'Z')
+	{/* probably an env variable, so check */
+		for (; (name[i] = argv[1][i + 1]) != '\0'; i++)
+			;
+		name[i] = '\0';/*terminate*/
+		var = _getenv(environ, name, res);
+		if (var)
+		{
+			for (i = 0; (argv[1][i] = var[i]) != '\0'; i++)
+				;
+			argv[1][i] = '\0';
+		}
+		else
+			argv[1][0] = '\0';/*should be NULL*/
+	}
+	else if (argv[1][1] != '(')
+	{
+		argv[1][0] = '\0';
+	}
+	/* handle the situation where it's a command! - that's the else */
+}
+
 /**
  * _cd - cd implementation using chdir and getcwd
  * @av: command line arguments array
@@ -58,7 +109,7 @@ int _cd(char **av, int *status)
 		else
 			unix_error("_getenv error");
 	}
-	else if (strcmp(av[1], "-") == 0)
+	else if (_strcmp(av[1], "-") == 0)
 	{
 		pathname = _getenv(environ, "OLDPWD", res);
 		if (pathname)
@@ -87,18 +138,6 @@ int _cd(char **av, int *status)
 }
 
 /**
- * _alias - an implementation of alias()
- * @argv: pointer to array of args
- * @status: pointer to exit_status flag
- * Return: ALIAS array? (in env)
- */
-void _alias(char **argv, int *status)
-{
-	(void)argv, (void)status;
-	printf("HANDLE ALIAS!\n");
-}
-
-/**
  * builtin_command - check if argv[0] is a built-in cmd
  * & update exit_status if true (on execution)
  * @argv: the command(line) as **argv, array of strings
@@ -110,18 +149,18 @@ int builtin_command(char **argv, int *status)
 	int i = 0;
 	char buf[MAXLINE];
 
-	if (!strcmp(argv[0], "exit"))/*i.e if command is exit*/
+	if (!_strcmp(argv[0], "exit"))/*i.e if command is exit*/
 	{
 		if (argv[1])
 			exit(atoi(argv[1]));/*handle exit argument/status*/
 		exit(0);/*terminate process*/
 	}
-	if (!strcmp(argv[0], "alias"))/*i.e if command is exit*/
+	if (!_strcmp(argv[0], "alias"))/*i.e if command is exit*/
 	{
 		_alias(argv, status);/*handle alias*/
 		return (1);
 	}
-	if (!strcmp(argv[0], "env"))/*i.e if command is env*/
+	if (!_strcmp(argv[0], "env"))/*i.e if command is env*/
 	{
 		/*print environ*/
 		for (; environ[i] != NULL; i++)
@@ -130,20 +169,20 @@ int builtin_command(char **argv, int *status)
 		*status = 0;/*successful*/
 		return (1);/*i.e return true - builtin command*/
 	}
-	if (!strcmp(argv[0], "cd"))/*i.e if command is exit*/
+	if (!_strcmp(argv[0], "cd"))/*i.e if command is exit*/
 	{
 		return (!_cd(argv, status));
 	}
-	if (!strcmp(argv[0], "setenv") || !strcmp(argv[0], "unsetenv"))
+	if (!_strcmp(argv[0], "setenv") || !_strcmp(argv[0], "unsetenv"))
 	{
-		if (!strcmp(argv[0], "setenv"))
+		if (!_strcmp(argv[0], "setenv"))
 			i = _setenv(argv[1], argv[2], 1);/*setenv VARIABLE VALUE overwrite*/
 		else
 			i = _unsetenv(argv[1]);/*unsetenv VARIABLE*/
 		*status = i;/*successful*/
 		return (!i);
 	}
-	if (!strcmp(argv[0], "&")) /*ignore singleton &*/
+	if (!_strcmp(argv[0], "&")) /*ignore singleton &*/
 		return (1);
 	return (0); /*i.e. not a built in command*/
 }

@@ -65,8 +65,9 @@ int main(void)
 	write(1, "shell_y$: ", 11);
 	len = _getline1(line, lim, STDIN_FILENO);
 	printf("_getline1 at %d: %s", len, line);
-	while ((len = _getline(line, PATH_S)) > 0)
+	while ((len = _getline(line, PATH_S)) > -1)
 	{
+		write(1, "shell_y$: ", 11);
 		if (len > max)
 		{
 			max = len;
@@ -74,6 +75,11 @@ int main(void)
 		}
 		if (max > 0)/*there was a line*/
 			printf("_getline at %d: %s", max, longest);
+		if (len == 0)
+		{
+			write(1, "logout\n", 8);
+			exit(0);
+		}
 	}
 	return (0);
 }

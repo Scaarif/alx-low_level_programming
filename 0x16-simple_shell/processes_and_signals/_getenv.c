@@ -27,7 +27,7 @@ int get_name(char **env, char *name_, res *_res)
 			name[j] = var[j];
 		name[j] = '\0';
 		/*printf("char at len: %c & len + 1 %c\n", var[len], var[len + 1]);*/
-		if (strcmp(name_, name) == 0)
+		if (_strcmp(name_, name) == 0)
 		{
 			_res->var_index = i;
 			_res->val_index = len + 1;/*skip the = sign*/

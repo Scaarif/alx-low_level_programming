@@ -79,16 +79,7 @@ ssize_t sio_putl(long v)
 	return (sio_puts(s));
 }
 
-/**
- * sio_error - safely write (print) an error msg
- * @s: the error msg
- * Return: Nothing
- */
-void sio_error(char *s)
-{
-	sio_puts(s);
-	_exit(0);/*safe termination*/
-}
+/*sio_error was here*/
 
 /** WRAPPER **/
 

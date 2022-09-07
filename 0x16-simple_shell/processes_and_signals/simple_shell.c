@@ -5,7 +5,7 @@
  * @cmdline: the command_line
  * @delims: the delims to check for
  * @res: an array of the delims in cmdline
- * Return: the delimeter found
+ * Return: a string of delimiters found
  */
 char *check_for_delims(char *cmdline, char *delims, char *res)
 {
@@ -57,13 +57,13 @@ char *get_file(char *pathname)
 }
 
 /**
- * parseline - parse the cmdline and build the argv array
+ * parse_line - parse the cmdline and build the argv array
  * @buf: a copy of the cmd(line) from which to build argv
  * @argv: the array of strings, for execve fn
  * @del: the delimiting character in during parsing
  * Return: int bg (1 or 0); a flag for background programs
  */
-int parseline(char *buf, char **argv, char del)
+int parse_line(char *buf, char **argv, char del)
 {
 	char *delim;
 	int argc, bg;
@@ -73,8 +73,9 @@ int parseline(char *buf, char **argv, char del)
 		buf++; /* ignore leading spaces; advance buf to 1st char */
 	/* Build the argv array */
 	argc = 0;
-	while ((delim = strchr(buf, del)))
-	{/*strchr returns pointer to 1st occurrence of ' ' in buf or NULL*/
+	printf("Parsing_line\n");
+	while ((delim = _strchr(buf, del)))
+	{/*_strchr returns pointer to 1st occurrence of ' ' in buf or NULL*/
 		argv[argc++] = buf;
 		*delim = '\0'; /*terminate 1st string*/
 		buf = delim + 1; /*advance buf - to start of next string*/
@@ -114,6 +115,7 @@ void evaluate_command(char **argv, d_t *head, int bg, int *status)
 		/*printf("pathname: %s\n", pathname);*/
 		file = get_file(pathname);
 		executable = parse_path(&head, file);
+		printf("executable file: %s\n", executable);
 		if (executable)/*argv[0] = file to search*/
 		{
 			if (argv[1] && argv[1][0] == '$')/*i.e if variable_substitution*/
@@ -164,17 +166,21 @@ void evaluate_command_line(char *cmdline, d_t *head)
 	char *commands[MAXARGS];
 	int bg, i, j, _success = 0, *status = &_success; /*background progs & success flag*/
 
-	strcpy(buf, cmdline); /*cpy cmdline into buf*/
+	_strcpy(buf, cmdline); /*cpy cmdline into buf*/
+	printf("cmd_buf: %s then chars in buf\n", buf);
+	while(buf[i++])
+		printf("%c", buf[i]);
+	printf(":end\n");
 	/*determine no of commands in line, and for each, run through this process*/
 	handle_comments(buf);/*remove everything starting at # - usually ignored*/
 	check_for_delims(buf, "&|;", delims);
 	/*printf("check delims done\n");*/
 	if (_strlen(delims))/*delimiters present, more than one command*/
 	{
-		/*printf("in commands case: \n");*/
+		printf("in commands case: \n");
 		for (i = 0; delims[i] != '\0'; i++)
 		{
-			bg = parseline(buf, commands, delims[i]);/*returns argv(array) of commands*/
+			bg = parse_line(buf, commands, delims[i]);/*returns argv(array) of commands*/
 			if (commands[0] == NULL)
 				return; /*Ignore empty cmd lines*/
 			/* get individual command argv(s) and evaluate */
@@ -184,8 +190,8 @@ void evaluate_command_line(char *cmdline, d_t *head)
 				if (j < 1 || (j > 0 && ((delims[i] == '&' && !success) ||
 					(delims[i] == '|' && success))) || delims[i] == ';')
 				{
-					strcpy(buf, command);
-					bg = parseline(buf, argv, del);
+					_strcpy(buf, command);
+					bg = parse_line(buf, argv, del);
 					if (argv[0] == NULL)
 					return; /*Ignore empty cmd - is that a possibility though?*/
 					evaluate_command(argv, head, bg, status);
@@ -195,8 +201,9 @@ void evaluate_command_line(char *cmdline, d_t *head)
 		}
 	}
 	else
-	{/*else, a single command*/
-		bg = parseline(buf, argv, del);/*returns argv for command*/
+	{/*else, a single command or ALIAS */
+		printf("in single command case: \n");
+		bg = parse_line(buf, argv, del);/*returns argv for command*/
 		if (argv[0] == NULL)
 			return; /*Ignore empty cmd lines*/
 		evaluate_command(argv, head, bg, status);

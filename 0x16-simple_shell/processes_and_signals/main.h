@@ -75,6 +75,7 @@ unsigned int Sleep(unsigned int secs);
 void sigint_handler(int sig);
 
 /* helper functions - p_writes */
+int parse_line(char *buf, char **argv, char del);
 int get_name(char **env, char *name_, res *_res);
 char *_getenv(char **env, char *name, res *_res);
 d_t *create_path_list(char *dir_str, d_t **head);
@@ -93,7 +94,11 @@ char *format_command(char *cmd, char *command);
 char *handle_comments(char *buf);
 void _ltoa(long val, char s[], int base);
 void variable_substitute(char **argv, int *status);
-
+void _alias(char **argv, int *status);
+char *_strdup(char *str);
+int _strcmp(char *s1, char *s2);
+char *_strchr(char *s, char c);
+char *_strcpy(char *dest, char *src);
 
 /* safe I/O functions for signal handlers */
 ssize_t sio_puts(char s[]);

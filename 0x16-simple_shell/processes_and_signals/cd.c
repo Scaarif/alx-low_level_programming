@@ -1,6 +1,6 @@
 #include "main.h"
 
-int parse_line(char *buf, char del, char **argv)
+int parse_line1(char *buf, char del, char **argv)
 {
 	char *delim;
 	int argc, bg;
@@ -29,6 +29,44 @@ int parse_line(char *buf, char del, char **argv)
 }
 
 /**
+ * _getline1 - reads a line from stream
+ * @s: pointer to string buffer into which to read
+ * @lim: pointer to buffer size limit
+ * @fd: stream to read from
+ * Return: no of characters read
+ */
+int _getline1(char *s, int lim, int fd)
+{
+	int n_read;
+
+	n_read = read(fd, s, lim);
+	if (n_read < 0)
+	{
+		unix_error("read error");
+		return (-1);
+	}
+	return (n_read);
+}
+
+/**
+ * _getline - reads a line from stream
+ * @s: the buffer into which to read
+ * @lim: the size limit
+ * Return: size of buffer
+ */
+int _getline(char s[], int lim)
+{
+	int c, i;
+
+	for (i = 0; i < lim - 1 && (c = getchar()) != EOF && c != '\n'; i++)
+		s[i] = c;
+	if (c == '\n')
+		s[i++] = c;
+	s[i] = '\0';
+	return (i);
+}
+
+/**
  * main - test parse_line
  * @ac: args count
  * @av: args array
@@ -42,11 +80,12 @@ int main(void)
 	
 	printf("#cisfun$ ");
 	Fgets(cmdline, MAXLINE, stdin);
+	/*_getline1(cmdline, MAXLINE, STDIN_FILENO);*/
 	strcpy(buf, cmdline);
 	check_for_delims(buf, "&|;", dels);
 	for (i = 0; dels[i] != '\0'; i++)
 		printf("del: %c\n", dels[i]);
-	parse_line(buf, del, commands);/*build commands array*/
+	parse_line1(buf, del, commands);/*build commands array*/
 	printf("Commands: \n");
 	for (i = 0; commands[i] != NULL; i++)
 	{
@@ -59,7 +98,7 @@ int main(void)
 		/*get each command's argv array*/
 		del = ' ';
 		strcpy(buf, command);
-		parse_line(buf, del, argv);/*build argv array for a single command*/
+		parse_line1(buf, del, argv);/*build argv array for a single command*/
 		/*printf("Command array string: %s\n", *argv);*/
 		printf("Command array strings: \n");
 		for (j = 0; argv[j] != NULL; j++)

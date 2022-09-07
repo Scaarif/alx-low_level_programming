@@ -47,7 +47,7 @@ int main(void)
 	char cmdline[MAXLINE], *dirs; /*the command(line)*/
 	d_t *head = NULL;
 	res _res = {-1, -1}, *res = &_res;
-	/*int n_read;*/
+	int n_read;
 
 	Signal(SIGINT, sigint_handler);/*catch (CTRL + C)*/
 	dirs = _getenv(environ, "PATH", res);/*get path directories*/
@@ -56,8 +56,11 @@ int main(void)
 	{
 		/* Read cmd from stdin */
 		write(1, "#cisfun$ ", 9);
-		Fgets(cmdline, MAXLINE, stdin);
-		if (feof(stdin))/*checks EOF status and returns 1 if set*/
+		/*Fgets(cmdline, MAXLINE, stdin);*/
+		/*n_read = _getline1(cmdline, MAXLINE, STDIN_FILENO);*/
+		n_read = _getline(cmdline, MAXLINE);
+		/*if (feof(stdin))checks EOF status and returns 1 if set*/
+		if (n_read == 0)
 			exit(0);
 		/* Evaluate the cmd */
 		printf("cmdline: %s", cmdline);

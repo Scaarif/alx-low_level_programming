@@ -46,3 +46,14 @@ void Sigemptyset(sigset_t *set)
 	if (sigemptyset(set) < 0)
 		unix_error("Sigemptyset error");
 }
+
+/**
+ * sio_error - safely write (print) an error msg
+ * @s: the error msg
+ * Return: Nothing
+ */
+void sio_error(char *s)
+{
+	sio_puts(s);
+	_exit(0);/*safe termination*/
+}

@@ -24,7 +24,6 @@ void sigint_handler(int sig)
 
 	/*printf("Caught SIGINT!\n");*/
 	_write(buf, "", "");/*no need for this line!*/
-	return;
 }
 
 /** WRAPPERS - call the base function and check for and handle errors **/

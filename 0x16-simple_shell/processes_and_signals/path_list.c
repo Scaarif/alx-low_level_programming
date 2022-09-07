@@ -32,7 +32,7 @@ d_t *add_node(char *dir, d_t **head)
 		return (NULL);
 	}
 	/*printf("Add dir: %s\n", dir);*/
-	new_node->dir = strdup(dir);
+	new_node->dir = _strdup(dir);
 	/*printf("added dir: %s\n", new_node->dir);*/
 	tail = *head;
 	if (tail == NULL)
@@ -113,7 +113,7 @@ char *parse_path(d_t **head, char *file)
 			errno = 0;/*track to differentiate an error from end of stream*/
 			while ((d_entry = readdir(d_stream)) != NULL)
 			{/*get next entry/file in current_directory & compare with file*/
-				if (strcmp(d_entry->d_name, file) == 0)
+				if (_strcmp(d_entry->d_name, file) == 0)
 				{
 					for (; (file[i] = (curr->dir)[i]) != '\0'; i++)
 						;
