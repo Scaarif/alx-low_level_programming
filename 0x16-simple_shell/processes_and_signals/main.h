@@ -19,11 +19,9 @@
 #define BUFSIZE 1024
 #define MAXARGS 128
 
-#define SET_SUCCESS(x) (x)
-
 
 extern char **environ;/*an external (global) variable - defined in Unix*/
-int success;
+/*int success;*/
 
 typedef void handler_t(int);
 
@@ -114,9 +112,6 @@ void Sigfillset(sigset_t *set);
 void Sigemptyset(sigset_t *set);
 void Sigaddset(sigset_t *set, int signum);
 void Sigprocmask(int how, const sigset_t *set, sigset_t *oldset);
-
-/* JOBS */
-
 
 
 #endif /*MAIN_H*/

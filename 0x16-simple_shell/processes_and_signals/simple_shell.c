@@ -73,7 +73,7 @@ int parse_line(char *buf, char **argv, char del)
 		buf++; /* ignore leading spaces; advance buf to 1st char */
 	/* Build the argv array */
 	argc = 0;
-	printf("Parsing_line\n");
+	/*printf("Parsing_line\n");*/
 	while ((delim = _strchr(buf, del)))
 	{/*_strchr returns pointer to 1st occurrence of ' ' in buf or NULL*/
 		argv[argc++] = buf;
@@ -115,14 +115,10 @@ void evaluate_command(char **argv, d_t *head, int bg, int *status)
 		/*printf("pathname: %s\n", pathname);*/
 		file = get_file(pathname);
 		executable = parse_path(&head, file);
-		printf("executable file: %s\n", executable);
 		if (executable)/*argv[0] = file to search*/
 		{
 			if (argv[1] && argv[1][0] == '$')/*i.e if variable_substitution*/
-			{
-				/*printf("Evaluating $: \n");*/
 				variable_substitute(argv, status);
-			}
 			pid = Fork();
 			if (pid == 0)
 			{/* Child runs the user job (cmdline) */
@@ -137,20 +133,16 @@ void evaluate_command(char **argv, d_t *head, int bg, int *status)
 					unix_error("wait_fg: waitpid error");
 				if (WIFEXITED(wstatus))
 				{
-					set_success(WEXITSTATUS(wstatus));
+					/*set_success(WEXITSTATUS(wstatus));*/
 					*status = WEXITSTATUS(wstatus);
 				}
 			}
 			else/* its a bg job (bg = 1), continue - no waiting or reaping!*/
-			_write(buf, "background job", ": parent free to continue...\n");
-			/*we could use SIGCHLD to reap the child, use a handler to catch it*/
+				_write(buf, "background job", ": parent free to continue...\n");
 		}
 		else
-		{
 			_write(buf, argv[0], ": executable not found.\n");
-		}
 	}
-	printf("success value: %d\n", success);
 }
 
 /**
@@ -164,50 +156,42 @@ void evaluate_command_line(char *cmdline, d_t *head)
 {
 	char *argv[MAXARGS], buf[MAXLINE], del = ' ', delims[PATH_S], command[PATH_S];
 	char *commands[MAXARGS];
-	int bg, i, j, _success = 0, *status = &_success; /*background progs & success flag*/
+	int bg, i, j, _success = 0, *status = &_success; /*progs & success flag*/
 
 	_strcpy(buf, cmdline); /*cpy cmdline into buf*/
-	printf("cmd_buf: %s then chars in buf\n", buf);
-	while(buf[i++])
-		printf("%c", buf[i]);
-	printf(":end\n");
 	/*determine no of commands in line, and for each, run through this process*/
 	handle_comments(buf);/*remove everything starting at # - usually ignored*/
 	check_for_delims(buf, "&|;", delims);
 	/*printf("check delims done\n");*/
 	if (_strlen(delims))/*delimiters present, more than one command*/
 	{
-		printf("in commands case: \n");
 		for (i = 0; delims[i] != '\0'; i++)
 		{
-			bg = parse_line(buf, commands, delims[i]);/*returns argv(array) of commands*/
+			bg = parse_line(buf, commands, delims[i]);/*return (array) of commands*/
 			if (commands[0] == NULL)
 				return; /*Ignore empty cmd lines*/
 			/* get individual command argv(s) and evaluate */
 			for (j = 0; commands[j] != NULL; j++)
 			{
 				format_command(commands[j], command);
-				if (j < 1 || (j > 0 && ((delims[i] == '&' && !success) ||
-					(delims[i] == '|' && success))) || delims[i] == ';')
+				if (j < 1 || (j > 0 && ((delims[i] == '&' && !_success) ||
+					(delims[i] == '|' && _success))) || delims[i] == ';')
 				{
 					_strcpy(buf, command);
 					bg = parse_line(buf, argv, del);
 					if (argv[0] == NULL)
 					return; /*Ignore empty cmd - is that a possibility though?*/
 					evaluate_command(argv, head, bg, status);
-					printf("_success value: %d\n", _success);
 				}
 			}
 		}
 	}
 	else
 	{/*else, a single command or ALIAS */
-		printf("in single command case: \n");
 		bg = parse_line(buf, argv, del);/*returns argv for command*/
 		if (argv[0] == NULL)
 			return; /*Ignore empty cmd lines*/
 		evaluate_command(argv, head, bg, status);
-		printf("_success value: %d\n", _success);
 	}
 }
 

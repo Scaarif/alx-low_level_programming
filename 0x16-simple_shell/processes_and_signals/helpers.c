@@ -39,7 +39,8 @@ int _strlen(char s[])
  */
 void set_success(int i)
 {
-	success = i;
+	(void)i;
+	/*success = i;*/
 }
 
 /**
