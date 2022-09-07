@@ -16,6 +16,7 @@
 #define	MAXLINE	 8192  /* Max text line length */
 #define MAXJOBS    16
 #define PATH_S 1024
+#define BUFSIZE 1024
 #define MAXARGS 128
 
 #define SET_SUCCESS(x) (x)
@@ -99,6 +100,8 @@ char *_strdup(char *str);
 int _strcmp(char *s1, char *s2);
 char *_strchr(char *s, char c);
 char *_strcpy(char *dest, char *src);
+
+ssize_t get_line(char **lineptr, size_t *n, FILE *stream);
 
 /* safe I/O functions for signal handlers */
 ssize_t sio_puts(char s[]);
