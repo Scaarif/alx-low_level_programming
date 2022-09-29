@@ -14,7 +14,7 @@ dlistint_t *insert_dnodeint_at_index(dlistint_t **h, unsigned int idx, int n)
 	dlistint_t *new;
 
 	if (idx == 0)/* insert node at the beginning */
-		add_dnodeint(h, (const int)n);
+		return (add_dnodeint(h, (const int)n));
 	/* get the node position if existent while getting len */
 	for (curr = *h; curr->next != NULL; curr = curr->next, len++)
 	{
@@ -33,8 +33,11 @@ dlistint_t *insert_dnodeint_at_index(dlistint_t **h, unsigned int idx, int n)
 		curr->prev = new;
 		return (new);
 	}
-	else if (curr->next == NULL && idx == (len - 1))/*tail*/
-		add_dnodeint_end(h, (const int)n);/*insert node to tail*/
+	else if (curr->next == NULL && idx == len)/*tail*/
+	{
+		/*printf("at tail:\n");*/
+		return (add_dnodeint_end(h, (const int)n));/*insert node to tail*/
+	}
 	/*else, idx is greater than len (or negative) - can't insert node */
 	return (NULL);
 }
