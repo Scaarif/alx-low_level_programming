@@ -3,6 +3,25 @@
 
 #include <stddef.h>
 
+#include <unistd.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <errno.h>
+#include <sys/types.h>
+#include <sys/wait.h>
+#include <sys/stat.h>
+#include <sys/fcntl.h>
+#include <dirent.h>
+#include <string.h>
+#include <signal.h>
+
+#define	MAXLINE	 8192  /* Max text line length */
+#define MAXJOBS    16
+#define PATH_S 1024
+#define BUFSIZE 1024
+#define MAXARGS 128
+
+
 /**
  * struct list_s - singly linked list
  * @str: string - (malloc'ed string)

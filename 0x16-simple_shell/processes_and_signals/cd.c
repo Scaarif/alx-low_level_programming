@@ -75,35 +75,45 @@ int _getline(char s[], int lim)
 int main(void)
 {
 	char buf[MAXLINE], *argv[MAXARGS], cmdline[MAXLINE], del = '&', dels[PATH_S];
-	char *commands[MAXARGS], command[PATH_S];
-	int i, j;
+	char *commands[MAXARGS], command[PATH_S], *separate[MAXARGS];
+	int i, j, k;
 	
 	printf("#cisfun$ ");
 	Fgets(cmdline, MAXLINE, stdin);
 	/*_getline1(cmdline, MAXLINE, STDIN_FILENO);*/
 	strcpy(buf, cmdline);
-	check_for_delims(buf, "&|;", dels);
-	for (i = 0; dels[i] != '\0'; i++)
-		printf("del: %c\n", dels[i]);
-	parse_line1(buf, del, commands);/*build commands array*/
-	printf("Commands: \n");
-	for (i = 0; commands[i] != NULL; i++)
+	/*check for separator first*/
+	parse_line1(buf, ';', separate);/*build separated commands array*/
+	k = 0;
+	while (separate[k] != NULL)/*always have at least one command*/
 	{
-		for (j = 0; (command[j] = commands[i][j]) != '\0'; j++)
-			;
-		/*add a new line char to each command b4 termination?*/
-		command[j++] = '\n';
-		command[j] = '\0';
-		printf("command_str:%s", command);
-		/*get each command's argv array*/
-		del = ' ';
-		strcpy(buf, command);
-		parse_line1(buf, del, argv);/*build argv array for a single command*/
-		/*printf("Command array string: %s\n", *argv);*/
-		printf("Command array strings: \n");
-		for (j = 0; argv[j] != NULL; j++)
-			printf("%s\n", argv[j]);/*print the array tokens*/
-		/*printf("%s\n", commands[i]);*/
+		printf("separated command: %s\n", separate[k]);
+		check_for_delims(buf, "&|", dels);
+		for (i = 0; dels[i] != '\0'; i++)
+		{
+			printf("del: %c\n", dels[i]);
+			parse_line1(separate[i], dels[i], commands);/*build commands array*/
+			printf("Commands: \n");
+			for (i = 0; commands[i] != NULL; i++)
+			{
+				for (j = 0; (command[j] = commands[i][j]) != '\0'; j++)
+					;
+				/*add a new line char to each command b4 termination?*/
+				command[j++] = '\n';
+				command[j] = '\0';
+				printf("command_str:%s", command);
+				/*get each command's argv array*/
+				del = ' ';
+				strcpy(buf, command);
+				parse_line1(buf, del, argv);/*build argv array for a single command*/
+				/*printf("Command array string: %s\n", *argv);*/
+				printf("Command array strings: \n");
+				for (j = 0; argv[j] != NULL; j++)
+					printf("%s\n", argv[j]);/*print the array tokens*/
+				/*printf("%s\n", commands[i]);*/
+			}
+		}
+		k++;
 	}
 	return (0);
 }
