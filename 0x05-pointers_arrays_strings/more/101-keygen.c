@@ -19,9 +19,11 @@ int main(void)
 	{
 		password[index] = 33 + rand() % 94;
 		sum += password[index++];
+		/*printf("sum: %d ", sum);*/
 	}
 
 	password[index] = '\0';
+	/*printf("\npassword: %s\n", password);*/
 
 	if (sum != 2772)
 	{
@@ -48,7 +50,8 @@ int main(void)
 		}
 	}
 
-	printf("%s", password);
+	printf("What the hell is happening?\n");
+	/*printf("%s/n", password);*/
 
 	return (0);
 }
