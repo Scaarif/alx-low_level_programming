@@ -12,22 +12,32 @@ stack_t *stack = NULL;
 int is_opcode(char *opcode, char *arg, int line)
 {
 	int i = 0, j, len;
+	static int queue_on;
 	/* valid opcodes is an array of type instruction_t */
 	instruction_t opcodes[] = {
 		{"push", push}, {"pall", pall}, {"pint", pint}, {"pop", pop},
 		{"swap", swap}, {"add", add}, {"nop", nop}, {"sub", sub},
-		{"div", div_}, {"mul", mul}, {"mod", mod}, {NULL, NULL},
+		{"div", div_}, {"mul", mul}, {"mod", mod}, {"pchar", pchar},
+		{"pstr", pstr}, {"rotl", rotl}, {"rotr", rotr}, {"stack", stack_},
+		{"queue", queue}, {NULL, NULL},
 	};
 
 	/* check potential against valid opcodes */
+	if (strcmp(opcode, "queue") == 0)
+	{
+		queue_on = 1;/*once enabled, can only be disabled by an explicit stack mode*/
+		printf("queue mode enabled to %d\n", queue_on);
+	}
+	else if (strcmp(opcode, "stack") == 0)
+				queue_on = 0;
 	for (; opcodes[i].opcode != NULL; i++)
 	{
 		if (strcmp(opcodes[i].opcode, opcode) == 0)
 		{/* call the relevant function */
 			if (strcmp(opcode, "push") == 0)
-			{/*check that the has some length & is a number */
+			{/*check that the arg has some length & is a number */
 				len = (int)strlen(arg);
-				printf("arg len: %d\n", len);
+				/*printf("arg len: %d\n", len);*/
 				if (!len)
 				{
 					fprintf(stderr, "L%d: usage: push integer\n", line);
@@ -35,15 +45,24 @@ int is_opcode(char *opcode, char *arg, int line)
 				}
 				for (j = 0; j < len; j++)
 				{
-					printf("arg isdigit: %s\n", isdigit(arg[j]) ? "true" : "false");
+					/*printf("arg isdigit: %s\n", isdigit(arg[j]) ? "true" : "false");*/
 					if (!isdigit(arg[j]))
 					{
 						fprintf(stderr, "L%d: usage: push integer\n", line);
 					       	exit(EXIT_FAILURE);
 					}
 				}
-				printf("outside the loop\n");
-				opcodes[i].f(&stack, (unsigned int)atoi(arg));
+				/*printf("outside the loop\n");*/
+				if (queue_on)
+				{
+					printf("queue mode on\n");
+					queue_push(&stack, (unsigned int)atoi(arg));
+				}
+				else
+				{
+					printf("queue mode off\n");
+					opcodes[i].f(&stack, (unsigned int)atoi(arg));
+				}
 			}
 			else
 				opcodes[i].f(&stack, (unsigned int)line);
@@ -80,7 +99,7 @@ int valid_instruction(char *line, int line_no)
 				opcode[j++] = line[i++];
 		}
 		opcode[j] = '\0';
-		printf("potential opcode: %s\n", opcode);
+		/*printf("potential opcode: %s\n", opcode);*/
 		/* arg - opcode's potential arg is the next alnum right after(spaces) */
 		while(line[i] == ' ')
 			i++;
@@ -91,7 +110,7 @@ int valid_instruction(char *line, int line_no)
 				arg[j++] = line[i++];
 		}
 		arg[j] = '\0';
-		printf("potential arg: %s\n", arg);
+		/*printf("potential arg: %s\n", arg);*/
 		/*now check if the potential opcode is valid*/
 		return (is_opcode(opcode, arg, line_no));
 		/*if valid, execute - by calling its function & return */
@@ -109,7 +128,7 @@ int valid_instruction(char *line, int line_no)
  */
 int analyze_file_contents(char *str)
 {
-	int i = 0, j = 0, lines = 0, valid = 0;
+	int i = 0, j = 0, lines = 0/*, valid = 0*/;
 	char line[BUFFER];
 
 	/*read a line at a time  check for next '\n' in str*/
@@ -120,10 +139,11 @@ int analyze_file_contents(char *str)
 			/* check if line is a valid instruction */
 			line[j++] = '\0'; /* terminate line */
 			lines++;
-			printf("new line: %s\n", line);
+			/*printf("new line: %s\n", line);*/
 			/*lines will be the line we are currently at */
-			valid = valid_instruction(line, lines);
-			printf("line: %s is %s!\n", line, valid ? "valid" : "not valid");
+			/*valid = valid_instruction(line, lines);*/
+			valid_instruction(line, lines);
+			/*printf("line: %s is %s!\n", line, valid ? "valid" : "not valid");*/
 			j = 0; /*start a new line*/
 		}
 		else
