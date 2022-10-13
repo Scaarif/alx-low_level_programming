@@ -103,21 +103,27 @@ void swap(stack_t **head, unsigned int n)
 	(void)n;
 
 	if (*head != NULL)
-		temp = *head;
-	if (temp->next)/*then we have at least two elements*/
 	{
-		*head = temp->next;/*i.e the 2nd element*/
-		if (temp->next->next)
+		temp = *head;
+		if (temp->next)/*then we have at least two elements*/
 		{
-			third = temp->next->next;
-			third->prev = temp;
-			temp->next = third;
+			*head = temp->next;/*i.e the 2nd element*/
+			if (temp->next->next)
+			{
+				third = temp->next->next;
+				third->prev = temp;
+				temp->next = third;
+			}
+			else
+				temp->next = NULL;
+			(*head)->prev = NULL;
+			(*head)->next = temp;
+			temp->prev = *head;
 		}
 		else
-			temp->next = NULL;
-		(*head)->prev = NULL;
-		(*head)->next = temp;
-		temp->prev = *head;
+		{
+			/*only one node - so print error and exit*/
+		}
 	}
 	else
 	{

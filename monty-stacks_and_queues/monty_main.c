@@ -55,12 +55,12 @@ int is_opcode(char *opcode, char *arg, int line)
 				/*printf("outside the loop\n");*/
 				if (queue_on)
 				{
-					printf("queue mode on\n");
+					/*printf("queue mode on\n");*/
 					queue_push(&stack, (unsigned int)atoi(arg));
 				}
 				else
 				{
-					printf("queue mode off\n");
+					/*printf("queue mode off\n");*/
 					opcodes[i].f(&stack, (unsigned int)atoi(arg));
 				}
 			}
@@ -69,7 +69,7 @@ int is_opcode(char *opcode, char *arg, int line)
 			return (1);
 		}
 	}
-	printf("instruction NOT a valid opcode!\n");
+	fprintf(stderr, "L%d: unknown instruction <%s>\n", line, opcode);
 	return (0);
 }
 
@@ -95,7 +95,7 @@ int valid_instruction(char *line, int line_no)
 			break;
 		else if (isalpha(line[i]))
 		{
-			while (line[i] != ' ' && line[i])
+			while (line[i] != ' ')
 				opcode[j++] = line[i++];
 		}
 		opcode[j] = '\0';
@@ -112,7 +112,9 @@ int valid_instruction(char *line, int line_no)
 		arg[j] = '\0';
 		/*printf("potential arg: %s\n", arg);*/
 		/*now check if the potential opcode is valid*/
-		return (is_opcode(opcode, arg, line_no));
+		if (strlen(opcode))
+			return (is_opcode(opcode, arg, line_no));
+		return (0);
 		/*if valid, execute - by calling its function & return */
 	}
 	printf("Empty line!\n");

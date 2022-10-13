@@ -1,0 +1,53 @@
+####  
+        This file details the solution of the make me win task (A Code Injection Problem) 
+####
+
+The following are the provided details:
+1. the mole (the guy with access to the game server) can only upload one file to the server
+That is our code injection script file
+2. there cannot be any trace of the file (our script) in the system (linux)
+3. the upload has to happen 98 seconds before the server admin runs the executable to generate a winner
+This' where LD_PRELOAD applies (it loads the shared object (library) set in its path before any other library(including C runtime libs)
+4. the script (file) can only contain 2 lines and with no ;, ||, and the likes - as they are detectable by the system
+
+Actual solution (i.e. The Code Injection)
+> clone the source code/file as provided
+> run the executable gm <./gm>
+the above step results in an error and Usage directions
+> run it correctly (as in Usage: error message) - gives you a glimpse of the working of the code (random gen no's are compared with yours & a message printed out)
+> analyze the executable - for more insight:
+1. run ldd ./gm (this outlines the libraries used in the program) - you find out the C lib is used (libc.so.6 => /lib/x86_64-linux-gnu/libc.so.6 (0x00007f5197de2000) )
+2. run ltrace ./gm (this outlines the specific library functions called/used/made)
+In this case of ltrace (you have to run <ltrace ./gm 9 8 10 24 75 9 > to get the result (the function calls) - clearly, the lib functions atoi, dprintf, prontf, time, srand & rand
+are used
+3. run strings gm - to see the symbols (for unstriped files) in the executable
+You can deduce that a comparison of some sort occurs and a final result is printed out
+saying the points you earned if any and sorry if you earn nothing (or that you win the jackpot)
++++> this' the behavior we want to change - so the program prints that we have won!
+
+> with the analysis info: write a script to change said behavior
+---> use one of the functions called in the program (and since printf is responsible for
+printing out the winning message, lets use that:)
+> the script for Code Injection: 
+# first, we need the precise prototype of the printf function: 
+int printf(const char *format, ...)
+{
+    # within printf, we inject the code we need to change the behavior
+    # we need it to print the jackpot winner message instead - so, we could use write()
+    write(1, "Congratulations, you win the Jackpot!", 37)
+}
+
+> this overwrites the default printf functionality (writes out this instead) - so any calls to printf while LD_PRELOAD is set, prints out the congratulatory message(from whatever files)
+> generate an object file of this injection script (gcc -fPIC injection.c -o injection.o)
+> generate a shared library of the object file (gcc -shared -o libinjection.so injection.o)
+> LD_PRELOAD this shared library (so that its loaded before any other libraries when we run the gm program)
+---> i.e. export LD_PRELOAD=/$PWD/libinjection.so
+> run the gm program < /gm 9 8 10 24 75 9 > 
+----> this prints out 6 Congrats messages (i.e. our overwrite printf runs every time printf is called by the program)
+> OTHER REQUIREMENTS TO FULFIL: (as is seen when you run ./gm 9 8 10 24 75 9) - two lines are printed (the randomly generated winning numbers & the message(win/lose))
+Therefore, two lines should be printed on success of injection
+1. the number combination that win - 9 8 10 24 75 -9
+2. the congratulatory message (Congratulations, you win the Jackpot!) - only once
+# That's a total of 55 chars (17 for the numbers and a new line char + (37) for congratulatory msg + 1(\n) for that line
+----> fulfilling the first is easy (use another write),
+----> for the second (lets exit(EXIT_SUCCESS) once the script executes once) - that way, only one congratulatory msg is written  
