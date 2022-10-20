@@ -20,7 +20,7 @@ the above step results in an error and Usage directions
 2. run ltrace ./gm (this outlines the specific library functions called/used/made)
 In this case of ltrace (you have to run <ltrace ./gm 9 8 10 24 75 9 > to get the result (the function calls) - clearly, the lib functions atoi, dprintf, prontf, time, srand & rand
 are used
-3. run strings gm - to see the symbols (for unstriped files) in the executable
+3. run strings gm - to see the symbols (strings applies to unstriped files - determined by the *file* gm cmd) in the executable
 You can deduce that a comparison of some sort occurs and a final result is printed out
 saying the points you earned if any and sorry if you earn nothing (or that you win the jackpot)
 +++> this' the behavior we want to change - so the program prints that we have won!
