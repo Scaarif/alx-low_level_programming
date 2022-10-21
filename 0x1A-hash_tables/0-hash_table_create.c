@@ -8,6 +8,8 @@
 hash_table_t *hash_table_create(unsigned long int size)
 {
 	hash_table_t *new;
+	hash_node_t **array;
+	unsigned long int idx = 0;
 
 	/* allocate memory to the table */
 	new = malloc(sizeof(hash_table_t));
@@ -20,12 +22,17 @@ hash_table_t *hash_table_create(unsigned long int size)
 	/* else */
 	new->size = size;
 	/* allocate memory to  array (size of node_ptr * no_of_nodes)*/
-	new->array = malloc(sizeof(hash_node_t *) * size);
-	if (new->array == NULL)
+	array = malloc(sizeof(hash_node_t *) * size);
+	if (array == NULL)
 	{
-		free(new->array);
+		free(array);
 		return (NULL);
 	}
+	/* else */
+	new->array = array;
+	/* initialize the array? - with a sentinel value (NULL) */
+	while (idx++ < (new->size) - 1) /* why though? */
+		(new->array)[idx] = NULL;
 	return (new);
 }
 

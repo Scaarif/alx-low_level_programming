@@ -14,7 +14,7 @@ void hash_table_delete(const hash_table_t *ht)
 	{
 	/* ht contains an array with lists (nodes) */
 		/*go through the array freeing each list */
-		while (idx++ < ht->size)
+		while (idx++ < (ht->size) - 1)
 		{
 	/* every allocated memory has to be freed - the table, the array & nodes */
 			curr = (ht->array)[idx];
