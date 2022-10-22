@@ -106,7 +106,7 @@ int shash_table_set(shash_table_t *ht, const char *key, const char *value)
 			free(node);
 			return (0); /* malloc failure */
 		}
-		if (key)
+		if (key && strlen(key) > 0)
 			node->key = strdup(key);
 		else
 			return (0); /* key can't be an empty string */

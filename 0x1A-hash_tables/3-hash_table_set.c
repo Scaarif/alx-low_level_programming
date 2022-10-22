@@ -24,7 +24,7 @@ int hash_table_set(hash_table_t *ht, const char *key,
 			return (0); /* failed malloc */
 		}
 		/* else, check that key isn't empty */
-		if (key == NULL)
+		if (key == NULL || strlen(key) == 0)
 			return (0); /* key can't be empty */
 		/*node->key = (char *)key;*/
 		node->key = strdup(key);

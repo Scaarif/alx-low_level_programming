@@ -10,7 +10,11 @@
 int main(void)
 {
  hash_table_t *ht;
+ int ret;
  ht = hash_table_create(1024);
- hash_table_set(ht, "betty", "cool");
+ ret = hash_table_set(ht, "betty", "cool");
+ printf("ret: %d\n", ret);
+ ret = hash_table_set(ht, "", "cool");
+ printf("ret: %d\n", ret);
  return (EXIT_SUCCESS);
 }
