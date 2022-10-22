@@ -26,10 +26,12 @@ int hash_table_set(hash_table_t *ht, const char *key,
 		/* else, check that key isn't empty */
 		if (key == NULL)
 			return (0); /* key can't be empty */
-		node->key = (char *)key;
+		/*node->key = (char *)key;*/
+		node->key = strdup(key);
 		node->value = strdup(value); /* value must be duplicated */
 	/* obtain the index at which to insert the node */
 		idx = key_index((const unsigned char *)key, ht->size);
+		/*printf("idx: %lu - %s\n", idx, key);*/
 	/* check if already occupied (collision status) */
 		if ((ht->array)[idx] == NULL) /* vacant */
 		{

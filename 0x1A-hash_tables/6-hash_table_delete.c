@@ -25,6 +25,7 @@ void hash_table_delete(const hash_table_t *ht)
 				{
 					to_free = curr;
 					curr = curr->next;
+					free(to_free->key); /* was duplicated */
 					free(to_free->value); /* was duplicated */
 					free(to_free);
 				}

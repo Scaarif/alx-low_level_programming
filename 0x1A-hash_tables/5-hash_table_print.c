@@ -15,7 +15,7 @@ void hash_table_print(const hash_table_t *ht)
 	{
 	/* for every index in the array, print the list */
 		printf("{");
-		while (idx++ < (ht->size) - 1) /* again, why - 1?*/
+		while (idx++ < (ht->size) - 1) /* again, why - 1? (invalid read error) */
 		{
 			/* if (ht->array)[idx], print it's contents */
 			curr = (ht->array)[idx];
