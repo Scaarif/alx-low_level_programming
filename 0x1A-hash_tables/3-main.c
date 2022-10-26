@@ -16,5 +16,11 @@ int main(void)
  printf("ret: %d\n", ret);
  ret = hash_table_set(ht, "", "cool");
  printf("ret: %d\n", ret);
+ ret = hash_table_set(ht, NULL, "cool");
+ printf("ret: %d\n", ret);
+ ret = hash_table_set(ht, "hetairas", "cool");
+ printf("ret: %d\n", ret);
+ ret = hash_table_set(ht, "mentioner", "cool");
+ printf("ret: %d\n", ret);
  return (EXIT_SUCCESS);
 }
