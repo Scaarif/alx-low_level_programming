@@ -11,28 +11,38 @@ hash_table_t *hash_table_create(unsigned long int size)
 	/*hash_node_t **array;*/
 	unsigned long int idx = 0;
 
+	if (size > 0)
+	{
 	/* allocate memory to the table */
-	new = malloc(sizeof(hash_table_t));
-	/* if memory allocation fails ...*/
-	if (new == NULL)
-	{
-		free(new);
-		return (NULL);
+		new = malloc(sizeof(hash_table_t));
+		/* if memory allocation fails ...*/
+		if (new == NULL)
+		{
+			free(new);
+			return (NULL);
+		}
+		/* else */
+		new->size = size;
+		/* allocate memory to  array (size of node_ptr * no_of_nodes)*/
+		new->array = malloc(sizeof(hash_node_t *) * size);
+		if (new->array == NULL)
+		{
+			free(new->array);
+			return (NULL);
+		}
+		/* else */
+		/*new->array = array;*/
+		/* initialize the array? - with a sentinel value (NULL) */
+		if (size == 1)
+			(new->array)[idx] = NULL;
+		else
+		{
+			while (idx++ < (new->size) - 1) /* why though? */
+				(new->array)[idx] = NULL;
+		}
 	}
-	/* else */
-	new->size = size;
-	/* allocate memory to  array (size of node_ptr * no_of_nodes)*/
-	new->array = malloc(sizeof(hash_node_t *) * size);
-	if (new->array == NULL)
-	{
-		free(new->array);
-		return (NULL);
-	}
-	/* else */
-	/*new->array = array;*/
-	/* initialize the array? - with a sentinel value (NULL) */
-	while (idx++ < (new->size) - 1) /* why though? */
-		(new->array)[idx] = NULL;
+	else
+		new = NULL;
 	return (new);
 }
 

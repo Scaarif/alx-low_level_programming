@@ -11,27 +11,32 @@ shash_table_t *shash_table_create(unsigned long int size)
 	unsigned long int idx = 0;
 
 	/* create the table - by memory allocation */
-	table = malloc(sizeof(shash_table_t));
-	if (table == NULL)
+	if (size > 0)
 	{
-		free(table);
-		return (NULL); /* malloc failure */
+		table = malloc(sizeof(shash_table_t));
+		if (table == NULL)
+		{
+			free(table);
+			return (NULL); /* malloc failure */
+		}
+		/* else */
+		table->size = size;
+		/* allocate memory to table array */
+		table->array = malloc(sizeof(shash_node_t *) * size);
+		if (table->array == NULL)
+		{
+			free(table->array);
+			return (NULL); /* malloc failure */
+		}
+		/* initialize the array buckets */
+		for (; idx < size; idx++)
+			(table->array)[idx] = NULL;
+		/* initialize the other member values */
+		table->shead = NULL;
+		table->stail = NULL;
 	}
-	/* else */
-	table->size = size;
-	/* allocate memory to table array */
-	table->array = malloc(sizeof(shash_node_t *) * size);
-	if (table->array == NULL)
-	{
-		free(table->array);
-		return (NULL); /* malloc failure */
-	}
-	/* initialize the array buckets */
-	while (idx++ < size - 1)
-		(table->array)[idx] = NULL;
-	/* initialize the other member values */
-	table->shead = NULL;
-	table->stail = NULL;
+	else
+		table = NULL;
 	return (table);
 }
 
@@ -97,23 +102,29 @@ int shash_table_set(shash_table_t *ht, const char *key, const char *value)
 	unsigned long int idx;
 	shash_node_t *node;
 
-	if (ht) /* check that table exists */
-	{
-		/* create the node - malloc needed space & assign values if successful */
+	if (ht && key && strlen(key) > 0) /* check that table exists */
+	{ /* check if the key already exists in the table (don't recreate) */
+		idx = key_index((const unsigned char *)key, ht->size);
+		if ((ht->array)[idx] != NULL)
+		{
+			for (node = (ht->array)[idx]; node != NULL; node = node->next)
+			{
+				if (strcmp(node->key, key) == 0)
+				{
+					free(node->value); /* to update its value to new value */
+					node->value = strdup(value); /* i.e. assign new value */
+					return (1); /* successfully updated */
+				}
+			}
+		} /* else, create new node - malloc it & assign values if successful */
 		node = malloc(sizeof(shash_node_t));
 		if (node == NULL)
 		{
 			free(node);
 			return (0); /* malloc failure */
 		}
-		if (key && strlen(key) > 0)
-			node->key = strdup(key);
-		else
-			return (0); /* key can't be an empty string */
+		node->key = strdup(key);
 		node->value = strdup(value);
-		/* get the hash_index to insert created node */
-		idx = key_index((const unsigned char *)key, ht->size);
-		/* printf("idx: %lu - %s\n", idx, (char *)key); */
 		if ((ht->array)[idx] == NULL) /* idx vacant */
 		{
 			(ht->array)[idx] = node;
@@ -123,12 +134,10 @@ int shash_table_set(shash_table_t *ht, const char *key, const char *value)
 		{
 			node->next = (ht->array)[idx];
 			(ht->array)[idx] = node; /* update the list head */
-		}
-		/* update sorted list ('key' based elements) */
+		} /* update sorted list ('key' based elements) */
 		update_shash_table_sorted_list(ht, node);
 		return (1); /* success */
-	}
-	/* return failure, otherwise */
+	} /* return failure, otherwise */
 	return (0);
 }
 
@@ -144,7 +153,7 @@ char *shash_table_get(const shash_table_t *ht, const char *key)
 	shash_node_t *node;
 
 	/* get the idx associated with the key */
-	if (ht)
+	if (ht && key && strlen(key) > 0)
 	{
 		idx = key_index((const unsigned char *)key, ht->size);
 		/* search for the key in table and return its value */

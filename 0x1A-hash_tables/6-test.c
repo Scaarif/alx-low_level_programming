@@ -74,5 +74,6 @@ int main(void)
 	printf("%d\n", ret);
 	_shash_table_print_array(ht);
 	_shash_table_print_sorted(ht);
+	shash_table_delete(ht);
 	return (EXIT_SUCCESS);
 }
