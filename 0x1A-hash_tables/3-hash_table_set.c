@@ -21,11 +21,10 @@ int hash_table_set(hash_table_t *ht, const char *key,
 		/* check for the key in the existing node and chain-list of ht->array[idx] */
 		for (node = (ht->array)[idx]; node != NULL; node = node->next)
 		{
-			if (node->key == key)
+			if (strcmp(node->key, key) == 0)
 			{
 				free(node->value);
 				node->value = strdup(value);
-				/*printf("%s -> %s\n", node->key, node->value);*/
 				return (1); /* successfully update the node */
 			}
 		} /* if not existent, add a new node to table, create the node first */
