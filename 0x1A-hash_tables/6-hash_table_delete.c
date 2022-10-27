@@ -11,35 +11,28 @@ void hash_table_delete(const hash_table_t *ht)
 	unsigned long int idx = 0;
 	/* check that ht isn't NULL */
 	if (ht)
-	{
-	/* ht contains an array with lists (nodes) */
-		/*go through the array freeing each list */
+	{ /* ht contains an array with lists (nodes) */
 		if (ht->size == 1)
 		{
 			curr = (ht->array)[idx];
 			if (curr != NULL)
-			{
-				/* free nodes in list at idx */
-				while (curr != NULL)
+			{ /* free nodes in list at idx */
+				for (; curr != NULL; curr = curr->next)
 				{
 					to_free = curr;
-					curr = curr->next;
 					free(to_free->key); /* was duplicated */
 					free(to_free->value); /* was duplicated */
 					free(to_free);
 				}
 			}
-			
 		}
 		else
 		{
 			while (idx++ < (ht->size) - 1)
-			{
-		/* every allocated memory has to be freed - the table, the array & nodes */
+			{ /* every allocated memory has to be freed: the table, the array & nodes */
 				curr = (ht->array)[idx];
 				if (curr != NULL)
-				{
-					/* free nodes in list at idx */
+				{ /* free nodes in list at idx */
 					while (curr != NULL)
 					{
 						to_free = curr;
@@ -50,11 +43,9 @@ void hash_table_delete(const hash_table_t *ht)
 					}
 				}
 			}
-		}
-		/* all nodes freed, free ht->array */
+		} /* all nodes freed, free ht->array */
 		free(ht->array);
-		/* free the table itself */
-		free((hash_table_t *)ht);
+		free((hash_table_t *)ht); /* free the table itself */
 	}
 }
 
