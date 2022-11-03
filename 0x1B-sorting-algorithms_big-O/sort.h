@@ -25,5 +25,6 @@ void print_list(const listint_t *list);
 
 /* Implementation functions */
 void insertion_sort_list(listint_t **list);
+void selection_sort(int *arr, size_t size);
 
 #endif /* SORT_H */
