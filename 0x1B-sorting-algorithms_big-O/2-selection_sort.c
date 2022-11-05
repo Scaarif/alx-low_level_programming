@@ -28,7 +28,7 @@ int smallest(int *arr, int pos, int size)
 /**
  * selection_sort - sorts an array of integers in ascending
  * order using selection sort algorithm
- * (continuously swap the smallest value with the net unsorted
+ * (continuously swap the smallest value with the next unsorted
  * element in array)
  * @arr: the array of integers to sort
  * @size_: number of elements in array

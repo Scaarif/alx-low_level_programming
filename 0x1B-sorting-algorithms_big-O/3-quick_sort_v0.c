@@ -68,8 +68,7 @@ void actual_quick_sort(int *array, int left, int right, int pivot, size_t size)
 	if (left >= right)
 		return; /* done with sorting */
 	/* sort part of the array as partitioned */
-	/*loc = partition(array, left, right, pivot, size);*/
-	loc = lomuto_partition(array, left, right, size);
+	loc = partition(array, left, right, pivot, size);
 	/* sort the first partition */
 	actual_quick_sort(array, left, loc - 1, pivot, size);
 	/* sort the second partition */
