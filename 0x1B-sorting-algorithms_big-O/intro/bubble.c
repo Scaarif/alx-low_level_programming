@@ -11,6 +11,13 @@ int main(void)
 	for (; i < len; i++)
 	{
 		/* compare every two adjacent elements and swap if necessary */
+		/**
+		 * NOTE: we have to do at least one (outer) pass = (0(n) inner passes)
+		 * to determine if a list is already sorted. If no swap happens, the array's already sorted
+		 * Else: at the end of an outer(loop) pass, the element at the end of array is sorted
+		 * It is therefore excluded from the next pass's (inner) iterations
+		 * hence the (len - i) limit/demarcation
+		 */
 		for (k = 0, j = 1; j < (len - i) && k < (len - 1 - i); j++, k++)
 		{
 			if (arr[k] > arr[j])
