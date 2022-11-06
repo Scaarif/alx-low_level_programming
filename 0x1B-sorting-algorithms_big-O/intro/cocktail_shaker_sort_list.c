@@ -1,6 +1,56 @@
 #include "sort.h"
 
 /**
+ * swap_nodes_forwards - swaps the the next node with the current
+ * @list: double pointer to doubly linked list
+ * @curr: pointer to the current node
+ * @next: pointer to current's next
+ * Return: Nothing
+ */
+void swap_nodes_forward(listint_t **list, listint_t *curr, listint_t *next)
+{
+	listint_t *before, *after;
+
+	before = curr->prev;
+	if (before)
+		before->next = next;
+	else
+		*list = next; /* update head of list */
+	curr->prev = next;
+	after = next->next;
+    next->next = curr;
+	if (after)
+		after->prev = curr;
+	curr->next = after;
+    next->prev = before;
+}
+
+/**
+ * swap_nodes_backward - swaps the the previous node with the current
+ * @list: double pointer to doubly linked list
+ * @curr: pointer to the current node
+ * @prev: pointer to current's prev node
+ * Return: Nothing
+ */
+void swap_nodes_backward(listint_t **list, listint_t *curr, listint_t *prev)
+{
+	listint_t *before, *after;
+
+	before = prev->prev;
+	if (before)
+		before->next = curr;
+	else
+		*list = curr; /* update head of list */
+	prev->prev = curr;
+	after = curr->next;
+	curr->next = prev;
+	if (after)
+		after->prev = prev;
+	prev->next = after;
+	curr->prev = before;
+}
+
+/**
  * cocktail_sort_list - sorts an array (in ascending order) using cocktail shaker sort
  * Description: is an improvement of bubble sort -> uses bidirectional movement
  * fasten the moving of items to the beginning of the array: bubble sort only moves
@@ -9,7 +59,7 @@
  */
 void cocktail_sort_list(listint_t **list)
 {
-	listint_t *start, *end, *left, *right, *before, *after;
+	listint_t *start, *end, *left, *right;
 	int sorted = 0;
 
 	/* start and end mark the first and last node to check */
@@ -21,33 +71,22 @@ void cocktail_sort_list(listint_t **list)
 	{
 		sorted = 1;
 		/* advance & swap forward */
-		for (; right != NULL; right = right->next)
+		for (; right->next != NULL; right = right->next)
 		{
 			end = right->next;
 			if (end && right->n > end->n)
 			{
 				sorted = 0;
 				/* swap the two nodes, right(before end) & end */
-				before = right->prev;
-				if (before)
-					before->next = end;
-				else
-					*list = end; /* update head of list */
-				right->prev = end;
-				after = end->next;
-				end->next = right;
-				if (after)
-					after->prev = right;
-				right->next = after;
-				end->prev = before;
+				swap_nodes_forward(list, right, end);
 				print_list(*list); /* print list after swap */
+				/* update right to end */
+				right = end; /*i.e. retain I advance position in list */
 			}
 		}
 		/* decrease right since the nodes after end are in correct order */
 		if (end)
 			right = end;
-		printf("right: %d\n", right->n);
-		printf("start backwards trace with left at: %d\n", right->n);
 		/* advance  & swap backwards */
 		for (left = right; left->prev != NULL; left = left->prev)
 		{
@@ -56,27 +95,15 @@ void cocktail_sort_list(listint_t **list)
 			{
 				sorted = 0;
 				/* swap the two nodes, start(before left) & left */
-				before = start->prev;
-				if (before)
-					before->next = left;
-				else
-					*list = left; /* update head of list */
-				start->prev = left;
-				after = left->next;
-				left->next = start;
-				if (after)
-					after->prev = start;
-				start->next = after;
-				left->prev = before;
-				printf("swapped left & start: %d -> %d\n", left->n, start->n);
+				swap_nodes_backward(list, left, start);
 				print_list(*list); /* print list after swap */
+				/* update left -> retain its position */
+				left = start; /*i.e. retain I advance position in list */
 			}
 		}
 		/* increase left since the element before start are sorted */
 		left = start;
-		printf("end of backwards->left: %d\n", left->n);
 		/* update right to left */
 		right = left;
-		printf("will start forwards->right @: %d\n", right->n);
 	}
 }
