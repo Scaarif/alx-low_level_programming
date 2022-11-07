@@ -103,8 +103,8 @@ void radix_sort(int *array, size_t size)
 		passes++;
 		max /= 10; /* get number of digits in max */
 	} /* dynamically allocate memory to temp arrays */
-	bucket_count = malloc(sizeof(int) * 10); /* (0->9) == 10 values */
-	buckets = alloc_grid(10, 10); /* width(0->9) by height(0->9) */
+	bucket_count = malloc(sizeof(int) * (int)size); /* as many as size values */
+	buckets = alloc_grid(10, (int)size); /* width(0->9) by height(rows/size) */
 	if (bucket_count == NULL || buckets == NULL)
 		return; /* malloc failed */
 	/* sort: starting from least significant digit */
