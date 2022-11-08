@@ -84,9 +84,10 @@ int right_child(heap_t *heap, int index)
  * @index: the index of the node to heapify (if out of order, meaning
  * for the case of max heap, the node is less than one or more of its
  * descendants)
+ * @size: size of array (purely for use with print_array after swap)
  * Return: Nothing
  */
-void siftDown(heap_t *heap, int index)
+void siftDown(heap_t *heap, int index, int size)
 {
 	int left, right, max;
 
@@ -105,8 +106,8 @@ void siftDown(heap_t *heap, int index)
 	{
 		swap(heap->array, max, index);
 		/* print array after every swap */
-		display(heap->array, heap->count); /* count changes, pass size to fn */
-		siftDown(heap, max); /* Repeat until heap property achieved */
+		display(heap->array, size); /* count changes, pass size to fn */
+		siftDown(heap, max, size); /* Repeat until heap property achieved */
 	}
 }
 
@@ -177,7 +178,7 @@ void build_heap(heap_t *heap, int *array, int size)
 	heap->count = size;
 	/* heapify array (heap) - starting at last element's parent */
 	for (i = (size - 1) / 2; i >= 0; i--) /* i = parent(heap, size-1)*/
-		siftDown(heap, i);
+		siftDown(heap, i, (int)size);
 }
 
 /**
@@ -211,7 +212,7 @@ void heap_sort(int *array, size_t size)
 			/* print array after swap */
 			display(heap->array, size);
 			heap->count -= 1;
-			siftDown(heap, 0); /* heapify heap from root */
+			siftDown(heap, 0, (int)size); /* heapify heap from root */
 		}
 		/* restore heap->count once done */
 		heap->count = old_size;
