@@ -18,11 +18,11 @@ void swap_nodes_forward(listint_t **list, listint_t *curr, listint_t *next)
 		*list = next; /* update head of list */
 	curr->prev = next;
 	after = next->next;
-    next->next = curr;
+	next->next = curr;
 	if (after)
 		after->prev = curr;
 	curr->next = after;
-    next->prev = before;
+	next->prev = before;
 }
 
 /**
@@ -51,10 +51,10 @@ void swap_nodes_backward(listint_t **list, listint_t *curr, listint_t *prev)
 }
 
 /**
- * cocktail_sort_list - sorts an array (in ascending order) using cocktail shaker sort
+ * cocktail_sort_list - sorts array in (ascending) using cocktail shaker sort
  * Description: is an improvement of bubble sort -> uses bidirectional movement
- * fasten the moving of items to the beginning of the array: bubble sort only moves
- * items in one direction
+ * fasten the moving of items to the beginning of the array: bubble sort only
+ * moves items in one direction
  * @list: double pointer to the linked list to sort
  */
 void cocktail_sort_list(listint_t **list)
@@ -69,8 +69,7 @@ void cocktail_sort_list(listint_t **list)
 		return; /* empty list */
 	while (!sorted)
 	{
-		sorted = 1;
-		/* advance & swap forward */
+		sorted = 1; /* advance & swap forward */
 		for (; right->next != NULL; right = right->next)
 		{
 			end = right->next;
@@ -83,27 +82,23 @@ void cocktail_sort_list(listint_t **list)
 				/* update right to end */
 				right = end; /*i.e. retain I advance position in list */
 			}
-		}
-		/* decrease right since the nodes after end are in correct order */
+		} /* decrease right since the nodes after end are in correct order */
 		if (end)
 			right = end;
-		/* advance  & swap backwards */
+		/* advance & swap backwards */
 		for (left = right; left->prev != NULL; left = left->prev)
 		{
 			start = left->prev;
 			if (start && start->n > left->n)
-			{
+			{ /* swap the two nodes, start(before left) & left */
 				sorted = 0;
-				/* swap the two nodes, start(before left) & left */
 				swap_nodes_backward(list, left, start);
 				print_list(*list); /* print list after swap */
 				/* update left -> retain its position */
 				left = start; /*i.e. retain I advance position in list */
 			}
-		}
-		/* increase left since the element before start are sorted */
+		} /* increase left since the element before start are sorted */
 		left = start;
-		/* update right to left */
-		right = left;
+		right = left; /* update right to left */
 	}
 }

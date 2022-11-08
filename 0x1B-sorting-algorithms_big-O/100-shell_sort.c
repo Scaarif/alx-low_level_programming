@@ -3,8 +3,8 @@
 /**
  * shell_sort - sorts an array in ascending order using shell sort
  * Description: shell sort is an improvement of insertion sort.
- * Reduces the number of swaps by increasing the interval that an element can move
- * to its rightful position (in insertion sort, an elemnt moves a step at a time)
+ * Reduces the number of swaps by increasing the interval an element can move
+ * to its rightful position (in insertion sort, an element moves a step a time)
  * @array: the array to sort
  * @size: the number of elements in the array
  * Return: Nothing
@@ -22,7 +22,7 @@ void shell_sort(int *array, size_t size)
 	/* iterate over a column (elements at the same interval from each other) */
 		for (col = interval; col < (int)size; col++)
 		{
-	/* for a column; get the last row element (at farthest index), save it in temp */
+	/* for a column; get last row element, [farthest index], save it in temp */
 			temp = array[col];
 			col_row = col; /* last row in a column */
 	/* while in column: (col_row >= interval && [col_row - interval] > temp */
