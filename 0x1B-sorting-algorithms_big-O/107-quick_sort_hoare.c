@@ -21,7 +21,7 @@ void swap(int *array, int pos1, int pos2)
 }
 
 /**
- * hoare_partition - partions an array using Hoare's scheme
+ * hoare_partition - partitions an array using Hoare's scheme
  * Description: typically takes the first element, array[lowerbound]
  * to be the pivot element. Does NOT place the pivot element at its
  * sorted (correct) position. The pivot is therefore included in
@@ -48,7 +48,7 @@ int hoare_partition(int *array, int lowerbound, int upperbound, size_t size)
 		do
 			start++;
 		while (array[start] < pivot);
-	/* advance end towords start */
+	/* advance end towards start */
 		do
 			end--;
 		while (array[end] > pivot);

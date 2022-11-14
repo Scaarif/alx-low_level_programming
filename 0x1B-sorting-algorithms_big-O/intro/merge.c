@@ -50,9 +50,7 @@ void merge_sort(int arr[], int beg, int end)
     {
         mid = (beg+end)/2;
         merge_sort(arr, beg, mid);
-        printf("[%d]th call\n", i++);
         merge_sort(arr, mid + 1, end);
-        printf("[%d]th call\n", i++);
         merge(arr, beg, mid, end);
     }
 }
