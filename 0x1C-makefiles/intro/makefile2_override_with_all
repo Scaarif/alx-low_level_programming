@@ -1,0 +1,24 @@
+# By default, only the first target 9say hello) is rum by make
+# This' because only the first target in the makefile is the dafault target (default goal)
+# As such, you'll see all included in most makefiles as the first target -> it is its responsibility
+# to call all other targets
+#
+# We can override the dafault behaviour using a special phony target (a target that does not refer to a file,
+# its essentially the name of a recipe) DEFAULT_GOAL
+
+# .DEFAULT_GOAL := generate # the target generate will run instead of the first target (say hello)
+
+.PHONY: all say_hello generate clean # defines all the targets that are NOT files
+# NOTE: make will run its recipe regardless of whether a file with that name exists or what its last modification was	
+
+all: say_hello generate # this runs both targets
+
+say_hello:
+	@echo "Hello world"
+
+generate:
+	@echo "Creating empty text files..."
+	touch file-{1..10}.txt
+clean:
+	@echo "Cleanin up..."
+	rm *.txt
