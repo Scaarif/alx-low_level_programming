@@ -1,0 +1,30 @@
+# A target, all, creates an executable, school
+.PHONY : all clean oclean fclean re
+# variables
+CC := gcc
+# CFLAGS := -Wall -Werror -Wextra -pedantic
+SRC := main.c school.c
+OBJ := ${SRC:%.c=%.o}
+NAME := school
+# RM := rm -f
+
+# link the objects into an excecutable, school
+all: m.h ${OBJ}
+	${CC} ${OBJ} -o ${NAME}
+# create the individual object files from .c files (REDUNDANT, all achieves this automatically)
+# %.o: %.c
+#	${CC} -Wall -Wextra -Werror -pedantic -c $< -o $@
+# force recompilatiom of all source files 
+re: oclean all
+
+# deletes all Emacs and Vim temporary files along with the executable
+clean:
+	${RM} *~ ${NAME}
+
+# delete the object files
+oclean:
+	${RM} ${OBJ}
+# delete all Emacs and Vim temp files, the excutable and object files
+fclean: clean oclean
+#	${RM} *~ ${NAME}
+#	${RM} ${OBJ}

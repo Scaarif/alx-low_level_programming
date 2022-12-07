@@ -1,0 +1,14 @@
+# A target, all, creates an executable, school
+
+# variables
+CC := gcc
+SRC := main.c school.c
+OBJ := ${SRC:%.c=%.o}
+NAME := school
+
+# link the objects into an excecutable, school
+all: ${OBJ}
+	${CC} ${OBJ} -o ${NAME}
+# create the individual object files from .c files
+%.o: %.c
+	${CC} -c $< -o $@

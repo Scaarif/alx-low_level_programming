@@ -1,0 +1,4 @@
+# A target, all, creates an executable, school
+
+all:
+	gcc main.c school.c -o school
