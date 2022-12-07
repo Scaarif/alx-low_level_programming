@@ -3,6 +3,7 @@
 Defines a function island_perimeter
 """
 
+
 def island_perimeter(grid):
     """ Returns the primeter of the island described in grid
     Args:
@@ -28,8 +29,8 @@ def island_perimeter(grid):
     for r, row in enumerate(grid):
         for c, cell in enumerate(row):
             if cell == 1:
-                prev, next_ = row[c -1 ], row[c + 1]
-                top, bottom = grid[r -1][c], grid[r + 1][c]
+                prev, next_ = row[c - 1], row[c + 1]
+                top, bottom = grid[r - 1][c], grid[r + 1][c]
                 if not prev:
                     perimeter += 1
                 if not next_:
@@ -39,4 +40,3 @@ def island_perimeter(grid):
                 if not bottom:
                     perimeter += 1
     return perimeter
-
