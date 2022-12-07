@@ -1,11 +1,11 @@
 # A target, all, creates an executable, school
 .PHONY : all clean oclean fclean re
 # variables
-CC := gcc
+CC = gcc
 # CFLAGS := -Wall -Werror -Wextra -pedantic
-SRC := main.c school.c
-OBJ := ${SRC:%.c=%.o}
-NAME := school
+SRC = main.c school.c
+OBJ = ${SRC:%.c=%.o}
+NAME = school
 # RM := rm -f
 
 # link the objects into an excecutable, school
