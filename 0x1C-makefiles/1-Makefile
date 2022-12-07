@@ -1,6 +1,3 @@
-# A target, all, creates an executable, school
-
-# variables
 CC := gcc
 SRC := main.c school.c
 
