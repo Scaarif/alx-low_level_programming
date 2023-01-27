@@ -76,7 +76,10 @@ int exponential_search(int *array, size_t size, int value)
 		return (-1);
 	/* find the boundary/range within which value (potentially) resides */
 	while (bound < size && array[bound] < value)
+	{
+		printf("Value checked array[%ld] = [%d]\n", bound, array[bound]);
 		bound *= 2;
+	}
 	/* binary_search for value within established boundary */
 	return (binary_search_(array, bound / 2, min(bound, size) - 1, value));
 }

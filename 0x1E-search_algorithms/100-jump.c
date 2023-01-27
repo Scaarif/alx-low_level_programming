@@ -63,9 +63,9 @@ int jump_search(int *array, size_t size, int value)
 			return (-1);
 		}
 	}
+	/* Linear search the block for value */
 	if (lower_b == 0)
 		printf("Value checked array[%ld] = [%d]\n", lower_b, array[lower_b]);
-
 	i = lower_b + sqrt(size);
 	printf("Value found between indexes [%ld] and [%ld]\n", lower_b, i);
 	while (value > array[lower_b])
