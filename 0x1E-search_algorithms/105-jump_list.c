@@ -44,7 +44,7 @@ listint_t *jump_list(listint_t *list, size_t size, int value)
 	size_t step;
 	listint_t *pos, *curr = list;
 
-	if (!list)
+	if (!list || size == 0)
 		return (NULL);
 	step = sqrt(size);
 	/* get the block in which value (potentially) recides */
@@ -55,7 +55,7 @@ listint_t *jump_list(listint_t *list, size_t size, int value)
 			break;
 		curr = pos;
 	}
-	if (curr->index == 0) /* value in first block */
+	if (pos->next != NULL) /* value not in last block */
 	{
 		printf("Value checked at index [%ld] = [%d]\n", pos->index, pos->n);
 	}
